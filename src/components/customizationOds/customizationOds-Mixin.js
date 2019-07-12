@@ -1,19 +1,37 @@
 import axios from "axios";
+import { quillEditor } from "vue-quill-editor"; //调用编辑器
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
 
 export default {
   name: 'Customization',
-  data () {
+  data() {
     return {
       active: 0,
       tableList: [],
+      showEditor: true,
+      content: '',
       upload_url: axios.defaults.baseURL + '/convertMetadata/uploadExcel'
     }
   },
-  mounted () {
+  components: {
+    quillEditor
+  },
+  mounted() {
 
   },
+  computed: {
+    editor() {
+      return this.$refs.myQuillEditor.quill;
+    }
+  },
   methods: {
-    async getMetaData () {
+    onEditorReady(editor) { }, // 准备编辑器
+    onEditorBlur() { }, // 失去焦点事件
+    onEditorFocus() { }, // 获得焦点事件
+    onEditorChange() { }, // 内容改变事件
+    async getMetaData() {
       let indexs = []
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         const loading = this.$loading({
@@ -23,7 +41,7 @@ export default {
           background: 'rgba(0, 0, 0, 0.7)'
         })
         // console.log(this.multipleSelection)
-        const {data: {code, msg, data}} = await this.$http.post('/convertMetadata/importingMetadata', this.multipleSelection)
+        const { data: { code, msg, data } } = await this.$http.post('/convertMetadata/importingMetadata', this.multipleSelection)
         // console.log(code,msg)
         // console.log(data)
         // console.log(this.tableList)
@@ -63,7 +81,7 @@ export default {
     },
 
     // 获取索引
-    async getIndexInfo () {
+    async getIndexInfo() {
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         const loading = this.$loading({
           lock: true,
@@ -71,7 +89,7 @@ export default {
           spinner: 'el-icon-loading',
           background: 'rgba(0, 0, 0, 0.7)'
         })
-        const {data: {code, msg, data}} = await this.$http.post('/convertMetadata/importIndex', this.multipleSelection)
+        const { data: { code, msg, data } } = await this.$http.post('/convertMetadata/importIndex', this.multipleSelection)
         // console.log(code,msg)
         // console.log(data)
         console.log(this.tableList)
@@ -87,7 +105,7 @@ export default {
       }
     },
     // 获取表空间
-    async getTabCapacity () {
+    async getTabCapacity() {
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         const loading = this.$loading({
           lock: true,
@@ -95,7 +113,7 @@ export default {
           spinner: 'el-icon-loading',
           background: 'rgba(0, 0, 0, 0.7)'
         })
-        const {data: {code, msg, data}} = await this.$http.post('/convertMetadata/getCapacity', this.multipleSelection)
+        const { data: { code, msg, data } } = await this.$http.post('/convertMetadata/getCapacity', this.multipleSelection)
         // console.log(code,msg)
         // console.log(data)
         console.log(this.tableList)
@@ -114,7 +132,7 @@ export default {
       }
     },
     // 定义ODS加载策略
-    async getODSLoadMode () {
+    async getODSLoadMode() {
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         const loading = this.$loading({
           lock: true,
@@ -122,8 +140,8 @@ export default {
           spinner: 'el-icon-loading',
           background: 'rgba(0, 0, 0, 0.7)'
         })
-        const {data: {code,msg}} = await this.$http.post('/hiveCreateTable/getODSLoadMode', this.multipleSelection)
-        console.log(code,msg)
+        const { data: { code, msg } } = await this.$http.post('/hiveCreateTable/getODSLoadMode', this.multipleSelection)
+        console.log(code, msg)
         loading.close()
         if (code !== 200) {
           this.$message.error(msg)
@@ -136,7 +154,7 @@ export default {
       }
     },
     // ODS建表
-    async odsCreateTable () {
+    async odsCreateTable() {
       var indexs = []
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         const loading = this.$loading({
@@ -145,7 +163,7 @@ export default {
           spinner: 'el-icon-loading',
           background: 'rgba(0, 0, 0, 0.7)'
         })
-        const {data: {code,msg,data}} = await this.$http.post('/hiveCreateTable/createODSTable', {
+        const { data: { code, msg, data } } = await this.$http.post('/hiveCreateTable/createODSTable', {
           params: this.multipleSelection
         })
         console.log(data)
@@ -172,7 +190,7 @@ export default {
         })
         // this.defaultCheck(indexs)
         console.log(this.tableList)
-        console.log(code,msg)
+        console.log(code, msg)
         console.log(data)
         loading.close()
         if (code !== 200) {
@@ -186,28 +204,6 @@ export default {
       }
     },
     async createOdsLoad() {
-      if ( this.multipleSelection && this.multipleSelection.length > 0) {
-        // const loading = this.$loading({
-        //   lock: true,
-        //   text: '正在初始化脚本...',
-        //   spinner: 'el-icon-loading',
-        //   background: 'rgba(0, 0, 0, 0.7)'
-        // })
-        console.log(this.multipleSelection)
-        const {data: {code, msg}} = await this.$http.post('/generateScript/createOdsLoad', this.multipleSelection)
-        console.log(code, msg)
-        // loading.close()
-        if (code !== 200) {
-          this.$message.error(msg)
-        } else {
-          this.$message.success(msg)
-          // this.next()
-        }
-      } else {
-        this.$message.warning('请勾选相应表名')
-      }
-    },
-    async odsInitScript () {
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         // const loading = this.$loading({
         //   lock: true,
@@ -216,7 +212,7 @@ export default {
         //   background: 'rgba(0, 0, 0, 0.7)'
         // })
         console.log(this.multipleSelection)
-        const {data: {code, msg}} = await this.$http.post('/generateScript/initOdsLoad', this.multipleSelection)
+        const { data: { code, msg } } = await this.$http.post('/generateScript/createOdsLoad', this.multipleSelection)
         console.log(code, msg)
         // loading.close()
         if (code !== 200) {
@@ -229,7 +225,29 @@ export default {
         this.$message.warning('请勾选相应表名')
       }
     },
-    async exportOdsSchedulScript () {
+    async odsInitScript() {
+      if (this.multipleSelection && this.multipleSelection.length > 0) {
+        // const loading = this.$loading({
+        //   lock: true,
+        //   text: '正在初始化脚本...',
+        //   spinner: 'el-icon-loading',
+        //   background: 'rgba(0, 0, 0, 0.7)'
+        // })
+        console.log(this.multipleSelection)
+        const { data: { code, msg } } = await this.$http.post('/generateScript/initOdsLoad', this.multipleSelection)
+        console.log(code, msg)
+        // loading.close()
+        if (code !== 200) {
+          this.$message.error(msg)
+        } else {
+          this.$message.success(msg)
+          // this.next()
+        }
+      } else {
+        this.$message.warning('请勾选相应表名')
+      }
+    },
+    async exportOdsSchedulScript() {
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         const loading = this.$loading({
           lock: true,
@@ -238,7 +256,7 @@ export default {
           background: 'rgba(0, 0, 0, 0.7)'
         })
         console.log(this.multipleSelection)
-        await this.$http.post('/exportScript/exportOdsSchedulScript', {params: this.multipleSelection}, {
+        await this.$http.post('/exportScript/exportOdsSchedulScript', { params: this.multipleSelection }, {
           responseType: 'blob'
         }).then(res => {
           let blob = new Blob([res.data], {
@@ -265,7 +283,7 @@ export default {
         this.$message.warning('请勾选相应表名')
       }
     },
-    async exportOdsInitScript () {
+    async exportOdsInitScript() {
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         const loading = this.$loading({
           lock: true,
@@ -274,7 +292,7 @@ export default {
           background: 'rgba(0, 0, 0, 0.7)'
         })
         console.log(this.multipleSelection)
-        await this.$http.post('/exportScript/exportOdsInitScript', {params: this.multipleSelection}, {
+        await this.$http.post('/exportScript/exportOdsInitScript', { params: this.multipleSelection }, {
           responseType: 'blob'
         }).then(res => {
           let blob = new Blob([res.data], {
@@ -301,40 +319,40 @@ export default {
         this.$message.warning('请勾选相应表名')
       }
     },
-    indexMethod (index) {
+    indexMethod(index) {
       return index
     },
     // 选中项
-    handleSelectionChange (val) {
+    handleSelectionChange(val) {
       this.multipleSelection = val
     },
-    next () {
+    next() {
       if (this.active < 7) {
         this.active++
       }
     },
-    back () {
+    back() {
       if (this.active > 0) {
         this.active--
       }
       this.clearFilter()
     },
-    tableRowClassName ({row, rowIndex}) {
+    tableRowClassName({ row, rowIndex }) {
       // 把每一行的索引放进row
       row.index = rowIndex
     },
-    filterTag (value, row) {
+    filterTag(value, row) {
       return row.metaStatus === value
     },
-    filterCrtResult (value, row) {
+    filterCrtResult(value, row) {
       console.log(row)
       return row.createResult === value
     },
-    clearFilter () {
+    clearFilter() {
       this.$refs.tableList.clearFilter()
     },
     // 默认勾选源库中存在的表
-    defaultCheck (indexs) {
+    defaultCheck(indexs) {
       if (indexs) {
         indexs.forEach(index => {
           console.log('index:', index)
@@ -344,7 +362,7 @@ export default {
         this.$refs.tableList.clearSelection()
       }
     },
-    submitUpload () {
+    submitUpload() {
       console.log(this.$refs.excelUpload)
       if (this.$refs.excelUpload.uploadFiles.length === 0) {
         this.$message.warning('请添加要上传的文件')
@@ -355,7 +373,7 @@ export default {
         this.next()
       }
     },
-    handleAvatarSuccess (response, file, fileList) {
+    handleAvatarSuccess(response, file, fileList) {
       console.log(response)
       this.tableList = response.data
       for (let i = 0; i < this.tableList.length; i++) {
@@ -363,7 +381,7 @@ export default {
         this.tableList[i].index = i
       }
     },
-    beforeAvatarUpload (file) {
+    beforeAvatarUpload(file) {
       console.log(file)
       var testmsg = file.name.substring(file.name.lastIndexOf('.') + 1)
       const extension = testmsg === 'xls'
