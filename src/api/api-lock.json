@@ -1,0 +1,3317 @@
+[
+  {
+    "mods": [
+      {
+        "description": "定制化入湖",
+        "interfaces": [
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "获取容量\nList<EtuInfo> ",
+            "name": "getCapacity",
+            "method": "post",
+            "path": "/convertMetadata/getCapacity",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "reqParmsEtu",
+                "name": "reqParmsEtu",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [
+                    {
+                      "typeArgs": [],
+                      "typeName": "EtuInfo",
+                      "isDefsType": true,
+                      "templateIndex": -1,
+                      "enum": []
+                    }
+                  ],
+                  "typeName": "Array",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "导入索引\nList<EtuInfo> ",
+            "name": "importIndex",
+            "method": "post",
+            "path": "/convertMetadata/importIndex",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "reqParmsEtu",
+                "name": "reqParmsEtu",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [
+                    {
+                      "typeArgs": [],
+                      "typeName": "EtuInfo",
+                      "isDefsType": true,
+                      "templateIndex": -1,
+                      "enum": []
+                    }
+                  ],
+                  "typeName": "Array",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "导入元数据\nList<EtuInfo> 复杂对象",
+            "name": "importingMetadata",
+            "method": "post",
+            "path": "/convertMetadata/importingMetadata",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "reqParmsEtu",
+                "name": "reqParmsEtu",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [
+                    {
+                      "typeArgs": [],
+                      "typeName": "EtuInfo",
+                      "isDefsType": true,
+                      "templateIndex": -1,
+                      "enum": []
+                    }
+                  ],
+                  "typeName": "Array",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "multipart/form-data"
+            ],
+            "description": " 上传excel并转成map数据",
+            "name": "uploadExcel",
+            "method": "post",
+            "path": "/convertMetadata/uploadExcel",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "excel",
+                "name": "file",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "MultipartFile",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          }
+        ],
+        "name": "convertMetadata"
+      },
+      {
+        "description": "Datalake Table Status Contrller",
+        "interfaces": [
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "exportExcle",
+            "name": "exportExcle",
+            "method": "post",
+            "path": "/tableStatus/exportExcle",
+            "response": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "dataList",
+                "name": "dataList",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [
+                    {
+                      "typeArgs": [],
+                      "typeName": "ExclePropertyModel",
+                      "isDefsType": true,
+                      "templateIndex": -1,
+                      "enum": []
+                    }
+                  ],
+                  "typeName": "Array",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "getStatusList",
+            "name": "getStatusList",
+            "method": "get",
+            "path": "/tableStatus/getStatusList",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "name": "query",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [
+                    {
+                      "typeArgs": [],
+                      "typeName": "string",
+                      "isDefsType": false,
+                      "templateIndex": -1,
+                      "enum": []
+                    }
+                  ],
+                  "typeName": "Array",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "pagenum",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "pagesize",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "getSysList",
+            "name": "getSysList",
+            "method": "get",
+            "path": "/tableStatus/getSysList",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": []
+          }
+        ],
+        "name": "datalakeTableStatusContrller"
+      },
+      {
+        "description": "DW模型设计",
+        "interfaces": [
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "dw在用区建表接口",
+            "name": "createDWUsingTable",
+            "method": "post",
+            "path": "/dwModelDesign/createDwUsingTable",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "data",
+                "name": "data",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "按ODS表名查表",
+            "name": "getOdsTabInfoByName",
+            "method": "get",
+            "path": "/dwModelDesign/getOdsTabInfoByName",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "description": "odsDataTable",
+                "name": "odsDataTable",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "按备用区表名查表",
+            "name": "getTabByBakName",
+            "method": "get",
+            "path": "/dwModelDesign/getTabByBakName",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "description": "dwDataTable",
+                "name": "dwDataTable",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "按在用区表名查表",
+            "name": "getTabByUsingName",
+            "method": "get",
+            "path": "/dwModelDesign/getTabByUsingName",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "description": "dwDataTable",
+                "name": "dwDataTable",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "dw在用区字段保存接口",
+            "name": "saveDWUsingCols",
+            "method": "post",
+            "path": "/dwModelDesign/saveDWUsingCols",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "data",
+                "name": "data",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "保存映射关系",
+            "name": "saveMapRel",
+            "method": "post",
+            "path": "/dwModelDesign/saveMapRel",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "data",
+                "name": "data",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          }
+        ],
+        "name": "dwModelDesign"
+      },
+      {
+        "description": "入湖总览",
+        "interfaces": [
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "根据表名获取表的详细信息",
+            "name": "selectByTable",
+            "method": "get",
+            "path": "/enterHuOverview/getByTableInfo",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "系统名",
+                "name": "systemname",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "String",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "body",
+                "description": "schema",
+                "name": "schema",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "String",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "body",
+                "description": "表名",
+                "name": "tablename",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "String",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": " 获取去重的Schema",
+            "name": "getSchema",
+            "method": "get",
+            "path": "/enterHuOverview/getSchema",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "系统名",
+                "name": "systemname",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "String",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "获取表信息列表",
+            "name": "getSysNameAndSchemaAndTableName",
+            "method": "get",
+            "path": "/enterHuOverview/getSysNameAndSchemaAndTableName",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "description": "当前页数",
+                "name": "pagenum",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "数据",
+                "name": "query",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "object",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "页面大小",
+                "name": "pagesize",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "body",
+                "description": "系统名",
+                "name": "systemname",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "String",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "body",
+                "description": "schema",
+                "name": "schema",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "String",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "body",
+                "description": "表明",
+                "name": "tablename",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "String",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": " 获取去重的SystemName",
+            "name": "getSystemName",
+            "method": "get",
+            "path": "/enterHuOverview/getSystemName",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": []
+          }
+        ],
+        "name": "enterHuOverview"
+      },
+      {
+        "description": "初始化ODS/DW脚本导出",
+        "interfaces": [
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "导出dw脚本",
+            "name": "exportDwScript",
+            "method": "post",
+            "path": "/exportScript/exportDwScript",
+            "response": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "data",
+                "name": "data",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "导出ODS脚本",
+            "name": "exportOdsScript",
+            "method": "post",
+            "path": "/exportScript/exportOdsScript",
+            "response": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "data",
+                "name": "data",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "获取DW脚本导出清单",
+            "name": "getDwTabList",
+            "method": "get",
+            "path": "/exportScript/getDwTabList",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "description": "schema",
+                "name": "schema",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "getFilterList",
+            "name": "getFilterList",
+            "method": "get",
+            "path": "/exportScript/getFilterList",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "description": "flag",
+                "name": "flag",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "getFilterResults",
+            "name": "getFilterResults",
+            "method": "get",
+            "path": "/exportScript/getFilterResults",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": []
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "getFilterResults",
+            "name": "headGetFilterResults",
+            "method": "head",
+            "path": "/exportScript/getFilterResults",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": []
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "getFilterResults",
+            "name": "postGetFilterResults",
+            "method": "post",
+            "path": "/exportScript/getFilterResults",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": []
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "getFilterResults",
+            "name": "putGetFilterResults",
+            "method": "put",
+            "path": "/exportScript/getFilterResults",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": []
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "getFilterResults",
+            "name": "deleteGetFilterResults",
+            "method": "delete",
+            "path": "/exportScript/getFilterResults",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": []
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "getFilterResults",
+            "name": "optionsGetFilterResults",
+            "method": "options",
+            "path": "/exportScript/getFilterResults",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": []
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "getFilterResults",
+            "name": "patchGetFilterResults",
+            "method": "patch",
+            "path": "/exportScript/getFilterResults",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": []
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "获取ODS脚本导出清单",
+            "name": "getOdsTabList",
+            "method": "get",
+            "path": "/exportScript/getOdsTabList",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "description": "schema",
+                "name": "schema",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          }
+        ],
+        "name": "exportScript"
+      },
+      {
+        "description": "ods/dw脚本生成页面",
+        "interfaces": [
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "创建ods加载脚本\nList<EtuInfo>",
+            "name": "createOdsLoad",
+            "method": "post",
+            "path": "/generateScript/createOdsLoad",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "reqParmsEtu",
+                "name": "reqParmsEtu",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [
+                    {
+                      "typeArgs": [],
+                      "typeName": "EtuInfo",
+                      "isDefsType": true,
+                      "templateIndex": -1,
+                      "enum": []
+                    }
+                  ],
+                  "typeName": "Array",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "生成dw初始化脚本",
+            "name": "generateDwInitScript",
+            "method": "post",
+            "path": "/generateScript/generateDwInitScript",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "data",
+                "name": "data",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "生成ods初始化脚本",
+            "name": "generateSqoopScript",
+            "method": "post",
+            "path": "/generateScript/generateSqoopScript",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "data",
+                "name": "data",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "dw脚本生成页面按系统名筛选接口",
+            "name": "getDwListByFilter",
+            "method": "post",
+            "path": "/generateScript/getDwListByFilter",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "reqParams",
+                "name": "reqParams",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "Page",
+                  "isDefsType": true,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "dw脚本生成页面获取筛选列表接口",
+            "name": "getDwSystemFilterList",
+            "method": "get",
+            "path": "/generateScript/getDwSystemFilterList",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": []
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "获取dw脚本生成页面表清单",
+            "name": "getDwTabList",
+            "method": "get",
+            "path": "/generateScript/getDwTabList",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "name": "query",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [
+                    {
+                      "typeArgs": [],
+                      "typeName": "string",
+                      "isDefsType": false,
+                      "templateIndex": -1,
+                      "enum": []
+                    }
+                  ],
+                  "typeName": "Array",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "pagenum",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "pagesize",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "获取ods脚本生成页面表清单接口",
+            "name": "getODSTableInfo",
+            "method": "get",
+            "path": "/generateScript/getODSTableInfo",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "name": "query",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [
+                    {
+                      "typeArgs": [],
+                      "typeName": "string",
+                      "isDefsType": false,
+                      "templateIndex": -1,
+                      "enum": []
+                    }
+                  ],
+                  "typeName": "Array",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "pagenum",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "pagesize",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "ods脚本生成页面按系统名筛选接口",
+            "name": "getOdsListByFilter",
+            "method": "post",
+            "path": "/generateScript/getOdsListByFilter",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "reqParams",
+                "name": "reqParams",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "Page",
+                  "isDefsType": true,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "ods脚本生成页面获取筛选列表接口",
+            "name": "getOdsSystemFilterList",
+            "method": "get",
+            "path": "/generateScript/getOdsSystemFilterList",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": []
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "初始化ods加载脚本\nList<EtuInfo>",
+            "name": "initOdsLoad",
+            "method": "post",
+            "path": "/generateScript/initOdsLoad",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "reqParmsEtu",
+                "name": "reqParmsEtu",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [
+                    {
+                      "typeArgs": [],
+                      "typeName": "EtuInfo",
+                      "isDefsType": true,
+                      "templateIndex": -1,
+                      "enum": []
+                    }
+                  ],
+                  "typeName": "Array",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          }
+        ],
+        "name": "generateScript"
+      },
+      {
+        "description": "初始化业务元数据",
+        "interfaces": [
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "生成schema数据信息\nList<ViewSourceSystemEntity> 复杂对象",
+            "name": "setStauts",
+            "method": "post",
+            "path": "/getSourceMetaData/getConnection",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "sourcesysteminfo",
+                "name": "sourcesysteminfo",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [
+                    {
+                      "typeArgs": [],
+                      "typeName": "ViewSourceSystemEntity",
+                      "isDefsType": true,
+                      "templateIndex": -1,
+                      "enum": []
+                    }
+                  ],
+                  "typeName": "Array",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "获取配置的参数",
+            "name": "getDataSourceInfo",
+            "method": "get",
+            "path": "/getSourceMetaData/getDataInfo",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "description": "当前页数",
+                "name": "pagenum",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "数据",
+                "name": "query",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "object",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "页面大小",
+                "name": "pagesize",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "获取 schema信息表",
+            "name": "getSchema",
+            "method": "get",
+            "path": "/getSourceMetaData/getSchema",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "description": "当前页数",
+                "name": "pagenum",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "数据",
+                "name": "query",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "object",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "页面大小",
+                "name": "pagesize",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "获取表及字段的查询",
+            "name": "getDataInfoByFilter",
+            "method": "post",
+            "path": "/getSourceMetaData/getSchemaByFilter",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "reqParams",
+                "name": "reqParams",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [
+                    {
+                      "typeArgs": [
+                        {
+                          "typeArgs": [],
+                          "typeName": "string",
+                          "isDefsType": false,
+                          "templateIndex": -1,
+                          "enum": []
+                        }
+                      ],
+                      "typeName": "Array",
+                      "isDefsType": false,
+                      "templateIndex": -1,
+                      "enum": []
+                    }
+                  ],
+                  "typeName": "PageGeorge",
+                  "isDefsType": true,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "获取源系统数据模式",
+            "name": "getSystemFilterList",
+            "method": "get",
+            "path": "/getSourceMetaData/getSystemFilterList",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": []
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "按schema导入元数据\nList<CjDataSourceSystemInfo> 复杂对象",
+            "name": "importingMetadata",
+            "method": "post",
+            "path": "/getSourceMetaData/importingMetadata",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "sourcesysteminfo",
+                "name": "sourcesysteminfo",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [
+                    {
+                      "typeArgs": [],
+                      "typeName": "CjDataSourceSystemInfo",
+                      "isDefsType": true,
+                      "templateIndex": -1,
+                      "enum": []
+                    }
+                  ],
+                  "typeName": "Array",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          }
+        ],
+        "name": "getSourceMetaData"
+      },
+      {
+        "description": "hive建表",
+        "interfaces": [
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "ods建表接口",
+            "name": "createODSTable",
+            "method": "post",
+            "path": "/hiveCreateTable/createODSTable",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "data",
+                "name": "data",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "dw备用区建表接口",
+            "name": "dWCreateTable",
+            "method": "post",
+            "path": "/hiveCreateTable/dWCreateTable",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "data",
+                "name": "data",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "dw建表页面获取表清单接口",
+            "name": "getDWCreateTabList",
+            "method": "get",
+            "path": "/hiveCreateTable/getDWCreateTabList",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "name": "query",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [
+                    {
+                      "typeArgs": [],
+                      "typeName": "string",
+                      "isDefsType": false,
+                      "templateIndex": -1,
+                      "enum": []
+                    }
+                  ],
+                  "typeName": "Array",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "pagenum",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "name": "pagesize",
+                "required": false,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "dw建表页面按系统名和schema筛选接口",
+            "name": "getDWCreateTabListByFilter",
+            "method": "post",
+            "path": "/hiveCreateTable/getDWCreateTabListByFilter",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "reqParams",
+                "name": "reqParams",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [
+                    {
+                      "typeArgs": [
+                        {
+                          "typeArgs": [],
+                          "typeName": "string",
+                          "isDefsType": false,
+                          "templateIndex": -1,
+                          "enum": []
+                        }
+                      ],
+                      "typeName": "Array",
+                      "isDefsType": false,
+                      "templateIndex": -1,
+                      "enum": []
+                    }
+                  ],
+                  "typeName": "PageGeorge",
+                  "isDefsType": true,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "获取dw建表页面的筛选列表",
+            "name": "getDWSystemAndSchemaFilterList",
+            "method": "get",
+            "path": "/hiveCreateTable/getDWSystemAndSchemaFilterList",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": []
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "ODS建表页面按系统名和schema筛选接口",
+            "name": "getODSCreateTabListByFilter",
+            "method": "post",
+            "path": "/hiveCreateTable/getODSCreateTabListByFilter",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "reqParams",
+                "name": "reqParams",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "Page",
+                  "isDefsType": true,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "判断ODS抽取策略和分区字段",
+            "name": "getODSLoadMode",
+            "method": "post",
+            "path": "/hiveCreateTable/getODSLoadMode",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "body",
+                "description": "cjDataSourceTabInfos",
+                "name": "cjDataSourceTabInfos",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [
+                    {
+                      "typeArgs": [],
+                      "typeName": "CjDataSourceTabInfo",
+                      "isDefsType": true,
+                      "templateIndex": -1,
+                      "enum": []
+                    }
+                  ],
+                  "typeName": "Array",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "获取ods建表页面的筛选列表",
+            "name": "getODSSystemAndSchemaFilterList",
+            "method": "get",
+            "path": "/hiveCreateTable/getODSSystemAndSchemaFilterList",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": []
+          },
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "ods建表页面获取表清单接口",
+            "name": "getODSTable",
+            "method": "get",
+            "path": "/hiveCreateTable/getODSTableInfo",
+            "response": {
+              "typeArgs": [],
+              "typeName": "Result",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": [
+              {
+                "in": "query",
+                "description": "当前页数",
+                "name": "pagenum",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "数据",
+                "name": "query",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "object",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              },
+              {
+                "in": "query",
+                "description": "页面大小",
+                "name": "pagesize",
+                "required": true,
+                "dataType": {
+                  "typeArgs": [],
+                  "typeName": "number",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              }
+            ]
+          }
+        ],
+        "name": "hiveCreateTable"
+      },
+      {
+        "description": "Kafka Test Controller",
+        "interfaces": [
+          {
+            "consumes": [
+              "application/json"
+            ],
+            "description": "getDWSystemAndSchemaFilterList",
+            "name": "getDWSystemAndSchemaFilterList",
+            "method": "get",
+            "path": "/kafka/sender",
+            "response": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "parameters": []
+          }
+        ],
+        "name": "kafkaTest"
+      }
+    ],
+    "baseClasses": [
+      {
+        "name": "CellStyle",
+        "properties": [
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": [
+                "'GENERAL'",
+                "'LEFT'",
+                "'CENTER'",
+                "'RIGHT'",
+                "'FILL'",
+                "'JUSTIFY'",
+                "'CENTER_SELECTION'",
+                "'DISTRIBUTED'"
+              ]
+            },
+            "name": "alignment",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": [
+                "'GENERAL'",
+                "'LEFT'",
+                "'CENTER'",
+                "'RIGHT'",
+                "'FILL'",
+                "'JUSTIFY'",
+                "'CENTER_SELECTION'",
+                "'DISTRIBUTED'"
+              ]
+            },
+            "name": "alignmentEnum",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": [
+                "'NONE'",
+                "'THIN'",
+                "'MEDIUM'",
+                "'DASHED'",
+                "'DOTTED'",
+                "'THICK'",
+                "'DOUBLE'",
+                "'HAIR'",
+                "'MEDIUM_DASHED'",
+                "'DASH_DOT'",
+                "'MEDIUM_DASH_DOT'",
+                "'DASH_DOT_DOT'",
+                "'MEDIUM_DASH_DOT_DOT'",
+                "'SLANTED_DASH_DOT'"
+              ]
+            },
+            "name": "borderBottom",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": [
+                "'NONE'",
+                "'THIN'",
+                "'MEDIUM'",
+                "'DASHED'",
+                "'DOTTED'",
+                "'THICK'",
+                "'DOUBLE'",
+                "'HAIR'",
+                "'MEDIUM_DASHED'",
+                "'DASH_DOT'",
+                "'MEDIUM_DASH_DOT'",
+                "'DASH_DOT_DOT'",
+                "'MEDIUM_DASH_DOT_DOT'",
+                "'SLANTED_DASH_DOT'"
+              ]
+            },
+            "name": "borderBottomEnum",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": [
+                "'NONE'",
+                "'THIN'",
+                "'MEDIUM'",
+                "'DASHED'",
+                "'DOTTED'",
+                "'THICK'",
+                "'DOUBLE'",
+                "'HAIR'",
+                "'MEDIUM_DASHED'",
+                "'DASH_DOT'",
+                "'MEDIUM_DASH_DOT'",
+                "'DASH_DOT_DOT'",
+                "'MEDIUM_DASH_DOT_DOT'",
+                "'SLANTED_DASH_DOT'"
+              ]
+            },
+            "name": "borderLeft",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": [
+                "'NONE'",
+                "'THIN'",
+                "'MEDIUM'",
+                "'DASHED'",
+                "'DOTTED'",
+                "'THICK'",
+                "'DOUBLE'",
+                "'HAIR'",
+                "'MEDIUM_DASHED'",
+                "'DASH_DOT'",
+                "'MEDIUM_DASH_DOT'",
+                "'DASH_DOT_DOT'",
+                "'MEDIUM_DASH_DOT_DOT'",
+                "'SLANTED_DASH_DOT'"
+              ]
+            },
+            "name": "borderLeftEnum",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": [
+                "'NONE'",
+                "'THIN'",
+                "'MEDIUM'",
+                "'DASHED'",
+                "'DOTTED'",
+                "'THICK'",
+                "'DOUBLE'",
+                "'HAIR'",
+                "'MEDIUM_DASHED'",
+                "'DASH_DOT'",
+                "'MEDIUM_DASH_DOT'",
+                "'DASH_DOT_DOT'",
+                "'MEDIUM_DASH_DOT_DOT'",
+                "'SLANTED_DASH_DOT'"
+              ]
+            },
+            "name": "borderRight",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": [
+                "'NONE'",
+                "'THIN'",
+                "'MEDIUM'",
+                "'DASHED'",
+                "'DOTTED'",
+                "'THICK'",
+                "'DOUBLE'",
+                "'HAIR'",
+                "'MEDIUM_DASHED'",
+                "'DASH_DOT'",
+                "'MEDIUM_DASH_DOT'",
+                "'DASH_DOT_DOT'",
+                "'MEDIUM_DASH_DOT_DOT'",
+                "'SLANTED_DASH_DOT'"
+              ]
+            },
+            "name": "borderRightEnum",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": [
+                "'NONE'",
+                "'THIN'",
+                "'MEDIUM'",
+                "'DASHED'",
+                "'DOTTED'",
+                "'THICK'",
+                "'DOUBLE'",
+                "'HAIR'",
+                "'MEDIUM_DASHED'",
+                "'DASH_DOT'",
+                "'MEDIUM_DASH_DOT'",
+                "'DASH_DOT_DOT'",
+                "'MEDIUM_DASH_DOT_DOT'",
+                "'SLANTED_DASH_DOT'"
+              ]
+            },
+            "name": "borderTop",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": [
+                "'NONE'",
+                "'THIN'",
+                "'MEDIUM'",
+                "'DASHED'",
+                "'DOTTED'",
+                "'THICK'",
+                "'DOUBLE'",
+                "'HAIR'",
+                "'MEDIUM_DASHED'",
+                "'DASH_DOT'",
+                "'MEDIUM_DASH_DOT'",
+                "'DASH_DOT_DOT'",
+                "'MEDIUM_DASH_DOT_DOT'",
+                "'SLANTED_DASH_DOT'"
+              ]
+            },
+            "name": "borderTopEnum",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "bottomBorderColor",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataFormat",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataFormatString",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "fillBackgroundColor",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "Color",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "fillBackgroundColorColor",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "fillForegroundColor",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "Color",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "fillForegroundColorColor",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": [
+                "'NO_FILL'",
+                "'SOLID_FOREGROUND'",
+                "'FINE_DOTS'",
+                "'ALT_BARS'",
+                "'SPARSE_DOTS'",
+                "'THICK_HORZ_BANDS'",
+                "'THICK_VERT_BANDS'",
+                "'THICK_BACKWARD_DIAG'",
+                "'THICK_FORWARD_DIAG'",
+                "'BIG_SPOTS'",
+                "'BRICKS'",
+                "'THIN_HORZ_BANDS'",
+                "'THIN_VERT_BANDS'",
+                "'THIN_BACKWARD_DIAG'",
+                "'THIN_FORWARD_DIAG'",
+                "'SQUARES'",
+                "'DIAMONDS'",
+                "'LESS_DOTS'",
+                "'LEAST_DOTS'"
+              ]
+            },
+            "name": "fillPattern",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": [
+                "'NO_FILL'",
+                "'SOLID_FOREGROUND'",
+                "'FINE_DOTS'",
+                "'ALT_BARS'",
+                "'SPARSE_DOTS'",
+                "'THICK_HORZ_BANDS'",
+                "'THICK_VERT_BANDS'",
+                "'THICK_BACKWARD_DIAG'",
+                "'THICK_FORWARD_DIAG'",
+                "'BIG_SPOTS'",
+                "'BRICKS'",
+                "'THIN_HORZ_BANDS'",
+                "'THIN_VERT_BANDS'",
+                "'THIN_BACKWARD_DIAG'",
+                "'THIN_FORWARD_DIAG'",
+                "'SQUARES'",
+                "'DIAMONDS'",
+                "'LESS_DOTS'",
+                "'LEAST_DOTS'"
+              ]
+            },
+            "name": "fillPatternEnum",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "Font",
+              "isDefsType": true,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "font",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "fontIndex",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "boolean",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "hidden",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "indention",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "index",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "leftBorderColor",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "boolean",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "locked",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "boolean",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "quotePrefixed",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "rightBorderColor",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "rotation",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "boolean",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "shrinkToFit",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "topBorderColor",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": [
+                "'TOP'",
+                "'CENTER'",
+                "'BOTTOM'",
+                "'JUSTIFY'",
+                "'DISTRIBUTED'"
+              ]
+            },
+            "name": "verticalAlignment",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": [
+                "'TOP'",
+                "'CENTER'",
+                "'BOTTOM'",
+                "'JUSTIFY'",
+                "'DISTRIBUTED'"
+              ]
+            },
+            "name": "verticalAlignmentEnum",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "boolean",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "wrapText",
+            "required": false
+          }
+        ],
+        "templateArgs": []
+      },
+      {
+        "name": "CjDataSourceSystemInfo",
+        "properties": [
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "businessSystemId",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "businessSystemNameShortName",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataSourceSchema",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "lastModifyBy",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "lastModifyDt",
+            "required": false
+          }
+        ],
+        "templateArgs": []
+      },
+      {
+        "name": "CjDataSourceTabInfo",
+        "properties": [
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "businessSystemId",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "businessSystemNameShortName",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataFlagForCrtDwDll",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataFlagForCrtDwHive",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataFlagForCrtDwScript",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataFlagForCrtOdsDll",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataFlagForCrtOdsHive",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataFlagForCrtOdsScript",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataFlagForGetCols",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataFlagForGetRows",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataSourceSchema",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataSourceTable",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataSourceTableComment",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "date",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dwCount",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "lastModifyBy",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "lastModifyDt",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "odsCount",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "tableCount",
+            "required": false
+          }
+        ],
+        "templateArgs": []
+      },
+      {
+        "name": "Color",
+        "properties": [],
+        "templateArgs": []
+      },
+      {
+        "description": "excel实体",
+        "name": "EtuInfo",
+        "properties": [
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "businessSystemNameShortName",
+            "description": "源系统缩写",
+            "required": true
+          },
+          {
+            "dataType": {
+              "typeArgs": [
+                {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                },
+                {
+                  "typeArgs": [],
+                  "typeName": "CellStyle",
+                  "isDefsType": true,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              ],
+              "typeName": "ObjectMap",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "cellStyleMap",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataSourceSchema",
+            "description": "dataSourceSchema",
+            "required": true
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataSourceTable",
+            "description": "源表名",
+            "required": true
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "index",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "metaStatus",
+            "required": false
+          }
+        ],
+        "templateArgs": []
+      },
+      {
+        "name": "ExclePropertyModel",
+        "properties": [
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "businessSystemNameShortName",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [
+                {
+                  "typeArgs": [],
+                  "typeName": "",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                },
+                {
+                  "typeArgs": [],
+                  "typeName": "CellStyle",
+                  "isDefsType": true,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              ],
+              "typeName": "ObjectMap",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "cellStyleMap",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dataSourceSchema",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "date",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "dwCount",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "odsCount",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "tableCount",
+            "required": false
+          }
+        ],
+        "templateArgs": []
+      },
+      {
+        "name": "Font",
+        "properties": [
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "boolean",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "bold",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "color",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "fontHeight",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "fontHeightInPoints",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "fontName",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "index",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "boolean",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "italic",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "boolean",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "strikeout",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "typeOffset",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "underline",
+            "required": false
+          }
+        ],
+        "templateArgs": []
+      },
+      {
+        "name": "Page",
+        "properties": [
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "pagenum",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "pagesize",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [
+                {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              ],
+              "typeName": "Array",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "query",
+            "required": false
+          }
+        ],
+        "templateArgs": []
+      },
+      {
+        "description": "page筛选对象",
+        "name": "PageGeorge",
+        "properties": [
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "pagenum",
+            "description": "当前页数",
+            "required": true
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "pagesize",
+            "description": "页面大小",
+            "required": true
+          },
+          {
+            "dataType": {
+              "typeArgs": [
+                {
+                  "typeArgs": [],
+                  "typeName": "string",
+                  "isDefsType": false,
+                  "templateIndex": -1,
+                  "enum": []
+                }
+              ],
+              "typeName": "Array",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "query",
+            "description": "数据",
+            "required": true
+          }
+        ],
+        "templateArgs": [
+          {
+            "typeArgs": [
+              {
+                "typeArgs": [],
+                "typeName": "string",
+                "isDefsType": false,
+                "templateIndex": -1,
+                "enum": []
+              }
+            ],
+            "typeName": "Array",
+            "isDefsType": false,
+            "templateIndex": -1,
+            "enum": []
+          }
+        ]
+      },
+      {
+        "description": "返回类型",
+        "name": "Result",
+        "properties": [
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "number",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "code",
+            "description": "返回状态码",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "object",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "data",
+            "description": "返回data",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "msg",
+            "description": "提示信息",
+            "required": false
+          }
+        ],
+        "templateArgs": []
+      },
+      {
+        "name": "ViewSourceSystemEntity",
+        "properties": [
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "business_system_ID",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "business_system_name_short_name",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "data_base_type",
+            "required": false
+          },
+          {
+            "dataType": {
+              "typeArgs": [],
+              "typeName": "string",
+              "isDefsType": false,
+              "templateIndex": -1,
+              "enum": []
+            },
+            "name": "status",
+            "required": false
+          }
+        ],
+        "templateArgs": []
+      }
+    ]
+  }
+]

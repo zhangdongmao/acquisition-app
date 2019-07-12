@@ -1,0 +1,12 @@
+{
+  "onlineServer": {
+    "enabled": "true",
+    "name": "onlineServer",
+    "api": "http://10.30.140.28:6269"
+  },
+  "testServer": {
+    "enabled": "false",
+    "name": "testServer",
+    "api": "http://10.119.1.40:6269"
+  }
+}
