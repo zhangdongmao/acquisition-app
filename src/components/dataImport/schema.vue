@@ -41,10 +41,10 @@
 </template>
 <script>
   
-  import ComponentsSourceSystemSchema  from './initData/getSourceSystemSchema';
-  import ComponentsTabColInfo  from './initData/getTabColInfo';
-  import ComponentsCreateTable  from './createTable/createTable';
-  import ComponentsGenerateScript  from './sql/generateScript';
+  import ComponentsSourceSystemSchema  from './schema/initData/getSourceSystemSchema';
+  import ComponentsTabColInfo  from './schema/initData/getTabColInfo';
+  import ComponentsCreateTable  from './schema/createTable/createTable';
+  import ComponentsGenerateScript  from './schema/sql/generateScript';
 
   
   
@@ -62,17 +62,14 @@
       next() {
         let _this = this;
        if(this.active == 0){
-           let params = [];
-           this.$refs.myComponentsSourceSystemSchema.getStatus().then(rsp => { 
-              if(rsp.code == 200){
-               for(var i = 0; i < rsp.data.length; i++) {
-                   params.push(rsp.data[i].business_system_name_short_name);
-                };
-                _this.active++;
-                _this.$refs.myComponentsTabColInfo.setValue(params);
-                 
-              }
-           });
+           _this.active++;
+          let params =  this.$refs.myComponentsSourceSystemSchema.multipleSelection;
+           let params2 = [];
+
+             for(var i = 0; i < params.length; i++) {
+                   params2.push(params[i].business_system_name_short_name);
+              };
+              _this.$refs.myComponentsTabColInfo.setValue(params2);
    
         }
 

@@ -3,24 +3,11 @@
   <div>
     <!-- 卡片 -->
     <el-card>
-      <el-row :gutter="20">
-          <!-- 级联 -->
-        <el-col :span="12">
-          <el-cascader
-           filterable
-          @change="handleChange"
-            v-model="value"
-            :props="{ expandTrigger: 'hover' }"
-            :options="selectList"
-            placeholder="业务系统/数据模式"
-            clearable size="mini">
-          </el-cascader>
-          <el-button size="mini" type="primary" plain @click="search()">查询</el-button>
-        </el-col>
+      <!-- <el-row :gutter="20">
         <el-col :span="12">
           <el-button size="mini" type="primary" class="btn" @click="getODSLoadMode()">建表</el-button>          
         </el-col>
-      </el-row>
+      </el-row> -->
       <el-table
       height="387"
       :data="tableList"
@@ -40,6 +27,11 @@
                        >
       </el-table-column>
       <el-table-column :show-overflow-tooltip="true" prop="dataSourceTable" label="表名" ></el-table-column>
+      <el-table-column :show-overflow-tooltip="true" prop="dataSourceTable" label="ODS表名" ></el-table-column>
+      <el-table-column  label="操作" >
+        <el-button type="text" @click="view(this)">查看</el-button>
+        <el-button type="text" @click="modify(this)" >修改</el-button>
+      </el-table-column>
     </el-table>
     <!-- 分页 -->
     <el-pagination background
@@ -50,6 +42,25 @@
       :total="total">
     </el-pagination>
     </el-card>
+
+
+
+    <el-dialog
+      :title="dialogTitle"
+      :visible.sync="dialogVisible"
+      width="40%"
+      :before-close="handleClose">
+
+      <el-form ref="form" :model="form"  >
+       <el-input type="textarea" v-show="dialogTitle != '查看'" v-model="form.desc"></el-input>
+       <span  v-show="dialogTitle == '查看'"  >{{form.desc}}</span>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary"  v-show="dialogTitle != '查看'" @click="dialogVisible = false">确 定</el-button>
+      </span>
+</el-dialog>
+
   </div>
 </template>
 
@@ -57,6 +68,7 @@
   import mixin from './createTable-Mixin'
   export default {
     mixins: [mixin]
+
   }
 </script>
 <style scoped>

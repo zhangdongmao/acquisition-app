@@ -13,7 +13,12 @@ export default {
       multipleSelection: [],
       // 下拉列表
       selectList: [],
-      value: []
+      value: [],
+      dialogVisible: false,
+      dialogTitle: '查看',
+      form: {
+        ddl: ''
+      }
     }
   },
   methods: {
@@ -29,9 +34,34 @@ export default {
       console.log(this.reqParams.query)
     },
     async setValue (param) {
+      if(param.length == 0){
+        return;
+      }
         this.value = param;
         this.search();
     },
+      // 定义ODS加载策略
+      async getODSLoadMode() {
+        if (this.multipleSelection && this.multipleSelection.length > 0) {
+          const loading = this.$loading({
+            lock: true,
+            text: '定义ODS加载策略...',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)'
+          })
+          const { data: { code, msg } } = await this.$http.post('/hiveCreateTable/getODSLoadMode', this.multipleSelection)
+          console.log(code, msg)
+          loading.close()
+          if (code !== 200) {
+            this.$message.error(msg)
+          } else {
+            // 判断ODS加载策略成功，执行建表操作
+            this.odsCreateTable()
+          }
+        } else {
+          this.$message.warning('请勾选相应表名')
+        }
+      },
     // ods建表
     async odsCreateTable () {
       const loading = this.$loading({
@@ -44,15 +74,22 @@ export default {
         params: this.multipleSelection
       })
       console.log(code, msg)
-      console.log(data)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
       this.$message.success(msg)
-      if (this.reqParams.query.length !== 0) {
-        this.search()
-      } else {
-        this.getData()
-      }
+      this.search()
+    },
+    async view (row){
+      this.dialogVisible = false;
+      this.dialogTitle = '查看' ;
+      this.dialogVisible = true;
+   
+
+    },
+    async modify (row){
+      this.dialogVisible = false;
+      this.dialogTitle = '修改' ;
+      this.dialogVisible = true;
     },
     // 选中项
     handleSelectionChange (val) {
