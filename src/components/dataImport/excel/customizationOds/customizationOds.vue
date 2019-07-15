@@ -1,10 +1,5 @@
 <template>
   <div>
-    <!-- 面包屑 -->
-    <el-breadcrumb>
-      <el-breadcrumb-item :to="{ path: '/' }">定制化入湖</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/' }">定制化入湖</el-breadcrumb-item>
-    </el-breadcrumb>
     <el-divider></el-divider>
     <el-card>
       <el-row :gutter="20">

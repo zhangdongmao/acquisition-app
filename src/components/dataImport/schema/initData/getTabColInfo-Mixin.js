@@ -31,8 +31,11 @@ export default {
       this.total = data.total
     },
     async setValue (param) {
+      if (param.length == 0){
+        return;
+      }
         this.value = param;
-         this.search();
+        this.search();
     },
     // 获取状态
     async getStatus () {
