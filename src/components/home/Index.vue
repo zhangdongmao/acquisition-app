@@ -27,7 +27,7 @@
               <i class="el-icon-menu"></i>
               <span>数据导入</span>
             </template>
-            <el-menu-item index="overview">
+            <el-menu-item index="dataImport">
               <i class="el-icon-menu"></i>
               <span>数据导入</span>
             </el-menu-item>

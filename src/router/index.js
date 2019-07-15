@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 const Home = () => import('@/components/home')
+const dataImport = () => import ('@/components/dataImport/dataImport')
 const GetSourceSystemSchema = () => import ('@/components/initData/getSourceSystemSchema')
 const GetTabColInfo = () => import ('@/components/initData/getTabColInfo')
 const CreateODSTable = () => import ('@/components/createTable/createODSTable')
@@ -27,6 +28,7 @@ export default new Router({
       component: Home,
       redirect: '/getSourceSystemSchema',
       children: [
+        {path: '/dataImport', name: 'dataImport', component: dataImport},
         {path: '/getSourceSystemSchema', name: 'getSourceSystemSchema', component: GetSourceSystemSchema},
         {path: '/getTabColInfo', name: 'getTabColInfo', component: GetTabColInfo},
         {path: '/createODSTable', name: 'createODSTable', component: CreateODSTable},
