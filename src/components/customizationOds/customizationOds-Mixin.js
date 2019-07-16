@@ -1,37 +1,63 @@
-import axios from "axios";
-import { quillEditor } from "vue-quill-editor"; //调用编辑器
-import 'quill/dist/quill.core.css';
-import 'quill/dist/quill.snow.css';
-import 'quill/dist/quill.bubble.css';
+import axios from 'axios';
+import { quillEditor } from 'vue-quill-editor'; // 调用编辑器
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 export default {
   name: 'Customization',
-  data() {
+  data () {
     return {
       active: 0,
       tableList: [],
       showEditor: true,
       content: '',
-      upload_url: axios.defaults.baseURL + '/convertMetadata/uploadExcel'
+      upload_url: axios.defaults.baseURL + '/convertMetadata/uploadExcel',
+      editorOption: {
+        modules: {
+          syntax: {
+            highlight: text => hljs.highlightAuto(text).value
+          },
+          toolbar: [
+            ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+            // ['blockquote', 'code-block'],
+
+            // [{'header': 1}, {'header': 2}],               // custom button values
+            // [{'list': 'ordered'}, {'list': 'bullet'}],
+            // [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+            // [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+            [{ 'direction': 'rtl' }] // text direction
+
+            // [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+            // [{'header': [1, 2, 3, 4, 5, 6, false]}],
+
+            // [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+            // [{'font': []}],
+            // [{'align': []}],
+            // ['link', 'image', 'video', 'formula']//去除video即可
+          ]
+        },
+        placeholder: '编辑内容...'
+      }
     }
   },
   components: {
     quillEditor
   },
-  mounted() {
+  mounted () {
 
   },
   computed: {
-    editor() {
-      return this.$refs.myQuillEditor.quill;
+    editor () {
+      return this.$refs.myQuillEditor.quill
     }
   },
   methods: {
-    onEditorReady(editor) { }, // 准备编辑器
-    onEditorBlur() { }, // 失去焦点事件
-    onEditorFocus() { }, // 获得焦点事件
-    onEditorChange() { }, // 内容改变事件
-    async getMetaData() {
+    onEditorReady (editor) { }, // 准备编辑器
+    onEditorBlur () { }, // 失去焦点事件
+    onEditorFocus () { }, // 获得焦点事件
+    onEditorChange () { }, // 内容改变事件
+    async getMetaData () {
       let indexs = []
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         const loading = this.$loading({
@@ -81,7 +107,7 @@ export default {
     },
 
     // 获取索引
-    async getIndexInfo() {
+    async getIndexInfo () {
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         const loading = this.$loading({
           lock: true,
@@ -105,7 +131,7 @@ export default {
       }
     },
     // 获取表空间
-    async getTabCapacity() {
+    async getTabCapacity () {
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         const loading = this.$loading({
           lock: true,
@@ -132,7 +158,7 @@ export default {
       }
     },
     // 定义ODS加载策略
-    async getODSLoadMode() {
+    async getODSLoadMode () {
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         const loading = this.$loading({
           lock: true,
@@ -154,7 +180,7 @@ export default {
       }
     },
     // ODS建表
-    async odsCreateTable() {
+    async odsCreateTable () {
       var indexs = []
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         const loading = this.$loading({
@@ -203,7 +229,7 @@ export default {
         this.$message.warning('请勾选相应表名')
       }
     },
-    async createOdsLoad() {
+    async createOdsLoad () {
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         // const loading = this.$loading({
         //   lock: true,
@@ -225,7 +251,7 @@ export default {
         this.$message.warning('请勾选相应表名')
       }
     },
-    async odsInitScript() {
+    async odsInitScript () {
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         // const loading = this.$loading({
         //   lock: true,
@@ -247,7 +273,7 @@ export default {
         this.$message.warning('请勾选相应表名')
       }
     },
-    async exportOdsSchedulScript() {
+    async exportOdsSchedulScript () {
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         const loading = this.$loading({
           lock: true,
@@ -283,7 +309,7 @@ export default {
         this.$message.warning('请勾选相应表名')
       }
     },
-    async exportOdsInitScript() {
+    async exportOdsInitScript () {
       if (this.multipleSelection && this.multipleSelection.length > 0) {
         const loading = this.$loading({
           lock: true,
@@ -319,40 +345,40 @@ export default {
         this.$message.warning('请勾选相应表名')
       }
     },
-    indexMethod(index) {
+    indexMethod (index) {
       return index
     },
     // 选中项
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.multipleSelection = val
     },
-    next() {
+    next () {
       if (this.active < 7) {
         this.active++
       }
     },
-    back() {
+    back () {
       if (this.active > 0) {
         this.active--
       }
       this.clearFilter()
     },
-    tableRowClassName({ row, rowIndex }) {
+    tableRowClassName ({ row, rowIndex }) {
       // 把每一行的索引放进row
       row.index = rowIndex
     },
-    filterTag(value, row) {
+    filterTag (value, row) {
       return row.metaStatus === value
     },
-    filterCrtResult(value, row) {
+    filterCrtResult (value, row) {
       console.log(row)
       return row.createResult === value
     },
-    clearFilter() {
+    clearFilter () {
       this.$refs.tableList.clearFilter()
     },
     // 默认勾选源库中存在的表
-    defaultCheck(indexs) {
+    defaultCheck (indexs) {
       if (indexs) {
         indexs.forEach(index => {
           console.log('index:', index)
@@ -362,7 +388,7 @@ export default {
         this.$refs.tableList.clearSelection()
       }
     },
-    submitUpload() {
+    submitUpload () {
       console.log(this.$refs.excelUpload)
       if (this.$refs.excelUpload.uploadFiles.length === 0) {
         this.$message.warning('请添加要上传的文件')
@@ -373,7 +399,7 @@ export default {
         this.next()
       }
     },
-    handleAvatarSuccess(response, file, fileList) {
+    handleAvatarSuccess (response, file, fileList) {
       console.log(response)
       this.tableList = response.data
       for (let i = 0; i < this.tableList.length; i++) {
@@ -381,7 +407,7 @@ export default {
         this.tableList[i].index = i
       }
     },
-    beforeAvatarUpload(file) {
+    beforeAvatarUpload (file) {
       console.log(file)
       var testmsg = file.name.substring(file.name.lastIndexOf('.') + 1)
       const extension = testmsg === 'xls'
