@@ -1,7 +1,7 @@
 
 export default {
   name: 'GetSourceSystemSchema',
-  data() {
+  data () {
     return {
       reqParams: {
         pagenum: 1,
@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     // 获取列表数据
-    async getData() {
+    async getData () {
       const { data: { data, code } } = await this.$http.get('/getSourceMetaData/getDataInfo', {
         params: this.reqParams
       })
@@ -26,13 +26,13 @@ export default {
       this.total = data.total
     },
     // 获取状态
-    async getStatus(row) {
+    async getStatus (row) {
       const loading = this.$loading({
         lock: true,
         text: '正在获取...',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
-      });
+      })
       const { data: { code, msg } } = await this.$http.post('/getSourceMetaData/getConnection', this.multipleSelection)
       console.log(code, msg)
       loading.close()

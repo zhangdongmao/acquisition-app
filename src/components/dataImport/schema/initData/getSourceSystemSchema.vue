@@ -2,14 +2,16 @@
 <template>
   <div>
     <!-- 卡片 -->
-    <el-card>  
-        <!-- <el-button size="mini" type="primary" class="btn" @click="getStatus()">获取</el-button>    -->      
-      <el-table
-      height="387"
-      @selection-change="handleSelectionChange" :data="tableList"  style="width: 100%">
-        <el-table-column type="selection" width="55"></el-table-column>
+    <el-card>
+      <!-- <el-button size="mini" type="primary" class="btn" @click="getStatus()">获取</el-button>    -->
+      <el-table height="387"
+                @selection-change="handleSelectionChange"
+                :data="tableList"
+                style="width: 100%">
+        <el-table-column type="selection"
+                         width="55"></el-table-column>
         <el-table-column prop="business_system_name_short_name"
-          label="业务源系统缩写">
+                         label="业务源系统缩写">
         </el-table-column>
         <el-table-column label="获取状态">
           <template slot-scope="scope">
@@ -19,12 +21,12 @@
       </el-table>
       <!-- 分页 -->
       <el-pagination background
-      @current-change="changePager"
-      :page-size="reqParams.pagesize"
-      :current-page="reqParams.pagenum"
-      layout="prev, pager, next"
-      :total="total">
-    </el-pagination>
+                     @current-change="changePager"
+                     :page-size="reqParams.pagesize"
+                     :current-page="reqParams.pagenum"
+                     layout="prev, pager, next"
+                     :total="total">
+      </el-pagination>
     </el-card>
   </div>
 </template>
@@ -38,13 +40,14 @@ export default {
 <style scoped>
 .btn {
   float: right;
-  margin-right: 50px
+  margin-right: 50px;
 }
 .left {
   float: left;
 }
-.el-icon-s-unfold, .el-icon-s-fold {
+.el-icon-s-unfold,
+.el-icon-s-fold {
   font-size: 16px;
-  font-weight: none
+  font-weight: none;
 }
 </style>

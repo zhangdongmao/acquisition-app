@@ -1,6 +1,6 @@
 export default {
   name: 'Derive',
-  data() {
+  data () {
     return {
       reqParamsDW: {
         pagenum: 1,
@@ -26,14 +26,14 @@ export default {
   },
   methods: {
     async getDWData () {
-      const {data: {data,code}} = await this.$http.get('/exportScript/getDwTabList')
+      const { data: { data, code } } = await this.$http.get('/exportScript/getDwTabList')
       if (code !== 200) return this.$message.error('获取数据失败')
       this.tableListDW = data
       console.log(data)
     },
     // 选项卡ODS选中
     async getODSData () {
-      const {data: {data,code}} = await this.$http.get('/exportScript/getOdsTabList')
+      const { data: { data, code } } = await this.$http.get('/exportScript/getOdsTabList')
       if (code !== 200) return this.$message.error('获取数据失败')
       this.tableListODS = data
       console.log(data)
@@ -47,7 +47,7 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       })
 
-      await this.$http.post('/exportScript/exportDwScript', {params: this.multipleSelectionDW}, {
+      await this.$http.post('/exportScript/exportDwScript', { params: this.multipleSelectionDW }, {
         responseType: 'blob'
       }).then(res => {
         let blob = new Blob([res.data], {
@@ -61,7 +61,7 @@ export default {
           navigator.msSaveBlob(blob)
         } else {
           let elink = document.createElement('a')
-          elink.download = decodeURIComponent(res.headers['filename'].substring(3,res.headers['filename'].length))
+          elink.download = decodeURIComponent(res.headers['filename'].substring(3, res.headers['filename'].length))
           elink.style.display = 'none'
           elink.href = URL.createObjectURL(blob)
           document.body.appendChild(elink)
@@ -79,7 +79,7 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       })
-      const res = await this.$http.post('/exportScript/exportOdsScript', {params: this.multipleSelectionODS}, {
+      const res = await this.$http.post('/exportScript/exportOdsScript', { params: this.multipleSelectionODS }, {
         responseType: 'blob'
       }).then(res => {
         let blob = new Blob([res.data], {
@@ -93,7 +93,7 @@ export default {
           navigator.msSaveBlob(blob)
         } else {
           let elink = document.createElement('a')
-          elink.download = decodeURIComponent(res.headers['filename'].substring(3,res.headers['filename'].length))
+          elink.download = decodeURIComponent(res.headers['filename'].substring(3, res.headers['filename'].length))
           elink.style.display = 'none'
           elink.href = URL.createObjectURL(blob)
           document.body.appendChild(elink)

@@ -20,7 +20,7 @@ export default {
   methods: {
     // 获取列表数据
     async getData () {
-      const {data: {data, code}} = await this.$http.get('/generateScript/getODSTableInfo',{
+      const { data: { data, code } } = await this.$http.get('/generateScript/getODSTableInfo', {
         params: this.reqParams
       })
       if (code !== 200) return this.$message.error('获取数据失败')
@@ -30,12 +30,12 @@ export default {
     },
     // 获取下拉列表
     async selectSystem () {
-      const {data: {data, code, msg}} = await this.$http.get('/generateScript/getOdsSystemFilterList',{
+      const { data: { data, code, msg } } = await this.$http.get('/generateScript/getOdsSystemFilterList', {
         params: this.reqParams
       })
       if (code !== 200) return this.$message.error(msg)
       data.forEach(item => {
-        this.selectList.push({label: item, value: item})
+        this.selectList.push({ label: item, value: item })
       });
       console.log(this.selectList)
     },
@@ -43,7 +43,7 @@ export default {
     async search () {
       this.reqParams.query = []
       this.reqParams.query.push(this.value)
-      const {data: {data, code, msg}} = await this.$http.post('/generateScript/getOdsListByFilter',this.reqParams)
+      const { data: { data, code, msg } } = await this.$http.post('/generateScript/getOdsListByFilter', this.reqParams)
       if (code !== 200) return this.$message.error(msg)
       this.tableList = data.list
       this.total = data.total
@@ -52,15 +52,15 @@ export default {
     // 获取状态
     async getStatus () {
       const loading = this.$loading({
-          lock: true,
-          text: '正在初始化脚本...',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
-      const {data: {code, msg}} = await this.$http.post('/generateScript/generateSqoopScript',{
+        lock: true,
+        text: '正在初始化脚本...',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+      const { data: { code, msg } } = await this.$http.post('/generateScript/generateSqoopScript', {
         params: this.multipleSelection
       })
-      console.log(code,msg)
+      console.log(code, msg)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
       this.$message.success(msg);
@@ -79,7 +79,7 @@ export default {
       this.reqParams.pagenum = newPage
       if (this.value) {
         this.search()
-      }else {
+      } else {
         this.getData()
       }
     }

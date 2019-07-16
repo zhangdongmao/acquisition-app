@@ -18,7 +18,7 @@ export default {
   methods: {
     // 获取列表数据
     async getData () {
-      const {data: {data, code}} = await this.$http.get('/getSourceMetaData/getDataInfo', {
+      const { data: { data, code } } = await this.$http.get('/getSourceMetaData/getDataInfo', {
         params: this.reqParams
       })
       if (code !== 200) return this.$message.error('获取数据失败')
@@ -42,9 +42,9 @@ export default {
         text: '正在获取...',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
-      });
-      const {data: {code, msg}} = await this.$http.post('/getSourceMetaData/getConnection',this.multipleSelection)
-      console.log(code,msg)
+      })
+      const { data: { code, msg } } = await this.$http.post('/getSourceMetaData/getConnection', this.multipleSelection)
+      console.log(code, msg)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
       this.multipleSelection = []

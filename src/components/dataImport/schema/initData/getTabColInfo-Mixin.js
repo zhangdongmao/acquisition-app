@@ -20,13 +20,12 @@ export default {
   },
   methods: {
 
-  
     // 查询
     async search () {
       this.reqParams.query = []
       this.reqParams.query = this.value
       console.log(this.value, this.reqParams.query)
-      const {data: {data, msg, code}} = await this.$http.post('/getSourceMetaData/getSchemaByFilter',this.reqParams)
+      const { data: { data, msg, code } } = await this.$http.post('/getSourceMetaData/getSchemaByFilter', this.reqParams)
       if (code !== 200) return this.$message.error(msg)
       this.tableList = data.list
       this.total = data.total
@@ -38,20 +37,19 @@ export default {
         text: '正在获取...',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
-      });
-      const {data: {code, msg}} = await this.$http.post('/getSourceMetaData/importingMetadata',this.multipleSelection)
-      console.log(code,msg)
+      })
+      const { data: { code, msg } } = await this.$http.post('/getSourceMetaData/importingMetadata', this.multipleSelection)
+      console.log(code, msg)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
-      this.$message.success(msg);
+      this.$message.success(msg)
       this.search()
     },
     async setValue (val) {
-      if(val != null){
-        this.value = val;
-        this.search();
+      if (val != null) {
+        this.value = val
+        this.search()
       }
-
     },
     // 选中项
     handleSelectionChange (val) {

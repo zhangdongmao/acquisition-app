@@ -146,7 +146,7 @@ export default {
   data () {
     return {
       collapse: false,
-      iconArr: ['icon-user-fill', 'icon-cog', 'icon-shoppingcart', 'icon-file', 'icon-chart-area'],
+      iconArr: ['icon-user-fill', 'icon-cog', 'icon-shoppingcart', 'icon-file', 'icon-chart-area']
       // navList:[
       //   {name:'/Table',navItem:'发现项目'},
       //   {name:'/communityActivity',navItem:'社区动态'},

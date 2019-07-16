@@ -21,7 +21,7 @@ export default {
   methods: {
     // 获取列表数据
     async getData () {
-      const {data: {data, code}} = await this.$http.get('/getSourceMetaData/getSchema', {
+      const { data: { data, code } } = await this.$http.get('/getSourceMetaData/getSchema', {
         params: this.reqParams
       })
       console.log(data)
@@ -41,19 +41,19 @@ export default {
     },
     // 获取下拉列表数据
     async selectData () {
-      const {data: {code, msg, data}} = await this.$http.get('/getSourceMetaData/getSystemFilterList')
+      const { data: { code, msg, data } } = await this.$http.get('/getSourceMetaData/getSystemFilterList')
       console.log(data)
       if (code !== 200) return this.$message.error(msg)
       data.forEach(item => {
-        this.systemList.push({label: item, value: item})
-      });
+        this.systemList.push({ label: item, value: item })
+      })
     },
     // 查询
     async search () {
       this.reqParams.query = []
       this.reqParams.query.push(this.value)
-      console.log(this.value,this.reqParams.query)
-      const {data: {data, msg, code}} = await this.$http.post('/getSourceMetaData/getSchemaByFilter',this.reqParams)
+      console.log(this.value, this.reqParams.query)
+      const { data: { data, msg, code } } = await this.$http.post('/getSourceMetaData/getSchemaByFilter', this.reqParams)
       if (code !== 200) return this.$message.error(msg)
       this.tableList = data.list
       this.total = data.total
@@ -65,12 +65,12 @@ export default {
         text: '正在获取...',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
-      });
-      const {data: {code, msg}} = await this.$http.post('/getSourceMetaData/importingMetadata',this.multipleSelection)
-      console.log(code,msg)
+      })
+      const { data: { code, msg } } = await this.$http.post('/getSourceMetaData/importingMetadata', this.multipleSelection)
+      console.log(code, msg)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
-      this.$message.success(msg);
+      this.$message.success(msg)
       if (this.reqParams.query.length !== 0) {
         this.search()
       } else {
@@ -86,7 +86,7 @@ export default {
       this.reqParams.pagenum = newPage
       if (this.value) {
         this.search()
-      }else {
+      } else {
         this.getData()
       }
     }

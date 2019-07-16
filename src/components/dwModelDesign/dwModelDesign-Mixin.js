@@ -1,7 +1,7 @@
 
 export default {
   name: 'InlineEditTable',
-  data() {
+  data () {
     return {
       addSrcTableIsShow: false,
       addModelIsShow: false,
@@ -32,12 +32,12 @@ export default {
       addSrcTableInput: ''
     }
   },
-  created() {
+  created () {
     // this.getList()
   },
   methods: {
     // 保存dw初始化脚本
-    async saveInitScript() {
+    async saveInitScript () {
       var reqParams = {}
       reqParams.dwDataTable = this.dwEngTableName
       console.log(reqParams)
@@ -49,7 +49,7 @@ export default {
       }
     },
     // 保存映射关系
-    async saveMapRel() {
+    async saveMapRel () {
       if (this.modelList.length > 0) {
         var flag = false
         var reqParams = {}
@@ -100,7 +100,7 @@ export default {
         }
       }
     },
-    async getUsingTabInfo() {
+    async getUsingTabInfo () {
       if (this.dwUsingTableInput.length >= 5) {
         var reqParams = {}
         reqParams.dwDataTable = this.dwUsingTableInput
@@ -135,7 +135,7 @@ export default {
         this.$message.warning('请按规则填写表名')
       }
     },
-    async saveCol() {
+    async saveCol () {
       if (this.dwUsingTableInput.length >= 5) {
         if (this.createTabList.length > 0) {
           const loading = this.$loading({
@@ -162,7 +162,7 @@ export default {
         this.$message.warning('表名不得少于五个字符')
       }
     },
-    async createTable() {
+    async createTable () {
       if (this.dwBakTableInput.length > 5 && this.dwUsingTableInput.length > 5) {
         this.reqParams.dwBakTable = this.dwBakTableInput
         this.reqParams.dwUsingDataTable = this.dwUsingTableInput
@@ -186,7 +186,7 @@ export default {
         this.$message.warning('请正确填写备用区与在用区表名')
       }
     },
-    async getBakColInfo() {
+    async getBakColInfo () {
       if (this.dwBakTableInput.length >= 5) {
         this.reqParams.dwDataTable = this.dwBakTableInput
         const { data: { data, code, msg } } = await this.$http.get('/dwModelDesign/getTabByBakName', { params: this.reqParams })
@@ -207,21 +207,21 @@ export default {
         this.$message.warning('请正确填写备用区表名')
       }
     },
-    addModel() {
+    addModel () {
       this.addSrcTableIsShow = true
     },
-    removeModel(key) {
+    removeModel (key) {
       if (key !== 0) {
         this.modelList.splice(key, 1)
       } else {
         this.$message.warning('不可删除基本映射模型')
       }
     },
-    cancelAddSrcTable() {
+    cancelAddSrcTable () {
       this.addSrcTableIsShow = false
     },
     // 添加一个分组
-    async confirmAddSrcTable() {
+    async confirmAddSrcTable () {
       var reqParams = {}
       reqParams.odsDataTable = this.addSrcTableInput
       reqParams.dwDataTable = this.dwEngTableName
@@ -286,7 +286,7 @@ export default {
         this.addSrcTableInput = ''
       }
     },
-    addMapRel(key) {
+    addMapRel (key) {
       var mapRelItem = {}
       if (this.modelList[key].cjDwTableColMapRelInfoVos.length > 0) {
         mapRelItem.edit = ''
@@ -296,58 +296,58 @@ export default {
         // this.$message.error('')
       }
     },
-    modelCellEdit(key, index, column) {
+    modelCellEdit (key, index, column) {
       this.showModal = true
       this.modelList[key].cjDwTableColMapRelInfoVos[index].edit = column
       this.modelCellEditInput = this.modelList[key].cjDwTableColMapRelInfoVos[index][column]
       console.log(this.modelList)
     },
-    modelConfirmEdit(key, index, column) {
+    modelConfirmEdit (key, index, column) {
       this.showModal = false
       this.modelList[key].cjDwTableColMapRelInfoVos[index].edit = ''
       this.modelList[key].cjDwTableColMapRelInfoVos[index][column] = this.modelCellEditInput
       this.modelCellEditInput = ''
     },
-    modelCancelEdit(key, index) {
+    modelCancelEdit (key, index) {
       this.showModal = false
       this.modelList[key].cjDwTableColMapRelInfoVos[index].edit = ''
       this.modelCellEditInput = ''
     },
-    mapCellEdit(key, index, column) {
+    mapCellEdit (key, index, column) {
       this.showModal = true
       this.modelList[key].cjDwTableMapRelInfos[index].edit = column
       this.modelCellEditInput = this.modelList[key].cjDwTableMapRelInfos[index][column]
       console.log(this.modelList)
     },
-    mapConfirmEdit(key, index, column) {
+    mapConfirmEdit (key, index, column) {
       this.showModal = false
       this.modelList[key].cjDwTableMapRelInfos[index].edit = ''
       this.modelList[key].cjDwTableMapRelInfos[index][column] = this.modelCellEditInput
       this.modelCellEditInput = ''
     },
-    mapCancelEdit(key, index) {
+    mapCancelEdit (key, index) {
       this.showModal = false
       this.modelList[key].cjDwTableMapRelInfos[index].edit = ''
       this.modelCellEditInput = ''
     },
-    cellEdit(index, column) {
+    cellEdit (index, column) {
       this.showModal = true
       this.createTabList[index].edit = column
       this.cellEditInput = this.createTabList[index][column]
       console.log(this.createTabList)
     },
-    cancelEdit(index) {
+    cancelEdit (index) {
       this.showModal = false
       this.createTabList[index].edit = ''
       this.cellEditInput = ''
     },
-    confirmEdit(index, column) {
+    confirmEdit (index, column) {
       this.showModal = false
       this.createTabList[index].edit = ''
       this.createTabList[index][column] = this.cellEditInput
       this.cellEditInput = ''
     },
-    handleChange(val) {
+    handleChange (val) {
       console.log(val)
     }
   }

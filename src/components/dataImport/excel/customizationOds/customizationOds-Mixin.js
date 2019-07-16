@@ -19,19 +19,19 @@ export default {
   components: {
     quillEditor
   },
-  mounted() {
+  mounted () {
 
   },
   computed: {
-    editor() {
-      return this.$refs.myQuillEditor.quill;
+    editor () {
+      return this.$refs.myQuillEditor.quill
     }
   },
   methods: {
-    onEditorReady(editor) { }, // 准备编辑器
-    onEditorBlur() { }, // 失去焦点事件
-    onEditorFocus() { }, // 获得焦点事件
-    onEditorChange() { }, // 内容改变事件
+    onEditorReady (editor) { }, // 准备编辑器
+    onEditorBlur () { }, // 失去焦点事件
+    onEditorFocus () { }, // 获得焦点事件
+    onEditorChange () { }, // 内容改变事件
     async getMetaData () {
       let indexs = []
       if (this.multipleSelection && this.multipleSelection.length > 0) {
@@ -42,7 +42,7 @@ export default {
           background: 'rgba(0, 0, 0, 0.7)'
         })
         // console.log(this.multipleSelection)
-        const {data: {code, msg, data}} = await this.$http.post('/convertMetadata/importingMetadata', this.multipleSelection)
+        const { data: { code, msg, data } } = await this.$http.post('/convertMetadata/importingMetadata', this.multipleSelection)
         // console.log(code,msg)
         // console.log(data)
         // console.log(this.tableList)
@@ -90,7 +90,7 @@ export default {
           spinner: 'el-icon-loading',
           background: 'rgba(0, 0, 0, 0.7)'
         })
-        const {data: {code, msg, data}} = await this.$http.post('/convertMetadata/importIndex', this.multipleSelection)
+        const { data: { code, msg, data } } = await this.$http.post('/convertMetadata/importIndex', this.multipleSelection)
         // console.log(code,msg)
         // console.log(data)
         console.log(this.tableList)
@@ -114,7 +114,7 @@ export default {
           spinner: 'el-icon-loading',
           background: 'rgba(0, 0, 0, 0.7)'
         })
-        const {data: {code, msg, data}} = await this.$http.post('/convertMetadata/getCapacity', this.multipleSelection)
+        const { data: { code, msg, data } } = await this.$http.post('/convertMetadata/getCapacity', this.multipleSelection)
         // console.log(code,msg)
         // console.log(data)
         console.log(this.tableList)
@@ -141,8 +141,8 @@ export default {
           spinner: 'el-icon-loading',
           background: 'rgba(0, 0, 0, 0.7)'
         })
-        const {data: {code,msg}} = await this.$http.post('/hiveCreateTable/getODSLoadMode', this.multipleSelection)
-        console.log(code,msg)
+        const { data: { code, msg } } = await this.$http.post('/hiveCreateTable/getODSLoadMode', this.multipleSelection)
+        console.log(code, msg)
         loading.close()
         if (code !== 200) {
           this.$message.error(msg)
@@ -164,7 +164,7 @@ export default {
           spinner: 'el-icon-loading',
           background: 'rgba(0, 0, 0, 0.7)'
         })
-        const {data: {code,msg,data}} = await this.$http.post('/hiveCreateTable/createODSTable', {
+        const { data: { code, msg, data } } = await this.$http.post('/hiveCreateTable/createODSTable', {
           params: this.multipleSelection
         })
         console.log(data)
@@ -191,7 +191,7 @@ export default {
         })
         // this.defaultCheck(indexs)
         console.log(this.tableList)
-        console.log(code,msg)
+        console.log(code, msg)
         console.log(data)
         loading.close()
         if (code !== 200) {
@@ -204,8 +204,8 @@ export default {
         this.$message.warning('请勾选相应表名')
       }
     },
-    async createOdsLoad() {
-      if ( this.multipleSelection && this.multipleSelection.length > 0) {
+    async createOdsLoad () {
+      if (this.multipleSelection && this.multipleSelection.length > 0) {
         // const loading = this.$loading({
         //   lock: true,
         //   text: '正在初始化脚本...',
@@ -213,7 +213,7 @@ export default {
         //   background: 'rgba(0, 0, 0, 0.7)'
         // })
         console.log(this.multipleSelection)
-        const {data: {code, msg}} = await this.$http.post('/generateScript/createOdsLoad', this.multipleSelection)
+        const { data: { code, msg } } = await this.$http.post('/generateScript/createOdsLoad', this.multipleSelection)
         console.log(code, msg)
         // loading.close()
         if (code !== 200) {
@@ -235,7 +235,7 @@ export default {
         //   background: 'rgba(0, 0, 0, 0.7)'
         // })
         console.log(this.multipleSelection)
-        const {data: {code, msg}} = await this.$http.post('/generateScript/initOdsLoad', this.multipleSelection)
+        const { data: { code, msg } } = await this.$http.post('/generateScript/initOdsLoad', this.multipleSelection)
         console.log(code, msg)
         // loading.close()
         if (code !== 200) {
@@ -257,7 +257,7 @@ export default {
           background: 'rgba(0, 0, 0, 0.7)'
         })
         console.log(this.multipleSelection)
-        await this.$http.post('/exportScript/exportOdsSchedulScript', {params: this.multipleSelection}, {
+        await this.$http.post('/exportScript/exportOdsSchedulScript', { params: this.multipleSelection }, {
           responseType: 'blob'
         }).then(res => {
           let blob = new Blob([res.data], {
@@ -293,7 +293,7 @@ export default {
           background: 'rgba(0, 0, 0, 0.7)'
         })
         console.log(this.multipleSelection)
-        await this.$http.post('/exportScript/exportOdsInitScript', {params: this.multipleSelection}, {
+        await this.$http.post('/exportScript/exportOdsInitScript', { params: this.multipleSelection }, {
           responseType: 'blob'
         }).then(res => {
           let blob = new Blob([res.data], {
@@ -338,7 +338,7 @@ export default {
       }
       this.clearFilter()
     },
-    tableRowClassName ({row, rowIndex}) {
+    tableRowClassName ({ row, rowIndex }) {
       // 把每一行的索引放进row
       row.index = rowIndex
     },
