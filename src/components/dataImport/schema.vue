@@ -128,7 +128,8 @@ export default {
 
       if (this.active == 1) {
         _this.active++
-        let params = this.$refs.myComponentsTabColInfo.multipleSelection
+        let params = this.$refs.myComponentsTabColInfo.tableList
+
         _this.$refs.myComponentsCreateTable.setValue(params)
         return
       }
