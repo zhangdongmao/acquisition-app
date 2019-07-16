@@ -3,15 +3,11 @@
   <div>
     <!-- 卡片 -->
     <el-card>
-      <!-- <el-row :gutter="20">
-        <el-col :span="12">
-          <el-button size="mini" type="primary" class="btn" @click="getODSLoadMode()">建表</el-button>          
-        </el-col>
-      </el-row> -->
-      <el-table v-loading="listLoading"
+      <el-table 
       height="387"
       :data="tableList"
       style="width: 100%"
+      ref="multipleTable"
       @selection-change="handleSelectionChange">
       <el-table-column
         type="selection"
@@ -29,7 +25,6 @@
       <el-table-column :show-overflow-tooltip="true" prop="dataSourceTable" label="表名" ></el-table-column>
       <el-table-column :show-overflow-tooltip="true" prop="odsDataTable" label="ODS表名" ></el-table-column>
       <el-table-column :show-overflow-tooltip="true" prop="odsDataLoadMode" label="加载策略" ></el-table-column>
-   
       <el-table-column label="执行状态">
           <template slot-scope="scope">
             <p v-if="scope.row.executeStatus=='none'">
@@ -44,13 +39,12 @@
           </template>
       </el-table-column>
       <el-table-column  label="编辑" >
-  
         <template slot-scope="{row}">
+          <el-button type="text" @click="viewHiveData(row);" >查看</el-button>
           <el-button type="text" @click="view(row); dialog.ifModify = 1" >编辑</el-button>
         </template>
        
       </el-table-column>
-      
     </el-table>
     <!-- 分页 -->
     <el-pagination background
@@ -67,25 +61,33 @@
       :visible.sync="dialog.visible"
       width="50%" 
       :before-close="handleClose">
-      <el-tabs v-model="dialog.activeName" type="border-card" >
-        <el-tab-pane label="全量" name="first">
-          <el-input type="textarea"  rows="15"  :disabled="dialog.ifModify == 0" v-model="dialog.fullContext"></el-input>
-        </el-tab-pane>
-        <el-tab-pane label="增量" name="second">
-          <el-input type="textarea"  rows="15"  :disabled="dialog.ifModify == 0" v-model="dialog.incrementContext"></el-input> 
-        </el-tab-pane>
-      </el-tabs>
+       <el-input type="textarea"  rows="15"  :disabled="dialog.ifModify == 0" v-model="dialog.context"></el-input> 
       <span slot="footer" class="dialog-footer">
         <el-button @click="formReset">重置</el-button>
         <el-button type="primary"  v-show="dialog.ifModify != 0" @click="formSubmit">确 定</el-button>
       </span>
+</el-dialog>
+  <el-dialog
+      :title="dialogTable.title"
+      :visible.sync="dialogTable.visible"
+      width="50%" 
+      :before-close="dialogTableHandleClose">
+      <template>
+        <el-table :data="dialogTable.tableList" border height="300" style="width: 100%">
+         <el-table-column v-for="value in dialogTable.tableTitles" 
+                :key="value" :prop="value" :label="value" 
+                width="150" height="40"/>
+          
+        </el-table>
+      </template>
+
 </el-dialog>
 
   </div>
 </template>
 
 <script>
-  import mixin from './createTable-Mixin'
+  import mixin from './initData-Mixin'
   export default {
     mixins: [mixin]
 

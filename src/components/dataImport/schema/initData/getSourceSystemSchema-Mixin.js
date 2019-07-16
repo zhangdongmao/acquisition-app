@@ -36,10 +36,10 @@ export default {
       const {data: {code, msg}} = await this.$http.post('/getSourceMetaData/getConnection',this.multipleSelection)
       console.log(code,msg)
       loading.close()
-      if (code != 200){
-        this.$message.error(msg)
-      } 
-      return {code:code,data:this.multipleSelection};
+      if (code !== 200) return this.$message.error(msg)
+      this.multipleSelection = []
+      this.$message.success(msg)
+      this.getData()
     },
     // 选中项
     handleSelectionChange (val) {

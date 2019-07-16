@@ -1,5 +1,4 @@
 export default {
-  name: 'GetTabColInfo',
   data () {
     return {
       // 请求列表参数
@@ -20,6 +19,8 @@ export default {
     }
   },
   methods: {
+
+  
     // 查询
     async search () {
       this.reqParams.query = []
@@ -29,13 +30,6 @@ export default {
       if (code !== 200) return this.$message.error(msg)
       this.tableList = data.list
       this.total = data.total
-    },
-    async setValue (param) {
-      if (param.length == 0){
-        return;
-      }
-        this.value = param;
-        this.search();
     },
     // 获取状态
     async getStatus () {
@@ -48,10 +42,16 @@ export default {
       const {data: {code, msg}} = await this.$http.post('/getSourceMetaData/importingMetadata',this.multipleSelection)
       console.log(code,msg)
       loading.close()
-      if (code != 200){
-        this.$message.error(msg)
-      } 
-      return {code:code,data:this.multipleSelection};
+      if (code !== 200) return this.$message.error(msg)
+      this.$message.success(msg);
+      this.search()
+    },
+    async setValue (val) {
+      if(val != null ){
+        this.value = val;
+        this.search();
+      }
+
     },
     // 选中项
     handleSelectionChange (val) {
@@ -64,8 +64,5 @@ export default {
     }
   },
   mounted () {
-    // this.getData()
-    // this.selectData()
-    this.setValue();
   }
 }
