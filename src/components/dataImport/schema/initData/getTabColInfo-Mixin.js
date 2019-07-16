@@ -31,16 +31,6 @@ export default {
       this.tableList = data.list
       this.total = data.total
     },
-<<<<<<< HEAD
-=======
-    async setValue (param) {
-      if (param.length === 0) {
-        return
-      }
-      this.value = param
-      this.search()
-    },
->>>>>>> 3519c60cb25647029ac3dc0567d4c4c2a5df508d
     // 获取状态
     async getStatus () {
       const loading = this.$loading({
@@ -57,7 +47,7 @@ export default {
       this.search()
     },
     async setValue (val) {
-      if(val != null ){
+      if(val != null){
         this.value = val;
         this.search();
       }

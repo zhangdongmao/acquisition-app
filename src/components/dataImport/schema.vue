@@ -6,7 +6,6 @@
     <el-card>
       <el-row :gutter="20">
         <el-col :span="24">
-<<<<<<< HEAD
           <el-steps :active="active" finish-status="success">
             <el-step title="加载入湖清单"></el-step>
             <el-step title="数据探源"></el-step>
@@ -49,32 +48,6 @@
               </el-dropdown> 
         </el-col>
          <el-col style="margin-top:20px;" >
-=======
-          <el-steps :active="active"
-                    finish-status="success">
-            <el-step title="获取源系统数据模式"></el-step>
-            <el-step title="获取表及字段信息"></el-step>
-            <el-step title="建表"></el-step>
-            <el-step title="脚本生成"></el-step>
-            <el-step title="导出"></el-step>
-          </el-steps>
-          <!-- <el-button style="margin-top: 12px;" @click="last">上一步</el-button>-->
-
-          <el-col :span="24"
-                  style="margin-top:20px;">
-            <el-button size="mini"
-                       type="primary"
-                       v-if="active > 0"
-                       class="btn-back"
-                       @click="back">上一步</el-button>
-            <el-button size="mini"
-                       type="primary"
-                       class="btn"
-                       @click="next">下一步</el-button>
-
-          </el-col>
-          <el-col style="margin-top:20px;">
->>>>>>> 3519c60cb25647029ac3dc0567d4c4c2a5df508d
             <div v-show="active == 0">
               <ComponentsSourceSystemSchema ref="myComponentsSourceSystemSchema" />
             </div>
@@ -97,7 +70,6 @@
   </div>
 </template>
 <script>
-<<<<<<< HEAD
   
   import ComponentsSourceSystemSchema  from './schema/initData/getSourceSystemSchema';
   import ComponentsTabColInfo  from './schema/initData/getTabColInfo';
@@ -193,56 +165,8 @@
          if( 'exportOdsSchedulScript' == command){
             this.$refs.myComponentsCreateTable.exportOdsSchedulScript();
          }
-=======
 
-import ComponentsSourceSystemSchema from './schema/initData/getSourceSystemSchema'
-import ComponentsTabColInfo from './schema/initData/getTabColInfo'
-import ComponentsCreateTable from './schema/createTable/createTable'
-import ComponentsGenerateScript from './schema/sql/generateScript'
-
-export default {
-  data () {
-    return {
-      active: 0
-    }
-  },
-  components: {
-    ComponentsSourceSystemSchema,
-    ComponentsTabColInfo,
-    ComponentsCreateTable,
-    ComponentsGenerateScript
-  },
-  methods: {
-    next () {
-      let _this = this
-      if (this.active == 0) {
-        _this.active++
-        let params = this.$refs.myComponentsSourceSystemSchema.multipleSelection
-        let params2 = []
-
-        for (var i = 0; i < params.length; i++) {
-          params2.push(params[i].business_system_name_short_name)
-        };
-        _this.$refs.myComponentsTabColInfo.setValue(params2)
-      }
-
-      if (this.active == 1) {
-        // let params = [];
-        this.$refs.myComponentsTabColInfo.getStatus().then(rsp => {
-          if (rsp.code == 200) {
-            _this.active++
-            _this.$refs.myComponentsCreateTable.setValue(rsp.data)
-          }
-        })
->>>>>>> 3519c60cb25647029ac3dc0567d4c4c2a5df508d
-      }
-      // if(this.active == 0){
-      //    this.$refs.myComponentsSourceSystemSchema.getStatus().then(code => {
-      //       if(code ==200){
-      //           if (this.active++ > 2) this.active = 0;
-      //       }
-      //    });
-      // }
+      
     },
     back () {
       if (this.active-- === 0) this.active = 0

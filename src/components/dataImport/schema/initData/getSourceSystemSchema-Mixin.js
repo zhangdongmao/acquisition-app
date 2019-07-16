@@ -36,29 +36,22 @@ export default {
       const { data: { code, msg } } = await this.$http.post('/getSourceMetaData/getConnection', this.multipleSelection)
       console.log(code, msg)
       loading.close()
-<<<<<<< HEAD
       if (code !== 200) return this.$message.error(msg)
       this.multipleSelection = []
       this.$message.success(msg)
       this.getData()
-=======
-      if (code !== 200) {
-        this.$message.error(msg)
-      }
-      return { code: code, data: this.multipleSelection }
->>>>>>> 3519c60cb25647029ac3dc0567d4c4c2a5df508d
     },
     // 选中项
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.multipleSelection = val
     },
     // 切换页码
-    changePager(newPage) {
+    changePager (newPage) {
       this.reqParams.pagenum = newPage
       this.getData()
     }
   },
-  mounted() {
+  mounted () {
     this.getData()
   }
 }
