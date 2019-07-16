@@ -21,6 +21,7 @@ export default {
       const { data: { data, code } } = await this.$http.get('/getSourceMetaData/getDataInfo', {
         params: this.reqParams
       })
+      console.log(data)
       if (code !== 200) return this.$message.error('获取数据失败')
       this.tableList = data.list
       this.total = data.total

@@ -41,6 +41,7 @@ export default {
     async search () {
       this.reqParams.query = []
       this.reqParams.query = this.value
+      console.log(this.reqParams, 'aaaa')
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/getDataSourceTabInfoBySysSortNameAndDataSourceSchemas', this.reqParams)
       if (code !== 200) return this.$message.error(msg)
       console.log(data)
@@ -51,6 +52,7 @@ export default {
     },
     async setValue (val) {
       if (val != null) {
+        // console.log(val, 'aaa')
         this.value = val
         this.search()
       }

@@ -47,6 +47,7 @@ export default {
     },
     async setValue (val) {
       if (val != null) {
+        console.log('bb', val)
         this.value = val
         this.search()
       }

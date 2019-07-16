@@ -35,7 +35,7 @@ export default {
     // 初始化页面值
     async setValue (params) {
       let _this = this
-      _this.tableList = params.multipleSelection
+      _this.tableList = params.tableList
       _this.total = params.multipleSelection.length
       // this.$refs.multipleTable.clearSelection()
       this.toggleSelection(params.multipleSelection)
