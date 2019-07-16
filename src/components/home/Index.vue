@@ -3,26 +3,26 @@
   <el-container class="home_container">
     <!-- 顶部logo -->
     <!-- <el-header class="home_header" style="height: 40px; box-sizing: border-box"> -->
-      <!-- <div> -->
-          <!-- <img class="left logo" src="../../assets/images/logo.png" alt=""> -->
-        
-        <!-- <span class="left title">自助化平台</span> -->
-        <!-- <el-button type="danger" size="mini" round class="right" style="margin-top: 15px">个人中心</el-button> -->
-      <!-- </div> -->
+    <!-- <div> -->
+    <!-- <img class="left logo" src="../../assets/images/logo.png" alt=""> -->
+
+    <!-- <span class="left title">自助化平台</span> -->
+    <!-- <el-button type="danger" size="mini" round class="right" style="margin-top: 15px">个人中心</el-button> -->
+    <!-- </div> -->
     <!-- </el-header> -->
     <el-container>
-      <el-aside class="home_aside" :width="collapse ? '30px' : '300px'">
-        <el-menu
-        style="height: 100%"
-        router
-        :collapse="collapse"
-        :default-active="$route.name"
-        :unique-opened="true"
-        class="el-menu-vertical-demo sidebar"
-        background-color="#304156"
-        text-color="#fff"
-        active-text-color="#ffd04b">
-        <el-submenu index="8">
+      <el-aside class="home_aside"
+                :width="collapse ? '30px' : '300px'">
+        <el-menu style="height: 100%"
+                 router
+                 :collapse="collapse"
+                 :default-active="$route.name"
+                 :unique-opened="true"
+                 class="el-menu-vertical-demo sidebar"
+                 background-color="#304156"
+                 text-color="#fff"
+                 active-text-color="#ffd04b">
+          <el-submenu index="8">
             <template slot="title">
               <i class="el-icon-menu"></i>
               <span>数据导入</span>
@@ -32,7 +32,7 @@
               <span>数据导入</span>
             </el-menu-item>
           </el-submenu>
-          <el-submenu index="1">
+          <!-- <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-menu"></i>
               <span>初始化业务元数据</span>
@@ -47,9 +47,9 @@
               </el-menu-item>
           </el-submenu>
           <el-submenu index="2">
-            <template slot="title">
-              <!--<i class="el-icon-location"></i>-->
-              <i class="el-icon-menu"></i>
+            <template slot="title"> -->
+          <!--<i class="el-icon-location"></i>-->
+          <!-- <i class="el-icon-menu"></i>
               <span>建表</span>
             </template>
             <el-menu-item index="createODSTable">
@@ -62,9 +62,9 @@
             </el-menu-item>
           </el-submenu>
           <el-submenu index="3">
-            <template slot="title">
-              <!--<i class="el-icon-location"></i>-->
-              <i class="el-icon-menu"></i>
+            <template slot="title"> -->
+          <!--<i class="el-icon-location"></i>-->
+          <!-- <i class="el-icon-menu"></i>
               <span>脚本生成</span>
             </template>
             <el-menu-item index="generateODSScript">
@@ -77,9 +77,9 @@
             </el-menu-item>
           </el-submenu>
           <el-submenu index="4">
-            <template slot="title">
-              <!--<i class="el-icon-location"></i>-->
-              <i class="el-icon-menu"></i>
+            <template slot="title"> -->
+          <!--<i class="el-icon-location"></i>-->
+          <!-- <i class="el-icon-menu"></i>
               <span>导出</span>
             </template>
             <el-menu-item index="derive">
@@ -130,7 +130,7 @@
               <i class="el-icon-menu"></i>
               <span>入湖报告</span>
             </el-menu-item>
-          </el-submenu>
+          </el-submenu> -->
         </el-menu>
       </el-aside>
       <el-main class="home_main">
@@ -162,17 +162,16 @@ export default {
 }
 </script>
 <style scoped>
-
 /* .el-icon-arrow-down:before {
   margin-left: 10px
 } */
-.logo{
-  height: 30px
+.logo {
+  height: 30px;
 }
-.home_container{
+.home_container {
   height: 100%;
 }
-.home_header{
+.home_header {
   background: #304156;
   line-height: 60px;
 }
@@ -182,12 +181,12 @@ export default {
 .right {
   float: right;
 }
-.title{
+.title {
   color: #ccc;
   font-size: 15px;
   padding-left: 20px;
 }
 .el-submenu .el-menu-item {
-  min-width: 0
+  min-width: 0;
 }
 </style>

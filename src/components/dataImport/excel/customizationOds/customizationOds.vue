@@ -1,21 +1,31 @@
 <template>
   <div>
+ <el-dialog title="初始化脚本" :visible.sync="showEditor">
+  <quill-editor 
+            v-model="content" 
+            ref="myQuillEditor" 
+            :options="editorOption" 
+            @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
+            @change="onEditorChange($event)">
+      </quill-editor>
+</el-dialog>
     <el-divider></el-divider>
     <el-card>
       <el-row :gutter="20">
         <el-col :span="24">
           <el-steps :active="active" finish-status="success">
             <el-step title="加载入湖清单"></el-step>
-            <el-step title="获取字段信息"></el-step>
-            <el-step title="获取索引信息"></el-step>
-            <el-step title="获取表空间大小"></el-step>
-            <el-step title="ODS备用区建表"></el-step>
-            <el-step title="ODS加载脚本"></el-step>
-            <el-step title="脚本导出"></el-step>
+            <el-step title="数据探源"></el-step>
+            <!-- <el-step title="获取索引信息"></el-step>
+            <el-step title="获取表空间大小"></el-step> -->
+            <el-step title="备用区建表"></el-step>
+            <el-step title="数据初始化"></el-step>
+            <el-step title="调度脚本生成"></el-step>
           </el-steps>
           <!--<el-button style="margin-top: 12px;" @click="next">下一步</el-button>-->
           <el-divider></el-divider>
           <div id="import-excel" v-if="active === 0">
+            <el-button size="mini" type="primary" class="btn" @click="next">下一步</el-button>
             <el-upload
               class="excel-upload"
               drag
@@ -33,7 +43,8 @@
           </div>
           <div v-if="active === 1">
             <el-col :span="24">
-              <el-button size="mini" type="primary" class="btn" @click="getMetaData">获取</el-button>
+              <el-button size="mini" type="primary" class="btn" @click="next">下一步</el-button>
+              <el-button size="mini" type="primary" class="btn" @click="getMetaData">探源</el-button>
               <el-button size="mini" type="primary" class="btn-back" @click="back">上一步</el-button>
             </el-col>
             <el-table
@@ -62,7 +73,7 @@
               <el-table-column :show-overflow-tooltip="true" prop="dataSourceTable" label="表名" ></el-table-column>
             </el-table>
           </div>
-          <div v-if="active === 2">
+          <!-- <div v-if="active === 2">
             <el-col :span="24">
               <el-button size="mini" type="primary" class="btn" @click="getIndexInfo">获取</el-button>
               <el-button size="mini" type="primary" class="btn-back" @click="back">上一步</el-button>
@@ -139,10 +150,20 @@
                 </template>
               </el-table-column>
             </el-table>
-          </div>
-          <div v-if="active === 4">
+          </div> -->
+          <div v-if="active === 2">
             <el-col :span="24">
-              <el-button size="mini" type="primary" class="btn" @click="getODSLoadMode">建表</el-button>
+              <el-button size="mini" type="primary" class="btn" @click="next">下一步</el-button>
+              <el-dropdown class="btn">
+                <span class="el-dropdown-link">
+                  操作<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="getODSLoadMode">生成建表语句</el-dropdown-item>
+                  <el-dropdown-item command="odsInitScript">执行建表语句</el-dropdown-item>
+                  <el-dropdown-item command="odsInitScript">重跑</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
               <el-button size="mini" type="primary" class="btn-back" @click="back">上一步</el-button>
             </el-col>
             <el-table
@@ -190,15 +211,24 @@
                   :type="scope.row.tagCreateType"
                   disable-transitions>{{scope.row.createResult}}
                   </el-tag>
-                </template> -->
-              </el-table-column>
+                </template> 
+              </el-table-column>-->
             </el-table>
           </div>
-          <div v-if="active === 5">
+          <div v-if="active === 3">
             <el-col :span="24">
               <el-button size="mini" type="primary" class="btn" @click="next">下一步</el-button>
-              <el-button size="mini" type="primary" class="btn" @click="createOdsLoad">调度脚本</el-button>
-              <el-button size="mini" type="primary" class="btn" @click="odsInitScript">初始化脚本</el-button>
+              <el-dropdown class="btn">
+                <span class="el-dropdown-link">
+                  操作<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="createOdsLoad">生成初始化脚本</el-dropdown-item>
+                  <el-dropdown-item command="odsInitScript">执行初始化脚本</el-dropdown-item>
+                  <el-dropdown-item command="odsInitScript">重跑初始化脚本</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+              
               <el-button size="mini" type="primary" class="btn-back" @click="back">上一步</el-button>
             </el-col>
             <!-- ref="tableList" -->
@@ -238,7 +268,7 @@
                   </el-tag>
                 </template>
               </el-table-column>
-              <el-table-column :show-overflow-tooltip="true" prop="createResult" label="建表状态"
+              <!-- <el-table-column :show-overflow-tooltip="true" prop="createResult" label="建表状态"
                                :filters="[{ text: '建表成功', value: '建表成功' }, { text: '建表失败', value: '建表失败' }, { text: '无元数据', value: '无元数据' }, { text: '未建表', value: '未建表' }]"
                                :filter-method="filterCrtResult"
                                filter-placement="bottom-end">
@@ -248,13 +278,20 @@
                   disable-transitions>{{scope.row.createResult}}
                   </el-tag>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
             </el-table>
           </div>
-          <div v-if="active === 6 || active === 7">
+          <div v-if="active === 4">
             <el-col :span="24">
-              <el-button size="mini" type="primary" class="btn" @click="exportOdsSchedulScript">导出调度脚本</el-button>
-              <el-button size="mini" type="primary" class="btn" @click="exportOdsInitScript">导出初始化脚本</el-button>
+              <el-dropdown class="btn">
+                <span class="el-dropdown-link">
+                  操作<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="getODSLoadMode">生成调度脚本</el-dropdown-item>
+                  <el-dropdown-item command="exportOdsSchedulScript">导出调度脚本</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
               <el-button size="mini" type="primary" class="btn-back" @click="back">上一步</el-button>
             </el-col>
             <el-table

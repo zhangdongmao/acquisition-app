@@ -24,13 +24,23 @@ export default {
     // 查询
     async search () {
       this.reqParams.query = []
-      this.reqParams.query = this.value;
-      console.log(this.value,this.reqParams.query)
+      this.reqParams.query = this.value
+      console.log(this.value, this.reqParams.query)
       const {data: {data, msg, code}} = await this.$http.post('/getSourceMetaData/getSchemaByFilter',this.reqParams)
       if (code !== 200) return this.$message.error(msg)
       this.tableList = data.list
       this.total = data.total
     },
+<<<<<<< HEAD
+=======
+    async setValue (param) {
+      if (param.length === 0) {
+        return
+      }
+      this.value = param
+      this.search()
+    },
+>>>>>>> 3519c60cb25647029ac3dc0567d4c4c2a5df508d
     // 获取状态
     async getStatus () {
       const loading = this.$loading({

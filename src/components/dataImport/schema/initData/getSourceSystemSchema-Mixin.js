@@ -1,7 +1,7 @@
 
 export default {
   name: 'GetSourceSystemSchema',
-  data () {
+  data() {
     return {
       reqParams: {
         pagenum: 1,
@@ -17,8 +17,8 @@ export default {
   },
   methods: {
     // 获取列表数据
-    async getData () {
-      const {data: {data, code}} = await this.$http.get('/getSourceMetaData/getDataInfo', {
+    async getData() {
+      const { data: { data, code } } = await this.$http.get('/getSourceMetaData/getDataInfo', {
         params: this.reqParams
       })
       if (code !== 200) return this.$message.error('获取数据失败')
@@ -26,32 +26,39 @@ export default {
       this.total = data.total
     },
     // 获取状态
-    async getStatus (row) {
+    async getStatus(row) {
       const loading = this.$loading({
         lock: true,
         text: '正在获取...',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       });
-      const {data: {code, msg}} = await this.$http.post('/getSourceMetaData/getConnection',this.multipleSelection)
-      console.log(code,msg)
+      const { data: { code, msg } } = await this.$http.post('/getSourceMetaData/getConnection', this.multipleSelection)
+      console.log(code, msg)
       loading.close()
+<<<<<<< HEAD
       if (code !== 200) return this.$message.error(msg)
       this.multipleSelection = []
       this.$message.success(msg)
       this.getData()
+=======
+      if (code !== 200) {
+        this.$message.error(msg)
+      }
+      return { code: code, data: this.multipleSelection }
+>>>>>>> 3519c60cb25647029ac3dc0567d4c4c2a5df508d
     },
     // 选中项
-    handleSelectionChange (val) {
+    handleSelectionChange(val) {
       this.multipleSelection = val
     },
     // 切换页码
-    changePager (newPage) {
+    changePager(newPage) {
       this.reqParams.pagenum = newPage
       this.getData()
     }
   },
-  mounted () {
+  mounted() {
     this.getData()
   }
 }

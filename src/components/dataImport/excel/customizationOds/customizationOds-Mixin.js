@@ -1,4 +1,8 @@
-import axios from "axios";
+import axios from 'axios'
+import { quillEditor } from 'vue-quill-editor' // 调用编辑器
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 export default {
   name: 'Customization',
@@ -6,13 +10,28 @@ export default {
     return {
       active: 0,
       tableList: [],
+      content: '',
+      showEditor: false,
+      editorOption: {},
       upload_url: axios.defaults.baseURL + '/convertMetadata/uploadExcel'
     }
   },
-  mounted () {
+  components: {
+    quillEditor
+  },
+  mounted() {
 
   },
+  computed: {
+    editor() {
+      return this.$refs.myQuillEditor.quill;
+    }
+  },
   methods: {
+    onEditorReady(editor) { }, // 准备编辑器
+    onEditorBlur() { }, // 失去焦点事件
+    onEditorFocus() { }, // 获得焦点事件
+    onEditorChange() { }, // 内容改变事件
     async getMetaData () {
       let indexs = []
       if (this.multipleSelection && this.multipleSelection.length > 0) {
