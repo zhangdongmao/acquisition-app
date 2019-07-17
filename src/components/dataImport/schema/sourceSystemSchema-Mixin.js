@@ -34,25 +34,13 @@ export default {
         this.$message.warning('请勾选相应表名')
         return
       }
-      const loading = this.$loading({
-        lock: true,
-        text: '正在获取...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
+      const loading = this.getLoading('正在获取...')
       const { data: { code, msg } } = await this.$http.post('/getSourceMetaData/getConnection', this.multipleSelection)
       console.log(code, msg)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
       this.$message.success(msg)
       await this.getData()
-      var indexs = []
-      this.tableList.forEach(item => {
-        if (item.status === '1') {
-          indexs.push(item.index)
-        }
-      })
-      this.defaultCheck(indexs)
     },
     // 选中项
     handleSelectionChange (val) {
@@ -72,6 +60,14 @@ export default {
     changePager (newPage) {
       this.reqParams.pagenum = newPage
       this.getData()
+    },
+    getLoading (text) {
+      return this.$loading({
+        lock: true,
+        text: text,
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
     }
   },
   mounted () {

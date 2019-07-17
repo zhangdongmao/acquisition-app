@@ -20,20 +20,20 @@
           </template>
         </el-table-column>
       </el-table>
-      <!-- 分页 -->
+      <!-- 分页
       <el-pagination background
                      @current-change="changePager"
                      :page-size="reqParams.pagesize"
                      :current-page="reqParams.pagenum"
                      layout="prev, pager, next"
                      :total="total">
-      </el-pagination>
+      </el-pagination>-->
     </el-card>
   </div>
 </template>
 
 <script>
-import mixin from './getSourceSystemSchema-Mixin'
+import mixin from './sourceSystemSchema-Mixin'
 export default {
   mixins: [mixin]
 }

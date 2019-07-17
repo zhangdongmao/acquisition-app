@@ -35,10 +35,11 @@ export default {
     // 初始化页面值
     async setValue (params) {
       let _this = this
-      console.log(params)
       let tableData = params.tableList
+      // 执行脚本状态 生成脚本状态
       tableData.forEach(item => {
-        item.executeStatus = 'none'
+        item.executeScriptStatus = 'none'
+        item.createScriptStatus = 'none'
       })
       _this.tableList = tableData
       _this.total = params.tatal
@@ -46,9 +47,7 @@ export default {
       await params.multipleSelection.forEach(item => {
         indexs.push(item.index)
       })
-      indexs.forEach(index => {
-        this.$refs.multipleTable.toggleRowSelection(this.tableList[index], true)
-      })
+      this.defaultCheck(indexs)
     },
     // 生成初始化脚本
     async  initOdsLoad () {
@@ -56,17 +55,33 @@ export default {
         this.$message.warning('请勾选相应表名')
         return
       }
-      const loading = this.$loading({
-        lock: true,
-        text: '正在生成初始化脚本...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
+      let flag = false
+      // 判断是否存在未生成初始化脚本的表
+      this.multipleSelection.forEach(item => {
+        if (item.odsDataLoadMode !== 'success') {
+          flag = true
+        }
       })
-      const { data: { data, code, msg } } = await this.$http.post('/generateScript/initOdsLoad', this.multipleSelection)
+      if (flag) {
+        this.$message.warning('存在上一步未成功的数据')
+        return
+      }
+
+      const loading = this.getLoading('正在生成初始化脚本...')
+      const { data: { data, code, msg } } =
+        await this.$http.post('/generateScript/initOdsLoad', this.multipleSelection)
       console.log(code, msg)
       loading.close()
+
       if (code !== 200) return this.$message.error(msg)
       this.$message.success(msg)
+
+      for (let i = 0; i < this.multipleSelection.length; i++) {
+        let index = this.multipleSelection[i].index
+        let row = this.tableList[index]
+        row.createScriptState = 'success'
+        this.tableList.splice(index, 1, row)
+      }
     },
     // 执行初始化脚本
     async execDispatchCommand () {
@@ -74,13 +89,21 @@ export default {
         this.$message.warning('请勾选相应表名')
         return
       }
-      const loading = this.$loading({
-        lock: true,
-        text: '正在执行初始化脚本...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
+      let flag = false
+      // 判断是否存在未生成初始化脚本的表
+      this.multipleSelection.forEach(item => {
+        if (item.createScriptStatus !== 'success') {
+          flag = true
+        }
       })
-      const { data: { data, code, msg } } = await this.$http.post('/executeScript/execDispatchCommand', this.multipleSelection)
+      if (flag) {
+        this.$message.warning('存在上一步未成功的数据')
+        return
+      }
+
+      const loading = this.getLoading('正在执行初始化脚本...')
+      const { data: { data, code, msg } } =
+        await this.$http.post('/executeScript/execDispatchCommand', this.multipleSelection)
       console.log(code, msg)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
@@ -89,27 +112,23 @@ export default {
     },
     // 获取执行脚本后的状态
     async viewSqoopStatus () {
-      const loading = this.$loading({
-        lock: true,
-        text: '正在获取执行脚本后的状态...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
+      const loading = this.getLoading('正在获取执行脚本后的状态...')
       let params = []
       for (let i = 0; i < this.multipleSelection.length; i++) {
         params.push(this.multipleSelection[i].odsDataTable)
       }
-
       const { data: { data, code, msg } } = await this.$http.post('/executeScript/viewSqoopStatus', params)
       loading.close()
       if (code === 200) {
-        for (let i = 0; i < this.tableList.length; i++) {
-          let row = this.tableList[i]
+        for (let i = 0; i < this.multipleSelection.length; i++) {
+          let oldOdsDataTable = this.multipleSelection[i].odsDataTable
+          let index = this.multipleSelection[i].index
+          let row = this.tableList[index]
           for (let j = 0; j < data.length; j++) {
             let row2 = data[j]
-            if (row.odsDataTable === row2.odsDataTable) {
-              row.executeStatus = row2.status
-              this.tableList.splice(this.tableList[i].index, 1, row)
+            if (oldOdsDataTable === row2.odsDataTable) {
+              row.executeScriptStatus = row2.status
+              this.tableList.splice(index, 1, row)
             }
           }
         }
@@ -156,10 +175,11 @@ export default {
       this.$message.success(msg)
       this.handleClose()
     },
-    toggleSelection (rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row)
+    // 默认勾选源库中存在的表
+    defaultCheck (indexs) {
+      if (indexs) {
+        indexs.forEach(index => {
+          this.$refs.multipleTable.toggleRowSelection(this.tableList[index], true)
         })
       } else {
         this.$refs.multipleTable.clearSelection()
@@ -186,6 +206,14 @@ export default {
     },
     formReset () {
       this.dialog.context = this.dialog.sourceData.context
+    },
+    getLoading (text) {
+      return this.$loading({
+        lock: true,
+        text: text,
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
     }
   },
   mounted () {
