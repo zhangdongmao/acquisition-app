@@ -30,9 +30,19 @@
         <el-table-column :show-overflow-tooltip="true"
                          prop="odsDataTable"
                          label="ODS表名"></el-table-column>
-        <el-table-column :show-overflow-tooltip="true"
-                         prop="odsDataLoadMode"
-                         label="加载策略"></el-table-column>
+        <el-table-column label="加载策略">
+          <template slot-scope="scope">
+            <p v-if="scope.row.odsDataLoadMode == 'full'">
+              全量
+            </p>
+            <p v-else-if="scope.row.odsDataLoadMode == 'increment'">
+              增量
+            </p>
+            <p v-else-if="scope.row.odsDataLoadMode == 'none'">
+              未定义
+            </p>
+          </template>
+        </el-table-column>
 
         <el-table-column label="建表状态">
           <template slot-scope="scope">
@@ -51,6 +61,7 @@
 
           <template slot-scope="{row}">
             <el-button type="text"
+                       v-if="row.odsDataLoadMode != 'none'"
                        @click="view(row); dialog.ifModify = 1">编辑</el-button>
           </template>
 
@@ -81,13 +92,15 @@
                     :disabled="dialog.ifModify == 0"
                     v-model="dialog.fullContext"></el-input>
         </el-tab-pane>
-        <el-tab-pane label="增量"
-                     name="second">
-          <el-input type="textarea"
-                    rows="15"
-                    :disabled="dialog.ifModify == 0"
-                    v-model="dialog.incrementContext"></el-input>
-        </el-tab-pane>
+        <template v-if="dialog.ifIncrement == 1">
+          <el-tab-pane label="增量"
+                       name="second">
+            <el-input type="textarea"
+                      rows="15"
+                      :disabled="dialog.ifModify == 0"
+                      v-model="dialog.incrementContext"></el-input>
+          </el-tab-pane>
+        </template>
       </el-tabs>
 
       <span slot="footer"

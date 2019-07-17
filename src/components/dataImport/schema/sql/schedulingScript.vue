@@ -23,9 +23,19 @@
         <el-table-column :show-overflow-tooltip="true"
                          prop="odsDataTable"
                          label="ODS表名"></el-table-column>
-        <el-table-column :show-overflow-tooltip="true"
-                         prop="odsDataLoadMode"
-                         label="加载策略"></el-table-column>
+        <el-table-column label="加载策略">
+          <template slot-scope="scope">
+            <p v-if="scope.row.odsDataLoadMode=='full'">
+              全量
+            </p>
+            <p v-else-if="scope.row.odsDataLoadMode=='increment'">
+              增量
+            </p>
+            <p v-else-if="scope.row.odsDataLoadMode=='none'">
+              未定义
+            </p>
+          </template>
+        </el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination background
@@ -40,7 +50,7 @@
 </template>
 
 <script>
-import mixin from './generateScript-Mixin'
+import mixin from './schedulingScript-Mixin'
 export default {
   mixins: [mixin]
 }

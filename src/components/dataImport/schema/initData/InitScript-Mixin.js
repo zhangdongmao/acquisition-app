@@ -36,39 +36,26 @@ export default {
     async setValue (params) {
       let _this = this
       console.log(params)
-      params.tableList.forEach(item => {
+      let tableData = params.tableList
+      tableData.forEach(item => {
         item.executeStatus = 'none'
       })
-      _this.tableList = params.tableList
-      _this.total = params.tableList.length
+      _this.tableList = tableData
+      _this.total = params.tatal
       var indexs = []
       await params.multipleSelection.forEach(item => {
-        console.log(item)
         indexs.push(item.index)
       })
-      // console.log(indexs)
       indexs.forEach(index => {
         this.$refs.multipleTable.toggleRowSelection(this.tableList[index], true)
       })
-      // this.$refs.multipleTable.clearSelection()
-      //  this.toggleSelection(params.multipleSelection)
     },
-    // async setValue (params) {
-    //   let _this = this
-    //   let tableData = params.tableList
-    //   tableData.forEach(function (c) {
-    //     c.executeStatus = 'none'
-    //   })
-    //   // _this.tableList = tableData
-    //   _this.tableList = params.tableList
-    //   _this.total = params.tableList.length
-
-    //   // this.toggleSelection(params.multipleSelection)
-    //   // this.$refs.multipleTable.clearSelection()
-    //   // this.toggleSelection(params.multipleSelection)
-    // },
     // 生成初始化脚本
     async  initOdsLoad () {
+      if (this.multipleSelection.length === 0) {
+        this.$message.warning('请勾选相应表名')
+        return
+      }
       const loading = this.$loading({
         lock: true,
         text: '正在生成初始化脚本...',
@@ -83,6 +70,10 @@ export default {
     },
     // 执行初始化脚本
     async execDispatchCommand () {
+      if (this.multipleSelection.length === 0) {
+        this.$message.warning('请勾选相应表名')
+        return
+      }
       const loading = this.$loading({
         lock: true,
         text: '正在执行初始化脚本...',
@@ -110,7 +101,6 @@ export default {
       }
 
       const { data: { data, code, msg } } = await this.$http.post('/executeScript/viewSqoopStatus', params)
-      console.log(code, msg)
       loading.close()
       if (code === 200) {
         for (let i = 0; i < this.tableList.length; i++) {
@@ -170,7 +160,6 @@ export default {
       if (rows) {
         rows.forEach(row => {
           this.$refs.multipleTable.toggleRowSelection(row)
-          //  this.$refs.multipleTable.toggleRowSelection(row, true)
         })
       } else {
         this.$refs.multipleTable.clearSelection()
@@ -200,6 +189,6 @@ export default {
     }
   },
   mounted () {
-    this.$refs.multipleTable.clearSelection()
+
   }
 }
