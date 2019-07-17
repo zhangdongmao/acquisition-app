@@ -41,7 +41,7 @@
             <p v-else-if="scope.row.executeStatus=='running'">
               正在执行
             </p>
-            <p v-else-if="scope.row.executeStatus=='running'">
+            <p v-else-if="scope.row.executeStatus=='waiting'">
               等待
             </p>
           </template>
