@@ -36,7 +36,7 @@ export default {
       if (code !== 200) return this.$message.error(msg)
       data.forEach(item => {
         this.selectList.push({ label: item, value: item })
-      });
+      })
       console.log(this.selectList)
     },
     // 查询
@@ -56,18 +56,40 @@ export default {
         text: '正在初始化脚本...',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
-      });
+      })
       const { data: { code, msg } } = await this.$http.post('/generateScript/generateSqoopScript', {
         params: this.multipleSelection
       })
       console.log(code, msg)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
-      this.$message.success(msg);
+      this.$message.success(msg)
       if (this.reqParams.query.length !== 0) {
         this.search()
       } else {
         this.getData()
+      }
+    },
+    setValue (val) {
+      if (val != null) {
+        var _this = this
+        var indexs = []
+        _this.tableList = val.tableList
+        val.multipleSelection.forEach(item => {
+          indexs.push(item.index)
+        })
+        this.defaultCheck(indexs)
+      }
+    },
+    // 默认勾选源库中存在的表
+    defaultCheck (indexs) {
+      if (indexs) {
+        indexs.forEach(index => {
+          console.log(index)
+          this.$refs.multipleTable.toggleRowSelection(this.tableList[index], true)
+        })
+      } else {
+        this.$refs.multipleTable.clearSelection()
       }
     },
     // 选中项

@@ -143,11 +143,21 @@ export default {
         }
 
         _this.$refs.myComponentsInitData.setValue(params)
-        _this.$refs.myComponentsInitData.multipleSelection = multipleSelection
+        // _this.$refs.myComponentsInitData.multipleSelection = multipleSelection
         return
       }
+
       if (this.active == 3) {
+        let multipleSelection = _this.$refs.myComponentsInitData.multipleSelection
         _this.active++
+
+        let params = {
+          total: _this.$refs.myComponentsInitData.total,
+          tableList: _this.$refs.myComponentsInitData.tableList,
+          multipleSelection: multipleSelection
+        }
+        _this.$refs.myComponentsGenerateScript.setValue(params)
+        // _this.$refs.myComponentsInitData.multipleSelection = multipleSelection
       }
     },
     back () {
