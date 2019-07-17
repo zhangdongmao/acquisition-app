@@ -16,6 +16,7 @@ const Presentation = () => import('@/components/presentation/Presentation')
 const CustomizationGetTabColInfo = () => import('@/components/customizationInitData/getTabColInfo')
 const CustomizationOds = () => import('@/components/customizationOds/customizationOds')
 const CustomizationDw = () => import('@/components/customizationDw/customizationDw')
+const DwGenerateScript = () => import('@/components/dwGenerateScript/dwGenerateScript')
 
 Vue.use(Router)
 
@@ -40,7 +41,8 @@ export default new Router({
         { path: '/customizationGetTabColInfo', name: 'customizationGetTabColInfo', component: CustomizationGetTabColInfo },
         { path: '/customizationOds', name: 'customizationOds', component: CustomizationOds },
         { path: '/customizationDw', name: 'customizationDw', component: CustomizationDw },
-        { path: '/dwModelDesign', name: 'dwModelDesign', component: DwModelDesign }
+        { path: '/dwModelDesign', name: 'dwModelDesign', component: DwModelDesign },
+        { path: '/dwGenerateScript', name: 'dwGenerateScript', component: DwGenerateScript }
       ]
     }
   ]

@@ -29,7 +29,11 @@
             </template>
             <el-menu-item index="dataImport">
               <i class="el-icon-menu"></i>
-              <span>数据导入</span>
+              <span>ODS数据导入</span>
+            </el-menu-item>
+            <el-menu-item index="dwGenerateScript">
+              <i class="el-icon-menu"></i>
+              <span>DW数据导入</span>
             </el-menu-item>
           </el-submenu>
           <!-- <el-submenu index="1">

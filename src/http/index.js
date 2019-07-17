@@ -12,7 +12,7 @@ import axios from 'axios'
 var baseURL
 if (process.env.NODE_ENV === 'development') {
   baseURL = 'http://localhost:6269' // 开发
- // baseURL = 'http://10.30.140.77:6269' // 开发
+  // baseURL = 'http://10.30.140.77:6269' // 开发
   // baseURL = 'http://10.30.138.173:6269' // 入湖报告
   // baseURL = 'http://10.30.140.139:6269' // 入湖总览
 } else if (process.env.NODE_ENV === 'testing') {

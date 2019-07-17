@@ -56,15 +56,16 @@ export default {
         this.$message.warning('请勾选相应表名')
         return
       }
-      const loading = this.$loading({
-        lock: true,
-        text: '正在生成初始化脚本...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
+      // const loading = this.$loading({
+      //   lock: true,
+      //   text: '正在生成初始化脚本...',
+      //   spinner: 'el-icon-loading',
+      //   background: 'rgba(0, 0, 0, 0.7)'
+      // })
+      console.log(this.multipleSelection)
       const { data: { data, code, msg } } = await this.$http.post('/generateScript/initOdsLoad', this.multipleSelection)
       console.log(code, msg)
-      loading.close()
+      // loading.close()
       if (code !== 200) return this.$message.error(msg)
       this.$message.success(msg)
     },

@@ -62,6 +62,7 @@ export default {
         this.$message.warning('请勾选相应表名')
         return
       }
+      console.log(this.multipleSelection, 'aasdsad')
       const loading = this.$loading({
         lock: true,
         text: '正在导出调度脚本...',
