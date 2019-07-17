@@ -35,6 +35,10 @@ export default {
     },
     // 获取状态
     async getStatus () {
+      if (this.multipleSelection.length === 0) {
+        this.$message.warning('请勾选相应表名')
+        return
+      }
       const loading = this.$loading({
         lock: true,
         text: '正在获取...',

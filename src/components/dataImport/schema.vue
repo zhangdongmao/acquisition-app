@@ -80,10 +80,10 @@
               <ComponentsCreateTable ref="myComponentsCreateTable" />
             </div>
             <div v-show="active == 3">
-              <ComponentsInitData ref="myComponentsInitData" />
+              <ComponentsInitScript ref="myComponentsInitScript" />
             </div>
             <div v-show="active == 4">
-              <ComponentsGenerateScript ref="myComponentsGenerateScript" />
+              <ComponentsSchedulingScript ref="myComponentsSchedulingScript" />
             </div>
           </el-col>
         </el-col>
@@ -96,8 +96,8 @@
 import ComponentsSourceSystemSchema from './schema/initData/getSourceSystemSchema'
 import ComponentsTabColInfo from './schema/initData/getTabColInfo'
 import ComponentsCreateTable from './schema/createTable/createTable'
-import ComponentsGenerateScript from './schema/sql/generateScript'
-import ComponentsInitData from './schema/initData/initData'
+import ComponentsSchedulingScript from './schema/sql/schedulingScript'
+import ComponentsInitScript from './schema/initData/InitScript'
 
 export default {
   data () {
@@ -109,8 +109,8 @@ export default {
     ComponentsSourceSystemSchema,
     ComponentsTabColInfo,
     ComponentsCreateTable,
-    ComponentsGenerateScript,
-    ComponentsInitData
+    ComponentsInitScript,
+    ComponentsSchedulingScript
   },
   methods: {
     next () {
@@ -132,71 +132,69 @@ export default {
         _this.$refs.myComponentsCreateTable.setValue(params)
         return
       }
-      if (this.active == 2) {
-        let multipleSelection = _this.$refs.myComponentsCreateTable.multipleSelection
+      if (this.active === 2) {
         _this.active++
-
         var params = {
           total: _this.$refs.myComponentsCreateTable.total,
           tableList: _this.$refs.myComponentsCreateTable.tableList,
-          multipleSelection: multipleSelection
+          multipleSelection: _this.$refs.myComponentsCreateTable.multipleSelection
         }
-
-        _this.$refs.myComponentsInitData.setValue(params)
-        // _this.$refs.myComponentsInitData.multipleSelection = multipleSelection
+        _this.$refs.myComponentsInitScript.setValue(params)
         return
       }
 
-      if (this.active == 3) {
-        let multipleSelection = _this.$refs.myComponentsInitData.multipleSelection
+      if (this.active === 3) {
         _this.active++
-
         let params = {
-          total: _this.$refs.myComponentsInitData.total,
-          tableList: _this.$refs.myComponentsInitData.tableList,
-          multipleSelection: multipleSelection
+          total: _this.$refs.myComponentsInitScript.total,
+          tableList: _this.$refs.myComponentsInitScript.tableList,
+          multipleSelection: _this.$refs.myComponentsInitScript.multipleSelection
         }
-        _this.$refs.myComponentsGenerateScript.setValue(params)
-        // _this.$refs.myComponentsInitData.multipleSelection = multipleSelection
+        _this.$refs.myComponentsSchedulingScript.setValue(params)
       }
     },
     back () {
-      if (this.active-- == 0) this.active = 0
+      if (this.active-- === 0) this.active = 0
     },
     getStatus (param) {
-      if (param == 0) {
+      if (param === 0) {
         this.$refs.myComponentsSourceSystemSchema.getStatus()
       }
-      if (param == 1) {
+      if (param === 1) {
         this.$refs.myComponentsTabColInfo.getStatus()
       }
     },
     handleCommand (command) {
       // 校验规则
-      if (command == 'getODSLoadMode') {
+      if (command === 'getODSLoadMode') {
         this.$refs.myComponentsCreateTable.getODSLoadMode()
       }
       // 执行建表语句
-      if (command == 'odsCreateTable') {
+      if (command === 'odsCreateTable') {
         this.$refs.myComponentsCreateTable.odsCreateTable()
       }
       // 生成初始化脚本
-      if (command == 'initOdsLoad') {
-        this.$refs.myComponentsInitData.initOdsLoad()
+      if (command === 'initOdsLoad') {
+        this.$refs.myComponentsInitScript.initOdsLoad()
       }
       // 执行初始化脚本
-      if (command == 'execDispatchCommand') {
-        this.$refs.myComponentsInitData.execDispatchCommand()
+      if (command === 'execDispatchCommand') {
+        this.$refs.myComponentsInitScript.execDispatchCommand()
       }
       // 生成调度脚本
-      if (command == 'createOdsSchedulScript') {
-        this.$refs.myComponentsCreateTable.createOdsSchedulScript()
+      if (command === 'createOdsSchedulScript') {
+        this.$refs.myComponentsSchedulingScript.generate()
       }
       // 导出调度脚本
-      if (command == 'exportOdsSchedulScript') {
-        this.$refs.myComponentsCreateTable.exportOdsSchedulScript()
+      if (command === 'exportOdsSchedulScript') {
+        this.$refs.myComponentsSchedulingScript.exportFile()
       }
     },
+    // eslint-disable-next-line no-dupe-keys
+    // eslint-disable-next-line vue/no-dupe-keys
+    // eslint-disable-next-line no-dupe-keys
+    // eslint-disable-next-line vue/no-dupe-keys
+    // eslint-disable-next-line no-dupe-keys
     back () {
       if (this.active-- === 0) this.active = 0
     }
