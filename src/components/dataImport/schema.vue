@@ -122,7 +122,6 @@ export default {
         for (var i = 0; i < params.length; i++) {
           params2.push(params[i].business_system_name_short_name)
         };
-        console.log('aa', params2)
         _this.$refs.myComponentsTabColInfo.setValue(params2)
         return
       }

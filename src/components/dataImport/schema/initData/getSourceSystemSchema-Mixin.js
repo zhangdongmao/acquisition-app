@@ -21,8 +21,10 @@ export default {
       const { data: { data, code } } = await this.$http.get('/getSourceMetaData/getDataInfo', {
         params: this.reqParams
       })
-      console.log(data)
       if (code !== 200) return this.$message.error('获取数据失败')
+      for (let i = 0; i < data.list.length; i++) {
+        data.list[i].index = i
+      }
       this.tableList = data.list
       this.total = data.total
     },
@@ -38,13 +40,29 @@ export default {
       console.log(code, msg)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
-      this.multipleSelection = []
       this.$message.success(msg)
-      this.getData()
+      await this.getData()
+      var indexs = []
+      this.tableList.forEach(item => {
+        if (item.status === '1') {
+          indexs.push(item.index)
+        }
+      })
+      this.defaultCheck(indexs)
     },
     // 选中项
     handleSelectionChange (val) {
       this.multipleSelection = val
+    },
+    // 默认勾选源库中存在的表
+    defaultCheck (indexs) {
+      if (indexs) {
+        indexs.forEach(index => {
+          this.$refs.tableList.toggleRowSelection(this.tableList[index], true)
+        })
+      } else {
+        this.$refs.tableList.clearSelection()
+      }
     },
     // 切换页码
     changePager (newPage) {

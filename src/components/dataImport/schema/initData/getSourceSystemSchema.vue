@@ -7,6 +7,7 @@
       <el-table height="387"
                 @selection-change="handleSelectionChange"
                 :data="tableList"
+                ref="tableList"
                 style="width: 100%">
         <el-table-column type="selection"
                          width="55"></el-table-column>

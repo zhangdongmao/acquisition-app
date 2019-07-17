@@ -12,6 +12,7 @@
                 height="387"
                 :data="tableList"
                 style="width: 100%"
+                ref="tableList"
                 @selection-change="handleSelectionChange">
         <el-table-column type="selection"
                          width="55">
@@ -33,7 +34,7 @@
                          prop="odsDataLoadMode"
                          label="加载策略"></el-table-column>
 
-        <el-table-column label="执行状态">
+        <el-table-column label="建表状态">
           <template slot-scope="scope">
             <p v-if="scope.row.executeStatus=='none'">
               未执行

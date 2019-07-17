@@ -41,18 +41,18 @@ export default {
     async search () {
       this.reqParams.query = []
       this.reqParams.query = this.value
-      console.log(this.reqParams, 'aaaa')
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/getDataSourceTabInfoBySysSortNameAndDataSourceSchemas', this.reqParams)
       if (code !== 200) return this.$message.error(msg)
       console.log(data)
       this.tableList = data.list
-      this.tableList.forEach(function (item) {
-        item.executeStatus = 'none'
-      })
+      for (let i = 0; i < this.tableList.length; i++) {
+        this.tableList[i].executeStatus = 'none'
+        this.tableList[i].index = i
+        this.tableList[i].odsDataLoadMode = '未定义'
+      }
     },
     async setValue (val) {
       if (val != null) {
-        // console.log(val, 'aaa')
         this.value = val
         this.search()
       }
@@ -91,25 +91,27 @@ export default {
       })
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/selectOdsLoadMode',
         this.multipleSelection)
-
-      for (let i = 0; i < this.tableList.length; i++) {
-        let row = this.tableList[i]
-        for (let j = 0; j < data.length; j++) {
-          let row2 = data[j]
-          if (row.businessSystemNameShortName == row2.businessSystemNameShortName &&
-            row.dataSourceSchema == row2.dataSourceSchema &&
-            row.dataSourceTable == row2.dataSourceTable) {
-            row.odsDataTable = row2.odsDataTable
-            if (row2.odsDataLoadMode == 'full') {
-              row.odsDataLoadMode = '全量'
-            }
-            if (row2.odsDataLoadMode == 'increment') {
-              row.odsDataLoadMode = '增量'
-            }
-            this.tableList.splice(this.tableList[i].index, 1, row)
-          }
-        }
+      var indexs = []
+      console.log(data)
+      for (let i = 0; i < data.length; i++) {
+        data[i].executeStatus = 'none'
+        data[i].index = this.multipleSelection[i].index
+        this.tableList.splice(this.multipleSelection[i].index, 1, data[i])
+        indexs.push(this.multipleSelection[i].index)
       }
+      console.log(this.tableList, 'asdfa')
+      this.tableList.forEach(item => {
+        if (item.odsDataLoadMode) {
+          if (item.odsDataLoadMode === 'full') {
+            item.odsDataLoadMode = '全量'
+          } else if (item.odsDataLoadMode === 'increment') {
+            item.odsDataLoadMode = '增量'
+          }
+        } else {
+          item.odsDataLoadMode = '未定义'
+        }
+      })
+      this.defaultCheck(indexs)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
     },
@@ -130,29 +132,38 @@ export default {
     },
     // 执行ods建表语句
     async odsCreateTable () {
-      const loading = this.$loading({
-        lock: true,
-        text: '正在建表...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
-      const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/createOdsTable', this.multipleSelection)
-      console.log(code, msg)
-      for (let i = 0; i < this.tableList.length; i++) {
-        let row = this.tableList[i]
-        for (let j = 0; j < data.length; j++) {
-          let row2 = data[j]
-          if (row.businessSystemNameShortName == row2.businessSystemNameShortName &&
-            row.dataSourceSchema == row2.dataSourceSchema &&
-            row.dataSourceTable == row2.dataSourceTable) {
-            row.executeStatus = row2.result
-            this.tableList.splice(this.tableList[i].index, 1, row)
-          }
+      var flag = false
+      // 判断是否存在未生成建表语句的表
+      this.multipleSelection.forEach(item => {
+        if (!item.odsDataLoadMode || item.odsDataLoadMode == '未定义') {
+          flag = true
         }
+      })
+      // 若都已生成过建表语句，则可以建表
+      if (!flag) {
+        const loading = this.$loading({
+          lock: true,
+          text: '正在建表...',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        })
+        console.log(this.multipleSelection)
+        const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/createOdsTable', this.multipleSelection)
+        console.log(code, msg)
+        console.log(data)
+        // 更新建表状态
+        for (let i = 0; i < data.length; i++) {
+          console.log(this.multipleSelection[i].index, 'index')
+          this.tableList[this.multipleSelection[i].index].executeStatus = data[i].result
+        }
+
+        console.log(this.tableList)
+        loading.close()
+        if (code !== 200) return this.$message.error(msg)
+        this.$message.success(msg)
+      } else {
+        this.$message.warning('存在未生成建表语句的表')
       }
-      loading.close()
-      if (code !== 200) return this.$message.error(msg)
-      this.$message.success(msg)
     },
     async view (row, modify) {
       this.dialog.visible = false
@@ -195,6 +206,17 @@ export default {
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/updateOdsTable', submitData)
       if (code !== 200) return this.$message.error(msg)
       this.$message.success(msg)
+    },
+    // 默认勾选源库中存在的表
+    defaultCheck (indexs) {
+      if (indexs) {
+        indexs.forEach(index => {
+          console.log(index)
+          this.$refs.tableList.toggleRowSelection(this.tableList[index], true)
+        })
+      } else {
+        this.$refs.tableList.clearSelection()
+      }
     },
     // 选中项
     handleSelectionChange (val) {

@@ -35,8 +35,14 @@
             <p v-else-if="scope.row.executeStatus=='failed'">
               失败
             </p>
-            <p v-else-if="scope.row.executeStatus=='success'">
+            <p v-else-if="scope.row.executeStatus=='completed'">
               成功
+            </p>
+            <p v-else-if="scope.row.executeStatus=='running'">
+              正在执行
+            </p>
+            <p v-else-if="scope.row.executeStatus=='running'">
+              等待
             </p>
           </template>
         </el-table-column>

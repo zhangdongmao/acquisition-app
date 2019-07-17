@@ -35,11 +35,38 @@ export default {
     // 初始化页面值
     async setValue (params) {
       let _this = this
+      console.log(params)
+      params.tableList.forEach(item => {
+        item.executeStatus = 'none'
+      })
       _this.tableList = params.tableList
-      _this.total = params.multipleSelection.length
+      _this.total = params.tableList.length
+      var indexs = []
+      await params.multipleSelection.forEach(item => {
+        console.log(item)
+        indexs.push(item.index)
+      })
+      // console.log(indexs)
+      indexs.forEach(index => {
+        this.$refs.multipleTable.toggleRowSelection(this.tableList[index], true)
+      })
       // this.$refs.multipleTable.clearSelection()
-      this.toggleSelection(params.multipleSelection)
+      //  this.toggleSelection(params.multipleSelection)
     },
+    // async setValue (params) {
+    //   let _this = this
+    //   let tableData = params.tableList
+    //   tableData.forEach(function (c) {
+    //     c.executeStatus = 'none'
+    //   })
+    //   // _this.tableList = tableData
+    //   _this.tableList = params.tableList
+    //   _this.total = params.tableList.length
+
+    //   // this.toggleSelection(params.multipleSelection)
+    //   // this.$refs.multipleTable.clearSelection()
+    //   // this.toggleSelection(params.multipleSelection)
+    // },
     // 生成初始化脚本
     async  initOdsLoad () {
       const loading = this.$loading({
@@ -66,6 +93,7 @@ export default {
       console.log(code, msg)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
+      this.viewSqoopStatus()
       this.$message.success(msg)
     },
     // 获取执行脚本后的状态
@@ -76,7 +104,12 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       })
-      const { data: { data, code, msg } } = await this.$http.post('/executeScript/viewSqoopStatus', this.multipleSelection)
+      let params = []
+      for (let i = 0; i < this.multipleSelection.length; i++) {
+        params.push(this.multipleSelection[i].odsDataTable)
+      }
+
+      const { data: { data, code, msg } } = await this.$http.post('/executeScript/viewSqoopStatus', params)
       console.log(code, msg)
       loading.close()
       if (code === 200) {
@@ -84,10 +117,8 @@ export default {
           let row = this.tableList[i]
           for (let j = 0; j < data.length; j++) {
             let row2 = data[j]
-            if (row.businessSystemNameShortName == row2.businessSystemNameShortName &&
-              row.dataSourceSchema == row2.dataSourceSchema &&
-              row.dataSourceTable == row2.dataSourceTable) {
-              row.executeStatus = row2.result
+            if (row.odsDataTable === row2.odsDataTable) {
+              row.executeStatus = row2.status
               this.tableList.splice(this.tableList[i].index, 1, row)
             }
           }
@@ -109,11 +140,10 @@ export default {
       const { data: { data, code, msg } } = await this.$http.post('/executeScript/viewSqoopScript', row)
 
       this.dialog.context = data
-
       this.dialog.sourceData = row
-      this.dialog.sourceData.data = data
+      this.dialog.sourceData.context = data
 
-      if (this.dialog.ifModify == 0) {
+      if (this.dialog.ifModify === 0) {
         this.dialog.title = '查看'
       }
       if (this.dialog.ifModify != 0) {
@@ -123,8 +153,15 @@ export default {
     },
     // 保存脚本
     async formSubmit () {
-      this.dialog.sourceData.odsDataSqoopDefine = this.dialog.context
-      const { data: { data, code, msg } } = await this.$http.post('/executeScript/saveSqoopScript', this.dialog.sourceData)
+      let sumitData = {
+        businessSystemNameShortName: this.dialog.sourceData.businessSystemNameShortName,
+        dataSourceSchema: this.dialog.sourceData.dataSourceSchema,
+        dataSourceTable: this.dialog.sourceData.dataSourceTable,
+        odsDataSqoopDefine: this.dialog.context
+      }
+
+      const { data: { data, code, msg } } = await this.$http.post('/executeScript/saveSqoopScript', sumitData)
+
       if (code !== 200) return this.$message.error(msg)
       this.$message.success(msg)
       this.handleClose()
@@ -132,8 +169,8 @@ export default {
     toggleSelection (rows) {
       if (rows) {
         rows.forEach(row => {
-          // this.$refs.multipleTable.toggleRowSelection(row)
-          this.$refs.multipleTable.toggleRowSelection(row, true)
+          this.$refs.multipleTable.toggleRowSelection(row)
+          //  this.$refs.multipleTable.toggleRowSelection(row, true)
         })
       } else {
         this.$refs.multipleTable.clearSelection()
@@ -159,7 +196,7 @@ export default {
       this.dialogTable.visible = false
     },
     formReset () {
-      this.dialog.context = this.dialog.sourceData.data
+      this.dialog.context = this.dialog.sourceData.context
     }
   },
   mounted () {

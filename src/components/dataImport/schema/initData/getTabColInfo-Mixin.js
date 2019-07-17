@@ -27,6 +27,9 @@ export default {
       console.log(this.value, this.reqParams.query)
       const { data: { data, msg, code } } = await this.$http.post('/getSourceMetaData/getSchemaByFilter', this.reqParams)
       if (code !== 200) return this.$message.error(msg)
+      for (let i = 0; i < data.list.length; i++) {
+        data.list[i].index = i
+      }
       this.tableList = data.list
       this.total = data.total
     },
@@ -43,13 +46,28 @@ export default {
       loading.close()
       if (code !== 200) return this.$message.error(msg)
       this.$message.success(msg)
-      this.search()
+      var indexs = []
+      this.multipleSelection.forEach(element => {
+        indexs.push(element.index)
+      })
+      await this.search()
+      this.defaultCheck(indexs)
     },
     async setValue (val) {
       if (val != null) {
-        console.log('bb', val)
         this.value = val
         this.search()
+      }
+    },
+    // 默认勾选源库中存在的表
+    defaultCheck (indexs) {
+      if (indexs) {
+        indexs.forEach(index => {
+          console.log(index)
+          this.$refs.tableList.toggleRowSelection(this.tableList[index], true)
+        })
+      } else {
+        this.$refs.tableList.clearSelection()
       }
     },
     // 选中项
