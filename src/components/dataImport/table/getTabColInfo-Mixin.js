@@ -14,9 +14,9 @@ export default {
       // 表名
       sourceTable: '',
       tableList: [],
-      tablevalue: 'commodity',
+      tablevalue: 'WLM_CLASSIFIER_PLAN',
       systemvalue: '',
-      schemavalue: 'test',
+      schemavalue: 'APPQOSSYS',
       systemList: [],
       schemaList: [],
       dialogTableVisible: false,
@@ -222,7 +222,6 @@ export default {
       return row.metaStatus === value
     },
     mounted () {
-      console.log('aaaaa')
       this.getSystemList()
     }
   }

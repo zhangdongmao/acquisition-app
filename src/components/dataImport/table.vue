@@ -91,9 +91,8 @@ export default {
   methods: {
     NextStep () {
       let _this = this
-
       if (this.active === 0) {
-        if (this.$refs.TabColInfo.multipleSelection.length == 0) {
+        if (this.$refs.TabColInfo.multipleSelection.length === 0) {
           this.$refs.TabColInfo.$message.warning('请勾选相应系统名')
         } else {
           _this.active++
@@ -153,6 +152,9 @@ export default {
     Back () {
       if (this.active-- === 0) this.active = 0
     }
+  },
+  mounted () {
+    this.$refs.TabColInfo.getSystemList()
   }
 }
 </script>

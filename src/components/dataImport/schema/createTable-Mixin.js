@@ -86,13 +86,14 @@ export default {
       const loading = this.getLoading('查询ods加载策略...')
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/selectOdsLoadMode',
         this.multipleSelection)
-      console.log(data)
+      // console.log(data)
       for (let i = 0; i < this.multipleSelection.length; i++) {
         data[i].index = this.multipleSelection[i].index
         this.tableList.splice(this.multipleSelection[i].index, 1, data[i])
         indexs.push(this.multipleSelection[i].index)
       }
       this.defaultCheck(indexs)
+
       loading.close()
       if (code !== 200) return this.$message.error(msg)
     },
