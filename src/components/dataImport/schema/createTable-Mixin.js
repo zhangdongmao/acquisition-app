@@ -86,24 +86,12 @@ export default {
       const loading = this.getLoading('查询ods加载策略...')
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/selectOdsLoadMode',
         this.multipleSelection)
-      console.log(data)
+      // console.log(data)
       for (let i = 0; i < this.multipleSelection.length; i++) {
-        // this.multipleSelection[i].createTableStatus = data[i].result
-        this.tableList.splice(this.multipleSelection[i].index, 1, data[i])
+        this.multipleSelection[i].odsDataTable = data[i].odsDataTable
+        this.multipleSelection[i].odsDataLoadMode = data[i].odsDataLoadMode
+        this.tableList.splice(this.multipleSelection[i].index, 1, this.multipleSelection[i])
       }
-      // for (let i = 0; i < this.multipleSelection.length; i++) {
-      //   let idata = this.multipleSelection[i]
-      //   for (let j = 0; j < data.length; j++) {
-      //     let jdata = data[j]
-      //     if (idata.businessSystemNameShortName === jdata.businessSystemNameShortName &&
-      //       idata.dataSourceSchema === jdata.dataSourceSchema &&
-      //       idata.dataSourceTable === jdata.dataSourceTable) {
-      //       idata.odsDataTable = jdata.odsDataTable
-      //       idata.odsDataLoadMode = jdata.odsDataLoadMode
-      //       this.tableList.splice(idata.index, 1, idata)
-      //     }
-      //   }
-      // }
       loading.close()
       if (code !== 200) return this.$message.error(msg)
     },
