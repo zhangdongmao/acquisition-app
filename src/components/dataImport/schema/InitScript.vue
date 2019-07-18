@@ -21,7 +21,10 @@
         <el-table-column :show-overflow-tooltip="true"
                          prop="dataSourceTable"
                          label="表名"></el-table-column>
-        <el-table-column label="加载策略">
+        <el-table-column label="加载策略"
+                         :filters="[{ text: '全量', value: 'full' },
+                               { text: '增量', value: 'increment' }, { text: '未定义', value: 'none' }]"
+                         :filter-method="filterTag">
           <template slot-scope="scope">
             <p v-if="scope.row.odsDataLoadMode=='full'">
               全量
@@ -34,7 +37,11 @@
             </p>
           </template>
         </el-table-column>
-        <el-table-column label="建表状态">
+        <el-table-column label="建表状态"
+                         :filters="[{ text: '未执行', value: 'none' },
+                               { text: '失败', value: 'failed' },
+                              { text: '成功', value: 'success' }]"
+                         :filter-method="filterTag">
           <template slot-scope="scope">
             <p v-if="scope.row.createTableStatus=='none'">
               未执行

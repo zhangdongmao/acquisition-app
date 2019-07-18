@@ -68,6 +68,9 @@ export default {
       this.reqParams.pagenum = newPage
       this.getData()
     },
+    filterTag (value, row) {
+      return row.metaStatus === value
+    },
     getLoading (text) {
       return this.$loading({
         lock: true,

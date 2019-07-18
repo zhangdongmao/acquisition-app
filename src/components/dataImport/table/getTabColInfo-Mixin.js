@@ -37,9 +37,12 @@ export default {
         })
         // console.log(this.multipleSelection)
         const { data: { code, msg, data } } = await this.$http.post('/convertMetadata/importingMetadata', this.multipleSelection)
-        // console.log(code,msg)
-        // console.log(data)
-        // console.log(this.tableList)
+
+        if (code !== 200) {
+          loading.close()
+          return this.$message.error(msg)
+        }
+
         for (let i = 0; i < data.length; i++) {
           this.tableList.splice(this.multipleSelection[i].index, 1, data[i])
         }
@@ -84,17 +87,14 @@ export default {
           background: 'rgba(0, 0, 0, 0.7)'
         })
         const { data: { code, msg, data } } = await this.$http.post('/convertMetadata/importIndex', this.multipleSelection)
-        // console.log(code,msg)
-        // console.log(data)
-        console.log(this.tableList)
         loading.close()
+        console.log(code)
         if (code !== 200) {
           this.$message.error(msg)
         } else {
           this.getTabCapacity()
         }
       } else {
-        console.log('aaa')
         this.$message.warning('请勾选相应表名')
       }
     },
@@ -108,8 +108,6 @@ export default {
           background: 'rgba(0, 0, 0, 0.7)'
         })
         const { data: { code, msg, data } } = await this.$http.post('/convertMetadata/getCapacity', this.multipleSelection)
-        // console.log(code,msg)
-        // console.log(data)
         console.log(this.tableList)
         loading.close()
         if (code !== 200) {
@@ -119,7 +117,6 @@ export default {
           for (let i = 0; i < this.tableList.length; i++) {
             this.tableList[i].createResult = '未建表'
           }
-          this.next()
         }
       } else {
         this.$message.warning('请勾选相应表名')
@@ -154,23 +151,9 @@ export default {
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
-    next () {
-      if (this.active < 7) {
-        this.active++
-      }
-    },
-    back () {
-      if (this.active > 0) {
-        this.active--
-      }
-      this.clearFilter()
-    },
     tableRowClassName ({ row, rowIndex }) {
       // 把每一行的索引放进row
       row.index = rowIndex
-    },
-    filterTag (value, row) {
-      return row.metaStatus === value
     },
     filterCrtResult (value, row) {
       console.log(row)
@@ -183,22 +166,10 @@ export default {
     defaultCheck (indexs) {
       if (indexs) {
         indexs.forEach(index => {
-          console.log('index:', index)
           this.$refs.tableList.toggleRowSelection(this.$refs.tableList.data[index], true)
         })
       } else {
         this.$refs.tableList.clearSelection()
-      }
-    },
-    submitUpload () {
-      console.log(this.$refs.excelUpload)
-      if (this.$refs.excelUpload.uploadFiles.length === 0) {
-        this.$message.warning('请添加要上传的文件')
-      } else if (this.$refs.excelUpload.uploadFiles.length > 1) {
-        this.$message.warning('一次只能上传一个文件')
-      } else {
-        this.$refs.excelUpload.submit()
-        this.next()
       }
     },
     addTable () {
@@ -206,6 +177,15 @@ export default {
       item.businessSystemNameShortName = this.systemvalue
       item.dataSourceSchema = this.schemavalue
       item.dataSourceTable = this.tablevalue
+      if (!this.systemvalue) {
+        return this.$message.warning('请选择业务源系统')
+      }
+      if (!this.schemavalue) {
+        return this.$message.warning('请输入Schema')
+      }
+      if (!this.tablevalue) {
+        return this.$message.warning('请输入表名')
+      }
       this.tableList.push(item)
       for (let i = 0; i < this.tableList.length; i++) {
         this.tableList[i].metaStatus = '未探源'
@@ -219,6 +199,7 @@ export default {
     async getSystemList () {
       const { data: { data, code, msg } } = await this.$http.get('/enterHuOverview/getSystemName')
       if (code !== 200) return this.$message.error(msg)
+
       data.forEach(item => {
         this.systemList.push({ value: item, label: item })
       })
@@ -239,6 +220,9 @@ export default {
     changePager (newPage) {
       this.reqParams.pagenum = newPage
       this.getData()
+    },
+    filterTag (value, row) {
+      return row.metaStatus === value
     }
   },
   mounted () {

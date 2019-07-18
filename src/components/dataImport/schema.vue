@@ -14,8 +14,6 @@
             <el-step title="数据初始化"></el-step>
             <el-step title="调度脚本生成"></el-step>
           </el-steps>
-          <!-- <el-button style="margin-top: 12px;" @click="last">上一步</el-button>-->
-
           <el-col :span="24"
                   style="margin-top:20px;">
             <el-button size="mini"
@@ -57,21 +55,16 @@
 
           </el-col>
           <el-col style="margin-top:20px;">
-            <div v-show="active == 0">
-              <SourceSystemSchema ref="SourceSystemSchema" />
-            </div>
-            <div v-show="active == 1">
-              <TabColInfo ref="TabColInfo" />
-            </div>
-            <div v-show="active == 2">
-              <CreateTable ref="CreateTable" />
-            </div>
-            <div v-show="active == 3">
-              <InitScript ref="InitScript" />
-            </div>
-            <div v-show="active == 4">
-              <SchedulingScript ref="SchedulingScript" />
-            </div>
+            <SourceSystemSchema ref="SourceSystemSchema"
+                                v-show="active == 0" />
+            <TabColInfo ref="TabColInfo"
+                        v-show="active == 1" />
+            <CreateTable ref="CreateTable"
+                         v-show="active == 2" />
+            <InitScript ref="InitScript"
+                        v-show="active == 3" />
+            <SchedulingScript ref="SchedulingScript"
+                              v-show="active == 4" />
           </el-col>
         </el-col>
       </el-row>

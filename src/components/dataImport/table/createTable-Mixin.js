@@ -43,28 +43,43 @@ export default {
       this.reqParams.query = this.value
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/getDataSourceTabInfoBySysSortNameAndDataSourceSchemas', this.reqParams)
       if (code !== 200) return this.$message.error(msg)
+      console.log(data)
       this.tableList = data.list
       for (let i = 0; i < this.tableList.length; i++) {
         this.tableList[i].createTableStatus = 'none'
         this.tableList[i].index = i
         this.tableList[i].odsDataLoadMode = 'none'
       }
-      var indexs = []
-      await this.tableList.forEach(item => {
-        indexs.push(item.index)
-      })
-      this.defaultCheck(indexs)
     },
-    async setValue (val) {
-      if (val != null && val.length > 0) {
-        this.value = val
-        this.search()
+    async setValue (params) {
+      if (params.tableList != null && params.tableList.length > 0) {
+        let tableData = params.tableList
+        tableData.forEach(item => {
+          item.createTableStatus = 'none'
+          item.odsDataLoadMode = 'none'
+        })
+        this.tableList = tableData
+        var indexs = []
+        await params.multipleSelection.forEach(item => {
+          indexs.push(item.index)
+        })
+        this.defaultCheck(indexs)
       }
     },
     // 定义ODS加载策略
     async getODSLoadMode () {
       if (this.multipleSelection.length === 0) {
         this.$message.warning('请勾选相应表名')
+        return
+      }
+      var flag = false
+      this.multipleSelection.forEach(item => {
+        if (item.metaStatus !== '已探源') {
+          flag = true
+        }
+      })
+      if (flag) {
+        this.$message.warning('存在上一步未成功的数据')
         return
       }
       const loading = this.getLoading('定义ODS加载策略...')

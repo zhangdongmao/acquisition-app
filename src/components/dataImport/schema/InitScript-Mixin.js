@@ -55,13 +55,9 @@ export default {
         this.$message.warning('请勾选相应表名')
         return
       }
-      // loading.close()
       let flag = false
-
-      console.log(this.multipleSelection)
-      // 判断是否存在未生成初始化脚本的表
       this.multipleSelection.forEach(item => {
-        if (item.odsDataLoadMode == 'none') {
+        if (item.createTableStatus !== 'success') {
           flag = true
         }
       })
@@ -75,7 +71,6 @@ export default {
         await this.$http.post('/generateScript/initOdsLoad', this.multipleSelection)
       console.log(code, msg)
       loading.close()
-
       if (code !== 200) return this.$message.error(msg)
       this.$message.success(msg)
 
@@ -111,7 +106,8 @@ export default {
       loading.close()
       if (code !== 200) return this.$message.error(msg)
       this.viewSqoopStatus()
-      this.$message.success(msg)
+
+      // this.$message.success(msg)
     },
     // 获取执行脚本后的状态
     async viewSqoopStatus () {
@@ -121,22 +117,24 @@ export default {
         params.push(this.multipleSelection[i].odsDataTable)
       }
       const { data: { data, code, msg } } = await this.$http.post('/executeScript/viewSqoopStatus', params)
+
       loading.close()
-      console.log(data, 'asdfas')
-      if (code === 200) {
-        for (let i = 0; i < this.multipleSelection.length; i++) {
-          let oldOdsDataTable = this.multipleSelection[i].odsDataTable
-          let index = this.multipleSelection[i].index
-          let row = this.tableList[index]
-          for (let j = 0; j < data.length; j++) {
-            let row2 = data[j]
-            if (oldOdsDataTable === row2.odsDataTable) {
-              row.executeScriptStatus = row2.status
-              this.tableList.splice(index, 1, row)
-            }
+      if (code !== 200) return this.$message.error(msg)
+
+      console.log(data, msg)
+      for (let i = 0; i < this.multipleSelection.length; i++) {
+        let oldOdsDataTable = this.multipleSelection[i].odsDataTable
+        let index = this.multipleSelection[i].index
+        let row = this.tableList[index]
+        for (let j = 0; j < data.length; j++) {
+          let row2 = data[j]
+          if (oldOdsDataTable === row2.odsDataTable) {
+            row.executeScriptStatus = row2.status
+            this.tableList.splice(index, 1, row)
           }
         }
       }
+      this.$message.success(msg)
     },
     // 查看数据校验
     async viewHiveData (row, modify) {
@@ -210,6 +208,9 @@ export default {
     },
     formReset () {
       this.dialog.context = this.dialog.sourceData.context
+    },
+    filterTag (value, row) {
+      return row.metaStatus === value
     },
     getLoading (text) {
       return this.$loading({

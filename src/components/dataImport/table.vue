@@ -1,6 +1,7 @@
-<!-- 数据导入-按表名搜索 -->
+<!-- 数据导入 按schema搜索 -->
 <template>
   <div>
+    <!-- 面包屑 -->
     <el-divider></el-divider>
     <el-card>
       <el-row :gutter="20">
@@ -16,27 +17,51 @@
                   style="margin-top:20px;">
             <el-button size="mini"
                        type="primary"
-                       v-if="active > 0"
+                       :disabled="active == 0"
                        class="btn-back"
-                       @click="back">上一步</el-button>
+                       @click="TheLastStep">上一步</el-button>
             <el-button size="mini"
                        type="primary"
                        class="btn"
-                       @click="next">下一步</el-button>
+                       :disabled="active == 3"
+                       @click="NextStep">下一步</el-button>
+            <el-button size="mini"
+                       type="primary"
+                       class="btn"
+                       v-show="active == 0"
+                       @click="getStatus(active)">探源</el-button>
+
+            <el-dropdown class="btn"
+                         v-show="active == 1||active == 2||active == 3"
+                         @command="handleCommand">
+              <span class="el-dropdown-link"> 操作 <i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <p v-show="active == 1">
+                  <el-dropdown-item command="21">生成建表语句</el-dropdown-item>
+                  <el-dropdown-item command="22">执行建表语句</el-dropdown-item>
+                </p>
+                <p v-show="active == 2">
+                  <el-dropdown-item command="31">生成初始化脚本</el-dropdown-item>
+                  <el-dropdown-item command="32">执行初始化脚本</el-dropdown-item>
+                </p>
+                <p v-show="active == 3">
+                  <el-dropdown-item command="41">生成调度脚本</el-dropdown-item>
+                  <el-dropdown-item command="42">导出调度脚本</el-dropdown-item>
+                </p>
+              </el-dropdown-menu>
+            </el-dropdown>
+
           </el-col>
           <el-col style="margin-top:20px;">
-            <div v-show="active == 0">
-              <ComponentsGetTabColInfo ref="myComponentsGetTabColInfo" />
-            </div>
-            <div v-show="active == 1">
-              <ComponentsCreateOdsTable ref="myComponentsCreateOdsTable" />
-            </div>
-            <div v-show="active == 2">
-              <!-- <ComponentsGenerateScript ref="myComponentsGenerateScript" /> -->
-            </div>
-            <div v-show="active == 3">
-              <ComponentsGenerateScript ref="myComponentsGenerateScript" />
-            </div>
+            <TabColInfo ref="TabColInfo"
+                        v-show="active == 0" />
+            <CreateTable ref="CreateTable"
+                         v-show="active == 1" />
+            <InitScript ref="InitScript"
+                        v-show="active == 2" />
+            <SchedulingScript ref="SchedulingScript"
+                              v-show="active == 3" />
           </el-col>
         </el-col>
       </el-row>
@@ -44,9 +69,12 @@
   </div>
 </template>
 <script>
-import ComponentsGetTabColInfo from './table/initData/getTabColInfo'
-import ComponentsCreateOdsTable from './table/createOdsTable/createOdsTable'
-import ComponentsGenerateScript from './table/sql/generateScript'
+
+import TabColInfo from './table/getTabColInfo'
+import CreateTable from './table/createTable'
+import SchedulingScript from './schema/schedulingScript'
+import InitScript from './schema/InitScript'
+
 export default {
   data () {
     return {
@@ -54,29 +82,66 @@ export default {
     }
   },
   components: {
-    ComponentsGetTabColInfo,
-    ComponentsCreateOdsTable,
-    ComponentsGenerateScript
+    TabColInfo,
+    CreateTable,
+    SchedulingScript,
+    InitScript
   },
   methods: {
-    next () {
+    NextStep () {
       let _this = this
-      if (_this.active == 0) {
-        _this.active++
-        let tableList = _this.$refs.myComponentsGetTabColInfo.tableList
-        console.log(tableList)
-        _this.$refs.myComponentsCreateOdsTable.setTableList(tableList)
-      } else if (_this.active == 1) {
-        _this.active++
-        let tableList = _this.$refs.myComponentsCreateOdsTable.tableList
-        console.log(tableList)
-        _this.$refs.myComponentsGenerateScript.setTableList(tableList)
-      } else if (_this.active == 2) {
-        _this.active++
-        console.log(_this.active)
+      _this.active++
+
+      if (this.active === 1) {
+        let params = {
+          tableList: this.$refs.TabColInfo.tableList,
+          multipleSelection: this.$refs.TabColInfo.multipleSelection
+        }
+        _this.$refs.CreateTable.setValue(params)
+        return
+      }
+      if (this.active === 2) {
+        let params = {
+          total: _this.$refs.CreateTable.total,
+          tableList: _this.$refs.CreateTable.tableList,
+          multipleSelection: _this.$refs.CreateTable.multipleSelection
+        }
+        _this.$refs.InitScript.setValue(params)
+        return
+      }
+
+      if (this.active === 3) {
+        let params = {
+          total: _this.$refs.InitScript.total,
+          tableList: _this.$refs.InitScript.tableList,
+          multipleSelection: _this.$refs.InitScript.multipleSelection
+        }
+        _this.$refs.SchedulingScript.setValue(params)
       }
     },
-    back () {
+    TheLastStep () {
+      if (this.active-- === 0) this.active = 0
+    },
+    getStatus (param) {
+      if (param === 0) {
+        this.$refs.TabColInfo.getMetaData()
+      }
+    },
+    handleCommand (command) {
+      // 校验规则
+      if (command === '21') { this.$refs.CreateTable.getODSLoadMode() }
+      // 执行建表语句
+      if (command === '22') { this.$refs.CreateTable.odsCreateTable() }
+      // 生成初始化脚本
+      if (command === '31') { this.$refs.InitScript.initOdsLoad() }
+      // 执行初始化脚本
+      if (command === '32') { this.$refs.InitScript.execDispatchCommand() }
+      // 生成调度脚本
+      if (command === '41') { this.$refs.SchedulingScript.generate() }
+      // 导出调度脚本
+      if (command === '42') { this.$refs.SchedulingScript.exportFile() }
+    },
+    Back () {
       if (this.active-- === 0) this.active = 0
     }
   }
