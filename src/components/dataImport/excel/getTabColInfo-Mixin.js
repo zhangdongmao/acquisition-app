@@ -32,12 +32,22 @@ export default {
       }
       this.tableList = data.list
       this.total = data.total
+      var indexs = []
+      await this.tableList.forEach(item => {
+        indexs.push(item.index)
+      })
+      this.defaultCheck(indexs)
     },
     // 获取状态
     async getStatus () {
       if (this.multipleSelection.length === 0) {
-        this.$message.warning('请勾选相应表名')
-        return
+        if (this.tableList.length === 0) {
+          this.$message.warning('暂无数据')
+          return
+        } else {
+          this.$message.warning('请勾选相应表名')
+          return
+        }
       }
       const loading = this.getLoading('正在获取...')
       const { data: { code, msg } } = await this.$http.post('/getSourceMetaData/importingMetadata', this.multipleSelection)

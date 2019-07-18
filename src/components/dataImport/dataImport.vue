@@ -24,7 +24,6 @@
 import ComponentExcel from './excel.vue'
 import ComponentTable from './table.vue'
 import ComponentSchema from './schema.vue'
-import { constants } from 'crypto'
 export default {
   data () {
     return {
@@ -47,20 +46,16 @@ export default {
   methods: {
     currentSel (value) {
       let _this = this
-      console.log(value, 'value')
-      if (value == 1) {
+      if (value === 1) {
         console.log(_this.$refs.myComponentTable)
         _this.$refs.myComponentTable.active = 0
-      } else if (value == 2) {
+      } else if (value === 2) {
         console.log(_this.$refs.myComponentExcel)
         _this.$refs.myComponentExcel.active = 0
-      } else if (value == 3) {
+      } else if (value === 3) {
         console.log(_this.$refs.myComponentSchema)
         _this.$refs.myComponentSchema.active = 0
       }
-    },
-    parentClick () {
-      // this.$refs.mychild.childClick("我是子组件里面的方法哦");  // 调用子组件的方法childClick
     }
   }
 }

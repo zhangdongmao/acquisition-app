@@ -122,6 +122,9 @@ export default {
     changePager (newPage) {
 
     },
+    filterTag (value, row) {
+      return row.metaStatus === value
+    },
     getLoading (text) {
       return this.$loading({
         lock: true,
