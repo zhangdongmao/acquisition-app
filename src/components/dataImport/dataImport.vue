@@ -4,19 +4,18 @@
 
     请选择导入方式：
     <el-select v-model="value"
-               placeholder="请选择"
-               @change="currentSel">
+               placeholder="请选择">
       <el-option v-for="item in options"
                  :key="item.value"
                  :label="item.label"
                  :value="item.value">
       </el-option>
     </el-select>
-    <ComponentTable v-if="value == 1"
+    <ComponentTable v-if="value == '1'"
                     ref="myComponentTable" />
-    <ComponentExcel v-if="value == 2"
+    <ComponentExcel v-if="value == '2'"
                     ref="myComponentExcel" />
-    <ComponentSchema v-if="value == 3"
+    <ComponentSchema v-if="value == '3'"
                      ref="myComponentSchema" />
   </div>
 </template>
@@ -44,19 +43,6 @@ export default {
     ComponentExcel, ComponentTable, ComponentSchema
   },
   methods: {
-    currentSel (value) {
-      let _this = this
-      if (value === 1) {
-        console.log(_this.$refs.myComponentTable)
-        _this.$refs.myComponentTable.active = 0
-      } else if (value === 2) {
-        console.log(_this.$refs.myComponentExcel)
-        _this.$refs.myComponentExcel.active = 0
-      } else if (value === 3) {
-        console.log(_this.$refs.myComponentSchema)
-        _this.$refs.myComponentSchema.active = 0
-      }
-    }
   }
 }
 </script>

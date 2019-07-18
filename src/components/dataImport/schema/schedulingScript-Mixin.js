@@ -62,7 +62,7 @@ export default {
       const { data: { data, code, msg } } = await this.$http.post('/generateScript/createOdsLoad', this.multipleSelection)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
-      this.$message.success(msg)
+      this.$message.success('生成调度脚本成功')
 
       this.multipleSelection.forEach(e => {
         e.createSchedulingScriptStatus = 'success'

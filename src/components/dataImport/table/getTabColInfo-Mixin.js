@@ -222,7 +222,6 @@ export default {
       return row.metaStatus === value
     },
     mounted () {
-      console.log('aaaaa')
       this.getSystemList()
     }
   }
