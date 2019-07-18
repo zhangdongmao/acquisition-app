@@ -138,7 +138,6 @@ export default {
           this.$message.error(msg)
         } else {
           // 判断ODS加载策略成功，执行建表操作
-          this.odsCreateTable()
         }
       } else {
         this.$message.warning('请勾选相应表名')
@@ -198,7 +197,7 @@ export default {
     async getSystemList () {
       const { data: { data, code, msg } } = await this.$http.get('/enterHuOverview/getSystemName')
       if (code !== 200) return this.$message.error(msg)
-
+      console.log(data)
       data.forEach(item => {
         this.systemList.push({ value: item, label: item })
       })
@@ -223,6 +222,7 @@ export default {
       return row.metaStatus === value
     },
     mounted () {
+      console.log('aaaaa')
       this.getSystemList()
     }
   }
