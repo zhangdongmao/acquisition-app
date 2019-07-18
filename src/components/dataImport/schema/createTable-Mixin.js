@@ -75,35 +75,24 @@ export default {
         this.$message.error(msg)
       } else {
         // 查询ods表名和加载策略
-        this.selectOdsLoadMode()
+        await this.selectOdsLoadMode()
         // 判断ODS加载策略成功，生成ods建表语句
-        this.saveOdsDdlInfo()
-        this.$message.success(msg)
+        await this.saveOdsDdlInfo()
       }
     },
     // 查询ods表名及加载策略
     async  selectOdsLoadMode () {
+      var indexs = []
       const loading = this.getLoading('查询ods加载策略...')
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/selectOdsLoadMode',
         this.multipleSelection)
       console.log(data)
       for (let i = 0; i < this.multipleSelection.length; i++) {
-        // this.multipleSelection[i].createTableStatus = data[i].result
+        data[i].index = this.multipleSelection[i].index
         this.tableList.splice(this.multipleSelection[i].index, 1, data[i])
+        indexs.push(this.multipleSelection[i].index)
       }
-      // for (let i = 0; i < this.multipleSelection.length; i++) {
-      //   let idata = this.multipleSelection[i]
-      //   for (let j = 0; j < data.length; j++) {
-      //     let jdata = data[j]
-      //     if (idata.businessSystemNameShortName === jdata.businessSystemNameShortName &&
-      //       idata.dataSourceSchema === jdata.dataSourceSchema &&
-      //       idata.dataSourceTable === jdata.dataSourceTable) {
-      //       idata.odsDataTable = jdata.odsDataTable
-      //       idata.odsDataLoadMode = jdata.odsDataLoadMode
-      //       this.tableList.splice(idata.index, 1, idata)
-      //     }
-      //   }
-      // }
+      this.defaultCheck(indexs)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
     },
@@ -117,9 +106,9 @@ export default {
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/saveOdsDdlInfo', {
         params: this.multipleSelection
       })
-      console.log(code, msg)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
+      this.$message.success('建表语句生成成功')
     },
     // 执行ods建表语句
     async odsCreateTable () {

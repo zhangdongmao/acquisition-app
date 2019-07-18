@@ -35,6 +35,7 @@ export default {
     // 初始化页面值
     async setValue (params) {
       let _this = this
+      console.log(params)
       let tableData = params.tableList
       // 执行脚本状态 生成脚本状态
       tableData.forEach(item => {
@@ -43,21 +44,26 @@ export default {
       })
       _this.tableList = tableData
       _this.total = params.tatal
+
       var indexs = []
       await params.multipleSelection.forEach(item => {
         indexs.push(item.index)
       })
+      // console.log(this.tableList, 'asdf')
+      // console.log(indexs)
+
       this.defaultCheck(indexs)
     },
     // 生成初始化脚本
     async  initOdsLoad () {
+      console.log(this.multipleSelection, 'asdfsa')
       if (this.multipleSelection.length === 0) {
         this.$message.warning('请勾选相应表名')
         return
       }
       let flag = false
       this.multipleSelection.forEach(item => {
-        if (item.createTableStatus !== 'success') {
+        if (!item.createTableStatus || item.createTableStatus !== 'success') {
           flag = true
         }
       })

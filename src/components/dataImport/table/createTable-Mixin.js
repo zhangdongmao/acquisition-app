@@ -63,6 +63,7 @@ export default {
         await params.multipleSelection.forEach(item => {
           indexs.push(item.index)
         })
+        console.log(this.tableList, 'asfs')
         this.defaultCheck(indexs)
       }
     },
@@ -89,32 +90,27 @@ export default {
       if (code !== 200) {
         this.$message.error(msg)
       } else {
+        console.log(this.tableList)
         // 查询ods表名和加载策略
-        this.selectOdsLoadMode()
+        await this.selectOdsLoadMode()
         // 判断ODS加载策略成功，生成ods建表语句
-        this.saveOdsDdlInfo()
+        await this.saveOdsDdlInfo()
         this.$message.success(msg)
       }
     },
     // 查询ods表名及加载策略
     async  selectOdsLoadMode () {
+      var indexs = []
       const loading = this.getLoading('查询ods加载策略...')
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/selectOdsLoadMode',
         this.multipleSelection)
 
       for (let i = 0; i < this.multipleSelection.length; i++) {
-        let idata = this.multipleSelection[i]
-        for (let j = 0; j < data.length; j++) {
-          let jdata = data[j]
-          if (idata.businessSystemNameShortName === jdata.businessSystemNameShortName &&
-            idata.dataSourceSchema === jdata.dataSourceSchema &&
-            idata.dataSourceTable === jdata.dataSourceTable) {
-            idata.odsDataTable = jdata.odsDataTable
-            idata.odsDataLoadMode = jdata.odsDataLoadMode
-            this.tableList.splice(idata.index, 1, idata)
-          }
-        }
+        data[i].index = this.multipleSelection[i].index
+        this.tableList.splice(this.multipleSelection[i].index, 1, data[i])
+        indexs.push(this.multipleSelection[i].index)
       }
+      this.defaultCheck(indexs)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
     },
@@ -153,9 +149,9 @@ export default {
       for (let i = 0; i < this.multipleSelection.length; i++) {
         this.multipleSelection[i].createTableStatus = data[i].result
         this.tableList.splice(this.multipleSelection[i].index, 1, this.multipleSelection[i])
-        // var j = this.multipleSelection[i].index
-        // this.tableList[j].createTableStatus = data[i].result
       }
+      console.log('sffsdfsdfwerafdsaf')
+      console.log(this.tableList, 'werssdfwerw')
       loading.close()
       if (code !== 200) return this.$message.error(msg)
       this.$message.success(msg)
