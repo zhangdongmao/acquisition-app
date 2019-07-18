@@ -77,8 +77,8 @@
         <el-table-column label="操作">
           <template slot-scope="{row}">
             <el-button type="text"
-                       v-if="row.executeScriptStatus == 'success'"
-                       @click="viewHiveData(row);">查看</el-button>
+                       v-if="row.executeScriptStatus == 'completed'"
+                       @click="viewHiveData(row);">数据查看</el-button>
             <el-button type="text"
                        v-if="row.createScriptStatus == 'success'"
                        @click="view(row); dialog.ifModify = 1">编辑</el-button>
@@ -109,7 +109,7 @@
         <el-button @click="formReset">重置</el-button>
         <el-button type="primary"
                    v-show="dialog.ifModify != 0"
-                   @click="formSubmit">确 定</el-button>
+                   @click="formSubmit">保存</el-button>
       </span>
     </el-dialog>
     <el-dialog :title="dialogTable.title"

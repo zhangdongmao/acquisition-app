@@ -30,7 +30,7 @@
                        type="primary"
                        class="btn"
                        v-show="active == 1"
-                       @click="getStatus(active)">获取</el-button>
+                       @click="getMetaData(active)">探源</el-button>
 
             <el-dropdown class="btn"
                          v-show="active == 2||active == 3||active == 4"
@@ -45,6 +45,7 @@
                 <p v-show="active == 3">
                   <el-dropdown-item command="31">生成初始化脚本</el-dropdown-item>
                   <el-dropdown-item command="32">执行初始化脚本</el-dropdown-item>
+                  <el-dropdown-item command="33">刷新执行状态</el-dropdown-item>
                 </p>
                 <p v-show="active == 4">
                   <el-dropdown-item command="41">生成调度脚本</el-dropdown-item>
@@ -55,8 +56,8 @@
 
           </el-col>
           <el-col style="margin-top:20px;">
-            <SourceSystemSchema ref="SourceSystemSchema"
-                                v-show="active == 0" />
+            <UploadExcel ref="UploadExcel"
+                         v-show="active == 0" />
             <TabColInfo ref="TabColInfo"
                         v-show="active == 1" />
             <CreateTable ref="CreateTable"
@@ -73,9 +74,9 @@
 </template>
 <script>
 
-import SourceSystemSchema from './excel/sourceSystemSchema'
+import UploadExcel from './excel/uploadExcel'
 import TabColInfo from './excel/getTabColInfo'
-import CreateTable from './schema/createTable'
+import CreateTable from './excel/createTable'
 import SchedulingScript from './schema/schedulingScript'
 import InitScript from './schema/InitScript'
 
@@ -86,7 +87,7 @@ export default {
     }
   },
   components: {
-    SourceSystemSchema,
+    UploadExcel,
     TabColInfo,
     CreateTable,
     SchedulingScript,
@@ -97,17 +98,16 @@ export default {
       let _this = this
       _this.active++
       if (this.active === 1) {
-        let params = this.$refs.SourceSystemSchema.tableList
-        let params2 = []
-        for (var i = 0; i < params.length; i++) {
-          params2.push(params[i].businessSystemNameShortName)
-        };
-        _this.$refs.TabColInfo.setValue(params2)
+        let params = this.$refs.UploadExcel.tableList
+        _this.$refs.TabColInfo.setValue(params)
         return
       }
 
       if (this.active === 2) {
-        let params = this.$refs.TabColInfo.multipleSelection
+        let params = {
+          tableList: this.$refs.TabColInfo.tableList,
+          multipleSelection: this.$refs.TabColInfo.multipleSelection
+        }
         _this.$refs.CreateTable.setValue(params)
         return
       }
@@ -133,12 +133,9 @@ export default {
     TheLastStep () {
       if (this.active-- === 0) this.active = 0
     },
-    getStatus (param) {
-      if (param === 0) {
-        this.$refs.SourceSystemSchema.getStatus()
-      }
+    getMetaData (param) {
       if (param === 1) {
-        this.$refs.TabColInfo.getStatus()
+        this.$refs.TabColInfo.getMetaData()
       }
     },
     handleCommand (command) {
@@ -149,7 +146,9 @@ export default {
       // 生成初始化脚本
       if (command === '31') { this.$refs.InitScript.initOdsLoad() }
       // 执行初始化脚本
-      if (command === '32') { this.$refs.InitScript.execDispatchCommand() }
+      if (command === '32') { this.$refs.InitScript.getPreExecuteFile() }
+      // 刷新脚本执行状态
+      if (command === '33') { this.$refs.InitScript.viewSqoopStatus() }
       // 生成调度脚本
       if (command === '41') { this.$refs.SchedulingScript.generate() }
       // 导出调度脚本

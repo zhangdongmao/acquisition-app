@@ -3,11 +3,6 @@
   <div>
     <!-- 卡片 -->
     <el-card>
-      <!-- <el-row :gutter="20">
-        <el-col :span="12">
-          <el-button size="mini" type="primary" class="btn" @click="getODSLoadMode()">建表</el-button>
-        </el-col>
-      </el-row> -->
       <el-table v-loading="listLoading"
                 height="387"
                 :data="tableList"

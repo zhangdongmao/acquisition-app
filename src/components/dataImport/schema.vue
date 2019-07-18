@@ -45,6 +45,7 @@
                 <p v-show="active == 3">
                   <el-dropdown-item command="31">生成初始化脚本</el-dropdown-item>
                   <el-dropdown-item command="32">执行初始化脚本</el-dropdown-item>
+                  <el-dropdown-item command="33">刷新执行状态</el-dropdown-item>
                 </p>
                 <p v-show="active == 4">
                   <el-dropdown-item command="41">生成调度脚本</el-dropdown-item>
@@ -151,7 +152,9 @@ export default {
       // 生成初始化脚本
       if (command === '31') { this.$refs.InitScript.initOdsLoad() }
       // 执行初始化脚本
-      if (command === '32') { this.$refs.InitScript.execDispatchCommand() }
+      if (command === '32') { this.$refs.InitScript.getPreExecuteFile() }
+      // 刷新脚本执行状态
+      if (command === '33') { this.$refs.InitScript.viewSqoopStatus() }
       // 生成调度脚本
       if (command === '41') { this.$refs.SchedulingScript.generate() }
       // 导出调度脚本

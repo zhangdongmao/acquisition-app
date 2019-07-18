@@ -43,28 +43,43 @@ export default {
       this.reqParams.query = this.value
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/getDataSourceTabInfoBySysSortNameAndDataSourceSchemas', this.reqParams)
       if (code !== 200) return this.$message.error(msg)
+      console.log(data)
       this.tableList = data.list
       for (let i = 0; i < this.tableList.length; i++) {
         this.tableList[i].createTableStatus = 'none'
         this.tableList[i].index = i
         this.tableList[i].odsDataLoadMode = 'none'
       }
-      var indexs = []
-      await this.tableList.forEach(item => {
-        indexs.push(item.index)
-      })
-      this.defaultCheck(indexs)
     },
-    async setValue (val) {
-      if (val != null && val.length > 0) {
-        this.value = val
-        this.search()
+    async setValue (params) {
+      if (params.tableList != null && params.tableList.length > 0) {
+        let tableData = params.tableList
+        tableData.forEach(item => {
+          item.createTableStatus = 'none'
+          item.odsDataLoadMode = 'none'
+        })
+        this.tableList = tableData
+        var indexs = []
+        await params.multipleSelection.forEach(item => {
+          indexs.push(item.index)
+        })
+        this.defaultCheck(indexs)
       }
     },
     // 定义ODS加载策略
     async getODSLoadMode () {
       if (this.multipleSelection.length === 0) {
         this.$message.warning('请勾选相应表名')
+        return
+      }
+      var flag = false
+      this.multipleSelection.forEach(item => {
+        if (item.metaStatus !== '已探源') {
+          flag = true
+        }
+      })
+      if (flag) {
+        this.$message.warning('存在上一步未成功的数据')
         return
       }
       const loading = this.getLoading('定义ODS加载策略...')
@@ -86,24 +101,20 @@ export default {
       const loading = this.getLoading('查询ods加载策略...')
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/selectOdsLoadMode',
         this.multipleSelection)
-      console.log(data)
+
       for (let i = 0; i < this.multipleSelection.length; i++) {
-        // this.multipleSelection[i].createTableStatus = data[i].result
-        this.tableList.splice(this.multipleSelection[i].index, 1, data[i])
+        let idata = this.multipleSelection[i]
+        for (let j = 0; j < data.length; j++) {
+          let jdata = data[j]
+          if (idata.businessSystemNameShortName === jdata.businessSystemNameShortName &&
+            idata.dataSourceSchema === jdata.dataSourceSchema &&
+            idata.dataSourceTable === jdata.dataSourceTable) {
+            idata.odsDataTable = jdata.odsDataTable
+            idata.odsDataLoadMode = jdata.odsDataLoadMode
+            this.tableList.splice(idata.index, 1, idata)
+          }
+        }
       }
-      // for (let i = 0; i < this.multipleSelection.length; i++) {
-      //   let idata = this.multipleSelection[i]
-      //   for (let j = 0; j < data.length; j++) {
-      //     let jdata = data[j]
-      //     if (idata.businessSystemNameShortName === jdata.businessSystemNameShortName &&
-      //       idata.dataSourceSchema === jdata.dataSourceSchema &&
-      //       idata.dataSourceTable === jdata.dataSourceTable) {
-      //       idata.odsDataTable = jdata.odsDataTable
-      //       idata.odsDataLoadMode = jdata.odsDataLoadMode
-      //       this.tableList.splice(idata.index, 1, idata)
-      //     }
-      //   }
-      // }
       loading.close()
       if (code !== 200) return this.$message.error(msg)
     },
@@ -142,6 +153,8 @@ export default {
       for (let i = 0; i < this.multipleSelection.length; i++) {
         this.multipleSelection[i].createTableStatus = data[i].result
         this.tableList.splice(this.multipleSelection[i].index, 1, this.multipleSelection[i])
+        // var j = this.multipleSelection[i].index
+        // this.tableList[j].createTableStatus = data[i].result
       }
       loading.close()
       if (code !== 200) return this.$message.error(msg)

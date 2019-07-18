@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import mixin from './sourceSystemSchema-Mixin'
+import mixin from './uploadExcel-Mixin'
 export default {
   mixins: [mixin]
 }

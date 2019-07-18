@@ -94,7 +94,6 @@ export default {
           type: 'text/plain'
         })
         const fileName = decodeURIComponent(res.headers['filename'])
-
         const elink = document.createElement('a')
         elink.download = fileName
         elink.style.display = 'none'

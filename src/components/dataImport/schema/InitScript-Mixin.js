@@ -81,8 +81,8 @@ export default {
         this.tableList.splice(index, 1, row)
       }
     },
-    // 执行初始化脚本
-    async execDispatchCommand () {
+    // 生成待执行脚本文件
+    async getPreExecuteFile () {
       if (this.multipleSelection.length === 0) {
         this.$message.warning('请勾选相应表名')
         return
@@ -99,6 +99,18 @@ export default {
         return
       }
 
+      const loading = this.getLoading('正在生成待执行脚本文件...')
+      const { data: { data, code, msg } } =
+        await this.$http.post('/executeScript/generateAllSqoopScript', this.multipleSelection)
+      console.log(code, msg)
+      loading.close()
+      if (code !== 200) return this.$message.error(msg)
+      this.execDispatchCommand()
+
+      // this.$message.success(msg)
+    },
+    // 执行初始化脚本
+    async execDispatchCommand () {
       const loading = this.getLoading('正在执行初始化脚本...')
       const { data: { data, code, msg } } =
         await this.$http.post('/executeScript/execDispatchCommand', this.multipleSelection)
@@ -106,8 +118,6 @@ export default {
       loading.close()
       if (code !== 200) return this.$message.error(msg)
       this.viewSqoopStatus()
-
-      // this.$message.success(msg)
     },
     // 获取执行脚本后的状态
     async viewSqoopStatus () {
@@ -120,7 +130,6 @@ export default {
 
       loading.close()
       if (code !== 200) return this.$message.error(msg)
-
       console.log(data, msg)
       for (let i = 0; i < this.multipleSelection.length; i++) {
         let oldOdsDataTable = this.multipleSelection[i].odsDataTable

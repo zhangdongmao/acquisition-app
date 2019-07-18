@@ -12,11 +12,11 @@
                  :value="item.value">
       </el-option>
     </el-select>
-    <ComponentTable v-show="value == 1"
+    <ComponentTable v-if="value == 1"
                     ref="myComponentTable" />
-    <ComponentExcel v-show="value == 2"
+    <ComponentExcel v-if="value == 2"
                     ref="myComponentExcel" />
-    <ComponentSchema v-show="value == 3"
+    <ComponentSchema v-if="value == 3"
                      ref="myComponentSchema" />
   </div>
 </template>

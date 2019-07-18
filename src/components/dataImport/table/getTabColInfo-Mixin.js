@@ -194,7 +194,6 @@ export default {
       this.schemavalue = ''
       this.tablevalue = ''
     },
-
     // 下拉 系统名列表
     async getSystemList () {
       const { data: { data, code, msg } } = await this.$http.get('/enterHuOverview/getSystemName')
@@ -203,7 +202,6 @@ export default {
       data.forEach(item => {
         this.systemList.push({ value: item, label: item })
       })
-      // console.log(data)
     },
     // 删除入湖表
     deletTable (index, row) {
@@ -223,9 +221,9 @@ export default {
     },
     filterTag (value, row) {
       return row.metaStatus === value
+    },
+    mounted () {
+      this.getSystemList()
     }
-  },
-  mounted () {
-    this.getSystemList()
   }
 }

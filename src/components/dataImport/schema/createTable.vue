@@ -104,7 +104,7 @@
             class="dialog-footer">
         <el-button @click="formReset">重置</el-button>
         <el-button type="primary"
-                   @click="formSubmit">确 定</el-button>
+                   @click="formSubmit">保存</el-button>
       </span>
     </el-dialog>
 

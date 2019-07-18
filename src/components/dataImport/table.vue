@@ -44,6 +44,7 @@
                 <p v-show="active == 2">
                   <el-dropdown-item command="31">生成初始化脚本</el-dropdown-item>
                   <el-dropdown-item command="32">执行初始化脚本</el-dropdown-item>
+                  <el-dropdown-item command="33">刷新执行状态</el-dropdown-item>
                 </p>
                 <p v-show="active == 3">
                   <el-dropdown-item command="41">生成调度脚本</el-dropdown-item>
@@ -90,17 +91,22 @@ export default {
   methods: {
     NextStep () {
       let _this = this
-      _this.active++
 
-      if (this.active === 1) {
-        let params = {
-          tableList: this.$refs.TabColInfo.tableList,
-          multipleSelection: this.$refs.TabColInfo.multipleSelection
+      if (this.active === 0) {
+        if (this.$refs.TabColInfo.multipleSelection.length == 0) {
+          this.$refs.TabColInfo.$message.warning('请勾选相应系统名')
+        } else {
+          _this.active++
+          let params = {
+            tableList: this.$refs.TabColInfo.tableList,
+            multipleSelection: this.$refs.TabColInfo.multipleSelection
+          }
+          _this.$refs.CreateTable.setValue(params)
         }
-        _this.$refs.CreateTable.setValue(params)
         return
       }
-      if (this.active === 2) {
+      if (this.active === 1) {
+        _this.active++
         let params = {
           total: _this.$refs.CreateTable.total,
           tableList: _this.$refs.CreateTable.tableList,
@@ -110,7 +116,8 @@ export default {
         return
       }
 
-      if (this.active === 3) {
+      if (this.active === 2) {
+        _this.active++
         let params = {
           total: _this.$refs.InitScript.total,
           tableList: _this.$refs.InitScript.tableList,
@@ -135,7 +142,9 @@ export default {
       // 生成初始化脚本
       if (command === '31') { this.$refs.InitScript.initOdsLoad() }
       // 执行初始化脚本
-      if (command === '32') { this.$refs.InitScript.execDispatchCommand() }
+      if (command === '32') { this.$refs.InitScript.getPreExecuteFile() }
+      // 刷新脚本执行状态
+      if (command === '33') { this.$refs.InitScript.viewSqoopStatus() }
       // 生成调度脚本
       if (command === '41') { this.$refs.SchedulingScript.generate() }
       // 导出调度脚本

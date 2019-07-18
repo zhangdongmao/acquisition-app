@@ -51,7 +51,8 @@
         <el-table-column :show-overflow-tooltip="true"
                          prop="metaStatus"
                          label="探源状态"
-                         :filters="[{ text: '已探源', value: '已探源' },
+                         :filters="[{ text: '未探源', value: '未探源' },
+                                    { text: '已探源', value: '已探源' },
                                     { text: '无表', value: '无表' },
                                     { text: '无连接', value: '无连接' }]"
                          :filter-method="filterTag"
