@@ -16,7 +16,6 @@ export default {
       selectList: [],
       value: [],
       dialog: {
-        ifModify: 0,
         ifIncrement: 0,
         activeName: 'first',
         visible: false,
@@ -47,13 +46,13 @@ export default {
       console.log(data)
       this.tableList = data.list
       for (let i = 0; i < this.tableList.length; i++) {
-        this.tableList[i].executeStatus = 'none'
+        this.tableList[i].createTableStatus = 'none'
         this.tableList[i].index = i
         this.tableList[i].odsDataLoadMode = 'none'
       }
     },
     async setValue (val) {
-      if (val != null) {
+      if (val != null && val.length > 0) {
         this.value = val
         this.search()
       }
@@ -64,12 +63,7 @@ export default {
         this.$message.warning('请勾选相应表名')
         return
       }
-      const loading = this.$loading({
-        lock: true,
-        text: '定义ODS加载策略...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
+      const loading = this.getLoading('定义ODS加载策略...')
       const { data: { code, msg } } = await this.$http.post('/hiveCreateTable/getODSLoadMode', this.multipleSelection)
       console.log(code, msg)
       loading.close()
@@ -80,22 +74,28 @@ export default {
         this.selectOdsLoadMode()
         // 判断ODS加载策略成功，生成ods建表语句
         this.saveOdsDdlInfo()
+        this.$message.success(msg)
       }
     },
     // 查询ods表名及加载策略
     async  selectOdsLoadMode () {
-      const loading = this.$loading({
-        lock: true,
-        text: '查询ods加载策略...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
+      const loading = this.getLoading('查询ods加载策略...')
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/selectOdsLoadMode',
         this.multipleSelection)
-      for (let i = 0; i < data.length; i++) {
-        this.tableList.splice(this.multipleSelection[i].index, 1, data[i])
+
+      for (let i = 0; i < this.multipleSelection.length; i++) {
+        let idata = this.multipleSelection[i]
+        for (let j = 0; j < data.length; j++) {
+          let jdata = data[j]
+          if (idata.businessSystemNameShortName === jdata.businessSystemNameShortName &&
+            idata.dataSourceSchema === jdata.dataSourceSchema &&
+            idata.dataSourceTable === jdata.dataSourceTable) {
+            idata.odsDataTable = jdata.odsDataTable
+            idata.odsDataLoadMode = jdata.odsDataLoadMode
+            this.tableList.splice(idata.index, 1, idata)
+          }
+        }
       }
-      // this.defaultCheck(indexs)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
     },
@@ -105,12 +105,7 @@ export default {
         this.$message.warning('请勾选相应表名')
         return
       }
-      const loading = this.$loading({
-        lock: true,
-        text: '正在生成ODS建表语句...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
+      const loading = this.getLoading('正在生成ODS建表语句...')
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/saveOdsDdlInfo', {
         params: this.multipleSelection
       })
@@ -129,20 +124,18 @@ export default {
       })
       // 若都已生成过建表语句，则可以建表
       if (flag) {
-        this.$message.warning('存在未生成建表语句的表')
+        this.$message.warning('存在上一步未成功的数据')
         return
       }
-      const loading = this.$loading({
-        lock: true,
-        text: '正在建表...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
+      const loading = this.getLoading('正在建表...')
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/createOdsTable', this.multipleSelection)
       console.log(code, msg)
       // 更新建表状态
       for (let i = 0; i < this.multipleSelection.length; i++) {
-        this.tableList[this.multipleSelection[i].index].executeStatus = data[i].result
+        this.multipleSelection[i].createTableStatus = data[i].result
+        this.tableList.splice(this.multipleSelection[i].index, 1, this.multipleSelection[i])
+        // var j = this.multipleSelection[i].index
+        // this.tableList[j].createTableStatus = data[i].result
       }
       loading.close()
       if (code !== 200) return this.$message.error(msg)
@@ -153,9 +146,10 @@ export default {
       if (row.odsDataLoadMode === 'increment') {
         this.dialog.ifIncrement = 1
       }
-      const { data: { data, code, msg } } = await this.$http.get('/hiveCreateTable/selectOdsDdlInfo', {
-        params: row
-      })
+      const { data: { data, code, msg } } =
+        await this.$http.get('/hiveCreateTable/selectOdsDdlInfo', {
+          params: row
+        })
       // str.charAt(str.length - 1) == "="
       if (data != null && data.length > 0) {
         for (let i = 0; i < data.length; i++) {
@@ -169,13 +163,6 @@ export default {
           }
         }
       }
-
-      if (this.dialog.ifModify === 0) {
-        this.dialog.title = '查看'
-      }
-      if (this.dialog.ifModify != 0) {
-        this.dialog.title = '编辑'
-      }
       this.dialog.visible = true
     },
     async formSubmit () {
@@ -187,15 +174,19 @@ export default {
         submitData = this.dialog.sourceIncrementData
         submitData.odsDataTableDdlInfo = this.dialog.incrementContext
       }
-      const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/updateOdsTable', submitData)
+      const { data: { data, code, msg } } =
+        await this.$http.post('/hiveCreateTable/updateOdsTable', submitData)
       if (code !== 200) return this.$message.error(msg)
-      this.$message.success(msg)
+      let msg2 = '增量数据更新成功'
+      if (this.dialog.activeName === 'first') {
+        msg2 = '全量数据更新成功'
+      }
+      this.$message.success(msg2)
     },
     // 默认勾选源库中存在的表
     defaultCheck (indexs) {
       if (indexs) {
         indexs.forEach(index => {
-          console.log(index)
           this.$refs.tableList.toggleRowSelection(this.tableList[index], true)
         })
       } else {
@@ -212,19 +203,29 @@ export default {
       this.search()
     },
     handleChange (val) {
-      // console.log(val)
     },
     handleClose () {
       this.dialog.visible = false
       this.dialog.fullContext = ''
       this.dialog.incrementContext = ''
     },
+    // dialog表单重置
     formReset () {
       if (this.dialog.activeName === 'first') {
-        this.dialog.fullContext = this.dialog.sourceFullData.odsDataTableDdlInfo
+        this.dialog.fullContext =
+          this.dialog.sourceFullData.odsDataTableDdlInfo
       } else {
-        this.dialog.incrementContext = this.dialog.sourceIncrementData.odsDataTableDdlInfo
+        this.dialog.incrementContext =
+          this.dialog.sourceIncrementData.odsDataTableDdlInfo
       }
+    },
+    getLoading (text) {
+      return this.$loading({
+        lock: true,
+        text: text,
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
     }
   },
   mounted () {

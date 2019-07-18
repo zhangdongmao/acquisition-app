@@ -34,44 +34,59 @@
             </p>
           </template>
         </el-table-column>
-
-        <el-table-column label="执行状态">
+        <el-table-column label="建表状态">
           <template slot-scope="scope">
-            <p v-if="scope.row.executeStatus=='none'">
+            <p v-if="scope.row.createTableStatus=='none'">
               未执行
             </p>
-            <p v-else-if="scope.row.executeStatus=='failed'">
+            <p v-else-if="scope.row.createTableStatus=='failed'">
               失败
             </p>
-            <p v-else-if="scope.row.executeStatus=='completed'">
+            <p v-else-if="scope.row.createTableStatus=='success'">
               成功
             </p>
-            <p v-else-if="scope.row.executeStatus=='running'">
+          </template>
+        </el-table-column>
+
+        <el-table-column label="初始化状态">
+          <template slot-scope="scope">
+            <p v-if="scope.row.executeScriptStatus=='none'">
+              未执行
+            </p>
+            <p v-else-if="scope.row.executeScriptStatus=='failed'">
+              失败
+            </p>
+            <p v-else-if="scope.row.executeScriptStatus=='completed'">
+              成功
+            </p>
+            <p v-else-if="scope.row.executeScriptStatus=='running'">
               正在执行
             </p>
-            <p v-else-if="scope.row.executeStatus=='waiting'">
+            <p v-else-if="scope.row.executeScriptStatus=='waiting'">
               等待
             </p>
           </template>
         </el-table-column>
-        <el-table-column label="编辑">
+        <el-table-column label="操作">
           <template slot-scope="{row}">
             <el-button type="text"
+                       v-if="row.executeScriptStatus == 'success'"
                        @click="viewHiveData(row);">查看</el-button>
             <el-button type="text"
+                       v-if="row.createScriptStatus == 'success'"
                        @click="view(row); dialog.ifModify = 1">编辑</el-button>
           </template>
 
         </el-table-column>
       </el-table>
-      <!-- 分页 -->
+      <!-- 分页
       <el-pagination background
                      @current-change="changePager"
                      :page-size="reqParams.pagesize"
                      :current-page="reqParams.pagenum"
                      layout="prev, pager, next"
                      :total="total">
-      </el-pagination>
+      </el-pagination>-->
     </el-card>
 
     <el-dialog :title="dialog.title"

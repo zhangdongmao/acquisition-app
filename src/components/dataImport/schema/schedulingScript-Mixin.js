@@ -25,8 +25,10 @@ export default {
       let _this = this
       console.log(params)
       let tableData = params.tableList
+      // 执行调度脚本 生成调度脚本 状态
       tableData.forEach(item => {
-        item.executeStatus = 'none'
+        item.executeSchedulingScriptStatus = 'none'
+        item.createSchedulingScriptStatus = 'none'
       })
       _this.tableList = tableData
       _this.total = params.tatal
@@ -34,6 +36,7 @@ export default {
       await params.multipleSelection.forEach(item => {
         indexs.push(item.index)
       })
+
       indexs.forEach(index => {
         this.$refs.multipleTable.toggleRowSelection(this.tableList[index], true)
       })
@@ -44,17 +47,26 @@ export default {
         this.$message.warning('请勾选相应表名')
         return
       }
-      const loading = this.$loading({
-        lock: true,
-        text: '正在生成调度脚本...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
+      let flag = false
+      this.multipleSelection.forEach(item => {
+        if (item.executeScriptStatus !== 'completed') {
+          flag = true
+        }
       })
+      if (flag) {
+        this.$message.warning('存在上一步未成功的数据')
+        return
+      }
 
+      const loading = this.getLoading('正在生成调度脚本...')
       const { data: { data, code, msg } } = await this.$http.post('/generateScript/createOdsLoad', this.multipleSelection)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
       this.$message.success(msg)
+
+      this.multipleSelection.forEach(e => {
+        e.createSchedulingScriptStatus = 'success'
+      })
     },
     // 导出调度脚本
     async exportFile () {
@@ -62,13 +74,18 @@ export default {
         this.$message.warning('请勾选相应表名')
         return
       }
-      console.log(this.multipleSelection, 'aasdsad')
-      const loading = this.$loading({
-        lock: true,
-        text: '正在导出调度脚本...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
+      let flag = false
+      this.multipleSelection.forEach(item => {
+        if (item.createScriptStatus === 'none') {
+          flag = true
+        }
       })
+      if (flag) {
+        this.$message.warning('存在上一步未成功的数据')
+        return
+      }
+
+      const loading = this.getLoading('正在导出调度脚本...')
       await this.$http.post('/exportScript/exportOdsSchedulScript', this.multipleSelection, {
         responseType: 'blob'
       }).then(res => { // 处理返回的文件流
@@ -95,21 +112,6 @@ export default {
       //   headers: {
       //     'Content-Type': 'application/json'
       //   }
-      // }).then(res => { // 处理返回的文件流
-      //   loading.close()
-      //   let blob = new Blob([res.data], {
-      //     type: 'text/plain'
-      //   })
-      //   const fileName = decodeURIComponent(res.headers['filename'])
-
-      //   const elink = document.createElement('a')
-      //   elink.download = fileName
-      //   elink.style.display = 'none'
-      //   elink.href = URL.createObjectURL(blob)
-      //   document.body.appendChild(elink)
-      //   elink.click()
-      //   URL.revokeObjectURL(elink.href) // 释放URL 对象
-      //   document.body.removeChild(elink)
       // })
     },
     // 选中项
@@ -119,6 +121,14 @@ export default {
     // 切换页码
     changePager (newPage) {
 
+    },
+    getLoading (text) {
+      return this.$loading({
+        lock: true,
+        text: text,
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
     }
   },
   mounted () {

@@ -39,26 +39,15 @@ export default {
         this.$message.warning('请勾选相应表名')
         return
       }
-      const loading = this.$loading({
-        lock: true,
-        text: '正在获取...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
+      const loading = this.getLoading('正在获取...')
       const { data: { code, msg } } = await this.$http.post('/getSourceMetaData/importingMetadata', this.multipleSelection)
       console.log(code, msg)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
       this.$message.success(msg)
-      var indexs = []
-      this.multipleSelection.forEach(element => {
-        indexs.push(element.index)
-      })
-      await this.search()
-      this.defaultCheck(indexs)
     },
     async setValue (val) {
-      if (val != null) {
+      if (val != null && val.length !== 0) {
         this.value = val
         this.search()
       }
@@ -82,6 +71,14 @@ export default {
     changePager (newPage) {
       this.reqParams.pagenum = newPage
       this.search()
+    },
+    getLoading (text) {
+      return this.$loading({
+        lock: true,
+        text: text,
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
     }
   },
   mounted () {

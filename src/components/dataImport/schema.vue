@@ -20,70 +20,57 @@
                   style="margin-top:20px;">
             <el-button size="mini"
                        type="primary"
-                       v-if="active > 0"
+                       :disabled="active == 0"
                        class="btn-back"
-                       @click="back">上一步</el-button>
+                       @click="TheLastStep">上一步</el-button>
             <el-button size="mini"
                        type="primary"
                        class="btn"
-                       @click="next">下一步</el-button>
+                       :disabled="active == 4"
+                       @click="NextStep">下一步</el-button>
             <el-button size="mini"
                        type="primary"
                        class="btn"
-                       v-show="active == 0"
-                       @click="getStatus(0)">获取</el-button>
-            <el-button size="mini"
-                       type="primary"
-                       class="btn"
-                       v-show="active == 1"
-                       @click="getStatus(1)">获取</el-button>
-            <el-dropdown class="btn"
-                         v-show="active == 2"
-                         @command="handleCommand">
-              <span class="el-dropdown-link"> 操作 <i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown">
+                       v-show="active == 0||active == 1"
+                       @click="getStatus(active)">获取</el-button>
 
-                <el-dropdown-item command="getODSLoadMode">生成建表语句</el-dropdown-item>
-                <el-dropdown-item command="odsCreateTable">执行建表语句</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
             <el-dropdown class="btn"
-                         v-show="active == 3"
+                         v-show="active == 2||active == 3||active == 4"
                          @command="handleCommand">
               <span class="el-dropdown-link"> 操作 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="initOdsLoad">生成初始化脚本</el-dropdown-item>
-                <el-dropdown-item command="execDispatchCommand">执行初始化脚本</el-dropdown-item>
+                <p v-show="active == 2">
+                  <el-dropdown-item command="21">生成建表语句</el-dropdown-item>
+                  <el-dropdown-item command="22">执行建表语句</el-dropdown-item>
+                </p>
+                <p v-show="active == 3">
+                  <el-dropdown-item command="31">生成初始化脚本</el-dropdown-item>
+                  <el-dropdown-item command="32">执行初始化脚本</el-dropdown-item>
+                </p>
+                <p v-show="active == 4">
+                  <el-dropdown-item command="41">生成调度脚本</el-dropdown-item>
+                  <el-dropdown-item command="42">导出调度脚本</el-dropdown-item>
+                </p>
               </el-dropdown-menu>
             </el-dropdown>
-            <el-dropdown class="btn"
-                         v-show="active == 4"
-                         @command="handleCommand">
-              <span class="el-dropdown-link"> 操作 <i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="createOdsSchedulScript">生成调度脚本</el-dropdown-item>
-                <el-dropdown-item command="exportOdsSchedulScript">导出调度脚本</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
+
           </el-col>
           <el-col style="margin-top:20px;">
             <div v-show="active == 0">
-              <ComponentsSourceSystemSchema ref="myComponentsSourceSystemSchema" />
+              <SourceSystemSchema ref="SourceSystemSchema" />
             </div>
             <div v-show="active == 1">
-              <ComponentsTabColInfo ref="myComponentsTabColInfo" />
+              <TabColInfo ref="TabColInfo" />
             </div>
             <div v-show="active == 2">
-              <ComponentsCreateTable ref="myComponentsCreateTable" />
+              <CreateTable ref="CreateTable" />
             </div>
             <div v-show="active == 3">
-              <ComponentsInitScript ref="myComponentsInitScript" />
+              <InitScript ref="InitScript" />
             </div>
             <div v-show="active == 4">
-              <ComponentsSchedulingScript ref="myComponentsSchedulingScript" />
+              <SchedulingScript ref="SchedulingScript" />
             </div>
           </el-col>
         </el-col>
@@ -93,11 +80,11 @@
 </template>
 <script>
 
-import ComponentsSourceSystemSchema from './schema/initData/getSourceSystemSchema'
-import ComponentsTabColInfo from './schema/initData/getTabColInfo'
-import ComponentsCreateTable from './schema/createTable/createTable'
-import ComponentsSchedulingScript from './schema/sql/schedulingScript'
-import ComponentsInitScript from './schema/initData/InitScript'
+import SourceSystemSchema from './schema/sourceSystemSchema'
+import TabColInfo from './schema/getTabColInfo'
+import CreateTable from './schema/createTable'
+import SchedulingScript from './schema/schedulingScript'
+import InitScript from './schema/InitScript'
 
 export default {
   data () {
@@ -106,96 +93,78 @@ export default {
     }
   },
   components: {
-    ComponentsSourceSystemSchema,
-    ComponentsTabColInfo,
-    ComponentsCreateTable,
-    ComponentsInitScript,
-    ComponentsSchedulingScript
+    SourceSystemSchema,
+    TabColInfo,
+    CreateTable,
+    SchedulingScript,
+    InitScript
   },
   methods: {
-    next () {
+    NextStep () {
       let _this = this
-      if (this.active == 0) {
-        _this.active++
-        let params = this.$refs.myComponentsSourceSystemSchema.multipleSelection
+      _this.active++
+      if (this.active === 1) {
+        let params = this.$refs.SourceSystemSchema.multipleSelection
         let params2 = []
         for (var i = 0; i < params.length; i++) {
-          params2.push(params[i].business_system_name_short_name)
+          if (params[i].status === '1') {
+            params2.push(params[i].business_system_name_short_name)
+          }
         };
-        _this.$refs.myComponentsTabColInfo.setValue(params2)
+        _this.$refs.TabColInfo.setValue(params2)
         return
       }
 
-      if (this.active == 1) {
-        _this.active++
-        let params = this.$refs.myComponentsTabColInfo.multipleSelection
-        _this.$refs.myComponentsCreateTable.setValue(params)
-        return
-      }
       if (this.active === 2) {
-        _this.active++
+        let params = this.$refs.TabColInfo.multipleSelection
+        _this.$refs.CreateTable.setValue(params)
+        return
+      }
+      if (this.active === 3) {
         var params = {
-          total: _this.$refs.myComponentsCreateTable.total,
-          tableList: _this.$refs.myComponentsCreateTable.tableList,
-          multipleSelection: _this.$refs.myComponentsCreateTable.multipleSelection
+          total: _this.$refs.CreateTable.total,
+          tableList: _this.$refs.CreateTable.tableList,
+          multipleSelection: _this.$refs.CreateTable.multipleSelection
         }
-        _this.$refs.myComponentsInitScript.setValue(params)
+        _this.$refs.InitScript.setValue(params)
         return
       }
 
-      if (this.active === 3) {
-        _this.active++
+      if (this.active === 4) {
         let params = {
-          total: _this.$refs.myComponentsInitScript.total,
-          tableList: _this.$refs.myComponentsInitScript.tableList,
-          multipleSelection: _this.$refs.myComponentsInitScript.multipleSelection
+          total: _this.$refs.InitScript.total,
+          tableList: _this.$refs.InitScript.tableList,
+          multipleSelection: _this.$refs.InitScript.multipleSelection
         }
-        _this.$refs.myComponentsSchedulingScript.setValue(params)
+        _this.$refs.SchedulingScript.setValue(params)
       }
     },
-    back () {
+    TheLastStep () {
       if (this.active-- === 0) this.active = 0
     },
     getStatus (param) {
       if (param === 0) {
-        this.$refs.myComponentsSourceSystemSchema.getStatus()
+        this.$refs.SourceSystemSchema.getStatus()
       }
       if (param === 1) {
-        this.$refs.myComponentsTabColInfo.getStatus()
+        this.$refs.TabColInfo.getStatus()
       }
     },
     handleCommand (command) {
       // 校验规则
-      if (command === 'getODSLoadMode') {
-        this.$refs.myComponentsCreateTable.getODSLoadMode()
-      }
+      if (command === '21') { this.$refs.CreateTable.getODSLoadMode() }
       // 执行建表语句
-      if (command === 'odsCreateTable') {
-        this.$refs.myComponentsCreateTable.odsCreateTable()
-      }
+      if (command === '22') { this.$refs.CreateTable.odsCreateTable() }
       // 生成初始化脚本
-      if (command === 'initOdsLoad') {
-        this.$refs.myComponentsInitScript.initOdsLoad()
-      }
+      if (command === '31') { this.$refs.InitScript.initOdsLoad() }
       // 执行初始化脚本
-      if (command === 'execDispatchCommand') {
-        this.$refs.myComponentsInitScript.execDispatchCommand()
-      }
+      if (command === '32') { this.$refs.InitScript.execDispatchCommand() }
       // 生成调度脚本
-      if (command === 'createOdsSchedulScript') {
-        this.$refs.myComponentsSchedulingScript.generate()
-      }
+      if (command === '41') { this.$refs.SchedulingScript.generate() }
       // 导出调度脚本
-      if (command === 'exportOdsSchedulScript') {
-        this.$refs.myComponentsSchedulingScript.exportFile()
-      }
+      if (command === '42') { this.$refs.SchedulingScript.exportFile() }
     },
-    // eslint-disable-next-line no-dupe-keys
-    // eslint-disable-next-line vue/no-dupe-keys
-    // eslint-disable-next-line no-dupe-keys
-    // eslint-disable-next-line vue/no-dupe-keys
-    // eslint-disable-next-line no-dupe-keys
-    back () {
+    Back () {
       if (this.active-- === 0) this.active = 0
     }
   }
