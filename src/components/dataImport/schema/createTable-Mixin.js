@@ -134,8 +134,6 @@ export default {
       for (let i = 0; i < this.multipleSelection.length; i++) {
         this.multipleSelection[i].createTableStatus = data[i].result
         this.tableList.splice(this.multipleSelection[i].index, 1, this.multipleSelection[i])
-        // var j = this.multipleSelection[i].index
-        // this.tableList[j].createTableStatus = data[i].result
       }
       loading.close()
       if (code !== 200) return this.$message.error(msg)

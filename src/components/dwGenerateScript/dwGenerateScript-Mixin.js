@@ -25,14 +25,9 @@ export default {
         this.$refs.excelUpload.submit()
       }
     },
-    // handleAvatarSuccess (response, file, fileList) {
-    //   console.log(response)
-    //   this.tableList = response.data
-    //   for (let i = 0; i < this.tableList.length; i++) {
-    //     this.tableList[i].result = '未查询'
-    //     this.tableList[i].index = i
-    //   }
-    // },
+    handleAvatarSuccess (response, file, fileList) {
+      console.log(response)
+    },
     beforeAvatarUpload (file) {
       console.log(file)
       var testmsg = file.name.substring(file.name.lastIndexOf('.') + 1)
