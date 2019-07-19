@@ -103,6 +103,8 @@ export default {
         this.multipleSelection)
 
       for (let i = 0; i < this.multipleSelection.length; i++) {
+        data[i].createTableStatus = this.multipleSelection[i].createTableStatus
+        data[i].metaStatus = this.multipleSelection[i].metaStatus
         data[i].index = this.multipleSelection[i].index
         this.tableList.splice(this.multipleSelection[i].index, 1, data[i])
         indexs.push(this.multipleSelection[i].index)

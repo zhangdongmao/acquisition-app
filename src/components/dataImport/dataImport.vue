@@ -26,6 +26,7 @@ import ComponentSchema from './schema.vue'
 export default {
   data () {
     return {
+      value: '1',
       options: [{
         value: '1',
         label: '输入表名导入'
@@ -35,8 +36,7 @@ export default {
       }, {
         value: '3',
         label: '指定schema导入'
-      }],
-      value: ''
+      }]
     }
   },
   components: {

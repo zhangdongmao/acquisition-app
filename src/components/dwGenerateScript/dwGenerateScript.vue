@@ -1,7 +1,9 @@
 <template>
   <div>
     <el-button type="primary"
+               class="top-btn"
                @click="generateScript">生成脚本</el-button>
+    <el-divider></el-divider>
     <el-upload class="excel-upload"
                drag
                ref="excelUpload"
@@ -27,3 +29,8 @@ export default {
   mixins: [mixin]
 }
 </script>
+<style>
+.top-btn {
+  margin-bottom: 10px;
+}
+</style>

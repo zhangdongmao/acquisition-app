@@ -106,24 +106,26 @@ export default {
       }
 
       const loading = this.getLoading('正在生成待执行脚本文件...')
-      const { data: { data, code, msg } } =
-        await this.$http.post('/executeScript/generateAllSqoopScript', this.multipleSelection)
+      const { data: { data, code, msg } } = await this.$http.post('/executeScript/generateAllSqoopScript', this.multipleSelection)
       console.log(code, msg)
       loading.close()
-      if (code !== 200) return this.$message.error(msg)
-      this.execDispatchCommand()
+      if (code !== 200) {
+        this.$message.error(msg)
+      } else {
+        await this.execDispatchCommand()
+      }
 
       // this.$message.success(msg)
     },
     // 执行初始化脚本
     async execDispatchCommand () {
+      console.log('执行初始化脚本')
       const loading = this.getLoading('正在执行初始化脚本...')
-      const { data: { data, code, msg } } =
-        await this.$http.post('/executeScript/execDispatchCommand', this.multipleSelection)
+      const { data: { data, code, msg } } = await this.$http.post('/executeScript/execDispatchCommand')
       console.log(code, msg)
       loading.close()
       if (code !== 200) return this.$message.error(msg)
-      this.viewSqoopStatus()
+      await this.viewSqoopStatus()
     },
     // 获取执行脚本后的状态
     async viewSqoopStatus () {
@@ -138,23 +140,26 @@ export default {
       if (code !== 200) return this.$message.error(msg)
       console.log(data, msg)
       for (let i = 0; i < this.multipleSelection.length; i++) {
-        let oldOdsDataTable = this.multipleSelection[i].odsDataTable
-        let index = this.multipleSelection[i].index
-        let row = this.tableList[index]
-        for (let j = 0; j < data.length; j++) {
-          let row2 = data[j]
-          if (oldOdsDataTable === row2.odsDataTable) {
-            row.executeScriptStatus = row2.status
-            this.tableList.splice(index, 1, row)
-          }
-        }
+        this.multipleSelection[i].executeScriptStatus = data[i].status
+        this.tableList.splice(this.multipleSelection[i].index, 1, this.multipleSelection[i])
+        console.log(this.multipleSelection[i].executeScriptStatus)
+        // let oldOdsDataTable = this.multipleSelection[i].odsDataTable
+        // let index = this.multipleSelection[i].index
+        // let row = this.tableList[index]
+        // for (let j = 0; j < data.length; j++) {
+        //   let row2 = data[j]
+        //   if (oldOdsDataTable === row2.odsDataTable) {
+        //     row.executeScriptStatus = row2.status
+        //     this.tableList.splice(index, 1, row)
+        //   }
+        // }
       }
       this.$message.success(msg)
     },
     // 查看数据校验
     async viewHiveData (row, modify) {
       this.dialogTable.visible = false
-      let param = { params: { odsDataTable: 'test' } }
+      let param = { params: { odsDataTable: row.odsDataTable } }
       const { data: { data, code, msg } } = await this.$http.get('/executeScript/viewHiveData', param)
       this.dialogTable.tableList = data.data
       this.dialogTable.tableTitles = data.title

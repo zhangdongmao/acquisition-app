@@ -26,7 +26,10 @@ export default {
       }
     },
     handleAvatarSuccess (response, file, fileList) {
-      console.log(response)
+      this.$message({
+        message: response.msg,
+        type: 'success'
+      })
     },
     beforeAvatarUpload (file) {
       console.log(file)

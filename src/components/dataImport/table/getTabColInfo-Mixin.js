@@ -195,7 +195,7 @@ export default {
     },
     // 下拉 系统名列表
     async getSystemList () {
-      const { data: { data, code, msg } } = await this.$http.get('/enterHuOverview/getSystemName')
+      const { data: { data, code, msg } } = await this.$http.get('/getSourceMetaData/getDwSystemFilterList')
       if (code !== 200) return this.$message.error(msg)
       console.log(data)
       data.forEach(item => {
