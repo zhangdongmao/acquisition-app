@@ -47,16 +47,16 @@ export default {
         this.$message.warning('请勾选相应表名')
         return
       }
-      let flag = false
-      this.multipleSelection.forEach(item => {
-        if (item.executeScriptStatus !== 'completed') {
-          flag = true
-        }
-      })
-      if (flag) {
-        this.$message.warning('存在上一步未成功的数据')
-        return
-      }
+      // let flag = false
+      // this.multipleSelection.forEach(item => {
+      //   if (item.executeScriptStatus !== 'completed') {
+      //     flag = true
+      //   }
+      // })
+      // if (flag) {
+      //   this.$message.warning('存在上一步未成功的数据')
+      //   return
+      // }
 
       const loading = this.getLoading('正在生成调度脚本...')
       const { data: { data, code, msg } } = await this.$http.post('/generateScript/createOdsLoad', this.multipleSelection)

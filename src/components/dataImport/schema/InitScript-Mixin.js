@@ -165,6 +165,31 @@ export default {
       this.dialogTable.tableTitles = data.title
       this.dialogTable.visible = true
     },
+    // 导出初始化脚本
+    async exportFile () {
+      if (this.multipleSelection.length === 0) {
+        this.$message.warning('请勾选相应表名')
+        return
+      }
+      const loading = this.getLoading('正在导出初始化脚本...')
+      await this.$http.post('/exportScript/exportOdsInitScript', { params: this.multipleSelection }, {
+        responseType: 'blob'
+      }).then(res => { // 处理返回的文件流
+        loading.close()
+        let blob = new Blob([res.data], {
+          type: 'text/plain'
+        })
+        const fileName = decodeURIComponent(res.headers['filename'])
+        const elink = document.createElement('a')
+        elink.download = fileName
+        elink.style.display = 'none'
+        elink.href = URL.createObjectURL(blob)
+        document.body.appendChild(elink)
+        elink.click()
+        URL.revokeObjectURL(elink.href) // 释放URL 对象
+        document.body.removeChild(elink)
+      })
+    },
     // 查看脚本
     async view (row, modify) {
       this.dialog.visible = false
