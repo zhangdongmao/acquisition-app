@@ -45,11 +45,6 @@ export default {
       if (code !== 200) return this.$message.error(msg)
       console.log(data)
       this.tableList = data.list
-      for (let i = 0; i < this.tableList.length; i++) {
-        this.tableList[i].createTableStatus = 'none'
-        this.tableList[i].index = i
-        this.tableList[i].odsDataLoadMode = 'none'
-      }
     },
     async setValue (params) {
       if (params.tableList != null && params.tableList.length > 0) {
@@ -144,16 +139,23 @@ export default {
       const loading = this.getLoading('正在建表...')
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/createOdsTable', this.multipleSelection)
       console.log(code, msg)
+      loading.close()
+      if (code !== 200) {
+        this.$message.error(msg)
+      } else {
+        this.$message.success(msg)
+      }
+      let indexs = []
       // 更新建表状态
       for (let i = 0; i < this.multipleSelection.length; i++) {
+        // indexs.push
         this.multipleSelection[i].createTableStatus = data[i].result
+        if (data[i].result === '成功') {
+          indexs.push(this.multipleSelection[i].index)
+        }
         this.tableList.splice(this.multipleSelection[i].index, 1, this.multipleSelection[i])
-        // var j = this.multipleSelection[i].index
-        // this.tableList[j].createTableStatus = data[i].result
       }
-      loading.close()
-      if (code !== 200) return this.$message.error(msg)
-      this.$message.success(msg)
+      this.defaultCheck(indexs)
     },
     async view (row, modify) {
       this.dialog.visible = false

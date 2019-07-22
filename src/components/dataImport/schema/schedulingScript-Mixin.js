@@ -36,10 +36,17 @@ export default {
       await params.multipleSelection.forEach(item => {
         indexs.push(item.index)
       })
-
-      indexs.forEach(index => {
-        this.$refs.multipleTable.toggleRowSelection(this.tableList[index], true)
-      })
+      this.defaultCheck(indexs)
+    },
+    // 默认勾选源库中存在的表
+    defaultCheck (indexs) {
+      if (indexs) {
+        indexs.forEach(index => {
+          this.$refs.multipleTable.toggleRowSelection(this.tableList[index], true)
+        })
+      } else {
+        this.$refs.multipleTable.clearSelection()
+      }
     },
     // 生成调度脚本
     async generate () {

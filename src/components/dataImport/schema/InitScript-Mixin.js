@@ -49,9 +49,6 @@ export default {
       await params.multipleSelection.forEach(item => {
         indexs.push(item.index)
       })
-      // console.log(this.tableList, 'asdf')
-      // console.log(indexs)
-
       this.defaultCheck(indexs)
     },
     // 生成初始化脚本
@@ -77,15 +74,26 @@ export default {
         await this.$http.post('/generateScript/initOdsLoad', this.multipleSelection)
       console.log(code, msg)
       loading.close()
-      if (code !== 200) return this.$message.error(msg)
-      this.$message.success(msg)
-
-      for (let i = 0; i < this.multipleSelection.length; i++) {
-        let index = this.multipleSelection[i].index
-        let row = this.tableList[index]
-        row.createScriptStatus = 'success'
-        this.tableList.splice(index, 1, row)
+      var indexs = []
+      if (code !== 200) {
+        this.$message.error(msg)
+        for (let i = 0; i < this.multipleSelection.length; i++) {
+          let index = this.multipleSelection[i].index
+          let row = this.tableList[index]
+          row.createScriptStatus = 'failed'
+          this.tableList.splice(index, 1, row)
+        }
+      } else {
+        this.$message.success(msg)
+        for (let i = 0; i < this.multipleSelection.length; i++) {
+          let index = this.multipleSelection[i].index
+          let row = this.tableList[index]
+          row.createScriptStatus = 'success'
+          indexs.push(index)
+          this.tableList.splice(index, 1, row)
+        }
       }
+      this.defaultCheck(indexs)
     },
     // 生成待执行脚本文件
     async getPreExecuteFile () {
@@ -143,16 +151,6 @@ export default {
         this.multipleSelection[i].executeScriptStatus = data[i].status
         this.tableList.splice(this.multipleSelection[i].index, 1, this.multipleSelection[i])
         console.log(this.multipleSelection[i].executeScriptStatus)
-        // let oldOdsDataTable = this.multipleSelection[i].odsDataTable
-        // let index = this.multipleSelection[i].index
-        // let row = this.tableList[index]
-        // for (let j = 0; j < data.length; j++) {
-        //   let row2 = data[j]
-        //   if (oldOdsDataTable === row2.odsDataTable) {
-        //     row.executeScriptStatus = row2.status
-        //     this.tableList.splice(index, 1, row)
-        //   }
-        // }
       }
       this.$message.success(msg)
     },

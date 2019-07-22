@@ -96,6 +96,15 @@ export default {
         if (this.$refs.TabColInfo.multipleSelection.length === 0) {
           this.$refs.TabColInfo.$message.warning('请勾选相应系统名')
         } else {
+          let isSuccess = true
+          this.$refs.TabColInfo.multipleSelection.forEach(item => {
+            if (item.metaStatus !== '已探源') {
+              isSuccess = false
+            }
+          })
+          if (!isSuccess) {
+            return this.$refs.TabColInfo.$message.warning('存在未成功信息')
+          }
           _this.active++
           let params = {
             tableList: this.$refs.TabColInfo.tableList,
