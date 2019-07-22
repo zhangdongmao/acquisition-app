@@ -14,9 +14,9 @@ export default {
       // 表名
       sourceTable: '',
       tableList: [],
-      tablevalue: 'WLM_CLASSIFIER_PLAN',
+      tablevalue: '',
       systemvalue: '',
-      schemavalue: 'APPQOSSYS',
+      schemavalue: '',
       systemList: [],
       schemaList: [],
       dialogTableVisible: false,

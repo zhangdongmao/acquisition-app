@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === 'development') {
 } else if (process.env.NODE_ENV === 'testing') {
   baseURL = 'http://10.119.1.41:6269' // 测试
 } else if (process.env.NODE_ENV === 'production') {
-  baseURL = 'http://10.119.1.41:6269' // 线上环境
+  baseURL = 'http://10.119.1.40:6269' // 线上环境
 }
 axios.defaults.baseURL = baseURL
 
