@@ -2,7 +2,7 @@
 <template>
   <div>
 
-    请选择导入方式：
+    请选择导入方式 ：
     <el-select v-model="value"
                placeholder="请选择">
       <el-option v-for="item in options"
