@@ -38,12 +38,21 @@
               <span class="el-dropdown-link"> 操作 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
+                <p v-show="active == 1">
+                  <el-dropdown-item command="11">探源</el-dropdown-item>
+                  <el-dropdown-item command="12">生成建表语句</el-dropdown-item>
+                  <el-dropdown-item command="13">执行建表语句</el-dropdown-item>
+                  <el-dropdown-item command="14">生成初始化脚本</el-dropdown-item>
+                </p>
                 <p v-show="active == 2">
                   <el-dropdown-item command="21">生成建表语句</el-dropdown-item>
                   <el-dropdown-item command="22">执行建表语句</el-dropdown-item>
+                  <el-dropdown-item command="23">全部生成建表语句</el-dropdown-item>
+                  <el-dropdown-item command="24">全部执行建表语句</el-dropdown-item>
                 </p>
                 <p v-show="active == 3">
                   <el-dropdown-item command="31">生成初始化脚本</el-dropdown-item>
+                  <el-dropdown-item command="35">全部生成初始化脚本</el-dropdown-item>
                   <el-dropdown-item command="32">执行初始化脚本</el-dropdown-item>
                   <el-dropdown-item command="34">导出初始化脚本</el-dropdown-item>
                   <el-dropdown-item command="33">刷新执行状态</el-dropdown-item>
@@ -54,7 +63,6 @@
                 </p>
               </el-dropdown-menu>
             </el-dropdown>
-
           </el-col>
           <el-col style="margin-top:20px;">
             <SourceSystemSchema ref="SourceSystemSchema"
@@ -142,22 +150,40 @@ export default {
         this.$refs.SourceSystemSchema.getStatus()
       }
       if (param === 1) {
-        this.$refs.TabColInfo.getStatus()
+
       }
     },
     handleCommand (command) {
+      // 探源
+      if (command === '11') { this.$refs.TabColInfo.getStatus() }
+      // 根据schema生成建表语句
+      if (command === '12') { this.$refs.TabColInfo.saveOdsDdlInfoBySchema() }
+      // 根据schema执行建表语句
+      if (command === '13') { this.$refs.TabColInfo.createOdsTableBySchema() }
+      // 根据schema生成初始化脚本
+      if (command === '14') { this.$refs.TabColInfo.createSqoopScriptBySchema() }
+
       // 校验规则
       if (command === '21') { this.$refs.CreateTable.getODSLoadMode() }
       // 执行建表语句
       if (command === '22') { this.$refs.CreateTable.odsCreateTable() }
+      // 根据schema生成建表语句
+      if (command === '23') { this.$refs.TabColInfo.saveOdsDdlInfoBySchema() }
+      // 根据schema执行建表语句
+      if (command === '24') { this.$refs.TabColInfo.createOdsTableBySchema() }
+
       // 生成初始化脚本
       if (command === '31') { this.$refs.InitScript.initOdsLoad() }
+      // 根据schema生成初始化脚本
+      if (command === '35') { this.$refs.TabColInfo.createSqoopScriptBySchema() }
+
       // 执行初始化脚本
       if (command === '32') { this.$refs.InitScript.getPreExecuteFile() }
       // 刷新脚本执行状态
       if (command === '33') { this.$refs.InitScript.viewSqoopStatus() }
       // 导出初始化脚本
       if (command === '34') { this.$refs.InitScript.exportFile() }
+
       // 生成调度脚本
       if (command === '41') { this.$refs.SchedulingScript.generate() }
       // 导出调度脚本

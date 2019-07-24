@@ -52,6 +52,42 @@ export default {
         this.search()
       }
     },
+    // 根据schema生成建表语句
+    async  saveOdsDdlInfoBySchema () {
+      const loading = this.getLoading('正在生成建表语句...')
+      const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/saveOdsDdlInfoBySchema', this.multipleSelection)
+      console.log(code, msg)
+      loading.close()
+      if (code !== 200) {
+        this.$message.error(msg)
+      } else {
+        this.$message.success(msg)
+      }
+    },
+    // 根据schema执行建表语句
+    async  createOdsTableBySchema () {
+      const loading = this.getLoading('正在建表...')
+      const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/createOdsTableBySchema', this.multipleSelection)
+      console.log(code, msg)
+      loading.close()
+      if (code !== 200) {
+        this.$message.error(msg)
+      } else {
+        this.$message.success(msg)
+      }
+    },
+    // 根据schema生成初始化脚本
+    async createSqoopScriptBySchema () {
+      const loading = this.getLoading('正在生成初始化脚本...')
+      const { data: { data, code, msg } } = await this.$http.post('/executeScript/findSqoopScriptBySchema', this.multipleSelection)
+      console.log(code, msg)
+      loading.close()
+      if (code !== 200) {
+        this.$message.error(msg)
+      } else {
+        this.$message.success(msg)
+      }
+    },
     // 默认勾选源库中存在的表
     defaultCheck (indexs) {
       if (indexs) {
