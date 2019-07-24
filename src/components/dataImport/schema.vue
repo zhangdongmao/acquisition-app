@@ -168,7 +168,7 @@ export default {
       // 执行建表语句
       if (command === '22') { this.$refs.CreateTable.odsCreateTable() }
       // 根据schema生成建表语句
-      if (command === '23') { this.$refs.TabColInfo.saveOdsDdlInfoBySchema() }
+      if (command === '23') { this.$refs.TabColInfo.createDdl() }
       // 根据schema执行建表语句
       if (command === '24') { this.$refs.TabColInfo.createOdsTableBySchema() }
 

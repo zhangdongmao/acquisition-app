@@ -52,16 +52,17 @@ export default {
         this.search()
       }
     },
-    // 根据schema生成建表语句
-    async  saveOdsDdlInfoBySchema () {
-      const loading = this.getLoading('正在生成建表语句...')
-      const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/saveOdsDdlInfoBySchema', this.multipleSelection)
-      console.log(code, msg)
+    async  createDdl () {
+      await this.getODSLoadModeBySchema()
+      await this.createOdsTableBySchema()
+    },
+    // 批量判断ODS加载策略
+    async  getODSLoadModeBySchema () {
+      const loading = this.getLoading('正在判断ODS加载策略...')
+      const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/getODSLoadModeBySchema', this.multipleSelection)
       loading.close()
       if (code !== 200) {
-        this.$message.error(msg)
-      } else {
-        this.$message.success(msg)
+        return this.$message.error(msg)
       }
     },
     // 根据schema执行建表语句
