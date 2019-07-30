@@ -54,7 +54,7 @@ export default {
     },
     async  createDdl () {
       await this.getODSLoadModeBySchema()
-      await this.createOdsTableBySchema()
+      await this.saveOdsDdlInfoBySchema()
     },
     // 批量判断ODS加载策略
     async  getODSLoadModeBySchema () {
@@ -65,6 +65,18 @@ export default {
         return this.$message.error(msg)
       }
     },
+    async saveOdsDdlInfoBySchema () {
+      const loading = this.getLoading('正在生成建表语句...')
+      const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/saveOdsDdlInfoBySchema', this.multipleSelection)
+      console.log(code, msg)
+      loading.close()
+      if (code !== 200) {
+        this.$message.error(msg)
+      } else {
+        this.$message.success(msg)
+      }
+    },
+
     // 根据schema执行建表语句
     async  createOdsTableBySchema () {
       const loading = this.getLoading('正在建表...')
