@@ -101,6 +101,18 @@ export default {
         this.$message.success(msg)
       }
     },
+    // 根据schema生成调度脚本
+    async allGenerate () {
+      const loading = this.getLoading('正在生成调度脚本...')
+      const { data: { data, code, msg } } = await this.$http.post('/generateScript/createOdsScheduleScript', this.multipleSelection)
+      console.log(code, msg)
+      loading.close()
+      if (code !== 200) {
+        this.$message.error(msg)
+      } else {
+        this.$message.success('生成调度脚本成功')
+      }
+    },
     // 默认勾选源库中存在的表
     defaultCheck (indexs) {
       if (indexs) {

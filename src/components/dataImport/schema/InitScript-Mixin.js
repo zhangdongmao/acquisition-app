@@ -50,6 +50,7 @@ export default {
         indexs.push(item.index)
       })
       this.defaultCheck(indexs)
+      await this.viewSqoopStatus()
     },
     // 生成初始化脚本
     async  initOdsLoad () {
@@ -137,22 +138,18 @@ export default {
     },
     // 获取执行脚本后的状态
     async viewSqoopStatus () {
-      const loading = this.getLoading('正在获取执行脚本后的状态...')
       let params = []
-      for (let i = 0; i < this.multipleSelection.length; i++) {
-        params.push(this.multipleSelection[i].odsDataTable)
+      for (let i = 0; i < this.tableList.length; i++) {
+        params.push(this.tableList[i].odsDataTable)
       }
       const { data: { data, code, msg } } = await this.$http.post('/executeScript/viewSqoopStatus', params)
 
-      loading.close()
       if (code !== 200) return this.$message.error(msg)
       console.log(data, msg)
-      for (let i = 0; i < this.multipleSelection.length; i++) {
-        this.multipleSelection[i].executeScriptStatus = data[i].status
-        this.tableList.splice(this.multipleSelection[i].index, 1, this.multipleSelection[i])
-        console.log(this.multipleSelection[i].executeScriptStatus)
+      for (let i = 0; i < this.tableList.length; i++) {
+        this.tableList[i].executeScriptStatus = data[i].status
+        this.tableList.splice(this.tableList[i].index, 1, this.tableList[i])
       }
-      this.$message.success(msg)
     },
     // 查看数据校验
     async viewHiveData (row, modify) {

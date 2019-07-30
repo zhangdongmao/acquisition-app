@@ -43,17 +43,30 @@ export default {
       this.reqParams.query = this.value
       const { data: { data, code, msg } } = await this.$http.post('/hiveCreateTable/getDataSourceTabInfoBySysSortNameAndDataSourceSchemas', this.reqParams)
       if (code !== 200) return this.$message.error(msg)
+      console.log(data)
+
+      // 是否生成建表语句
+      // dataFlagForCrtOdsDll
+      // 是否执行建表语句
+      // dataFlagForCrtOdsHive
       this.tableList = data.list
       for (let i = 0; i < this.tableList.length; i++) {
-        this.tableList[i].createTableStatus = 'none'
+        if (this.tableList[i].dataFlagForCrtOdsHive !== '1') {
+          this.tableList[i].createTableStatus = 'none'
+        } else {
+          this.tableList[i].createTableStatus = 'success'
+        }
+
         this.tableList[i].index = i
-        this.tableList[i].odsDataLoadMode = 'none'
+        if (this.tableList[i].odsDataLoadMode == null) {
+          this.tableList[i].odsDataLoadMode = 'none'
+        }
       }
-      var indexs = []
-      await this.tableList.forEach(item => {
-        indexs.push(item.index)
-      })
-      this.defaultCheck(indexs)
+      // var indexs = []
+      // await this.tableList.forEach(item => {
+      //   indexs.push(item.index)
+      // })
+      // this.defaultCheck(indexs)
     },
     async setValue (val) {
       if (val != null && val.length > 0) {
@@ -78,6 +91,8 @@ export default {
         await this.selectOdsLoadMode()
         // 判断ODS加载策略成功，生成ods建表语句
         await this.saveOdsDdlInfo()
+
+        await this.search()
       }
     },
     // 查询ods表名及加载策略
