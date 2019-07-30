@@ -54,16 +54,6 @@ export default {
         this.$message.warning('请勾选相应表名')
         return
       }
-      // let flag = false
-      // this.multipleSelection.forEach(item => {
-      //   if (item.executeScriptStatus !== 'completed') {
-      //     flag = true
-      //   }
-      // })
-      // if (flag) {
-      //   this.$message.warning('存在上一步未成功的数据')
-      //   return
-      // }
 
       const loading = this.getLoading('正在生成调度脚本...')
       const { data: { data, code, msg } } = await this.$http.post('/generateScript/createOdsLoad', this.multipleSelection)
@@ -110,15 +100,6 @@ export default {
         URL.revokeObjectURL(elink.href) // 释放URL 对象
         document.body.removeChild(elink)
       })
-      // axios({ // 用axios发送post请求
-      //   method: 'post',
-      //   url: url, // 请求地址
-      //   data: this.multipleSelection, // 参数
-      //   responseType: 'blob', // 表明返回服务器返回的数据类型
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   }
-      // })
     },
     // 选中项
     handleSelectionChange (val) {

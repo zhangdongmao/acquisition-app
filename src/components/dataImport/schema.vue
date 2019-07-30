@@ -60,6 +60,7 @@
                 <p v-show="active == 4">
                   <el-dropdown-item command="41">生成调度脚本</el-dropdown-item>
                   <el-dropdown-item command="42">导出调度脚本</el-dropdown-item>
+                  <el-dropdown-item command="43">全部生成调度脚本</el-dropdown-item>
                 </p>
               </el-dropdown-menu>
             </el-dropdown>
@@ -150,7 +151,7 @@ export default {
         this.$refs.SourceSystemSchema.getStatus()
       }
       if (param === 1) {
-
+        this.$refs.TabColInfo.getStatus()
       }
     },
     handleCommand (command) {
@@ -168,9 +169,15 @@ export default {
       // 执行建表语句
       if (command === '22') { this.$refs.CreateTable.odsCreateTable() }
       // 根据schema生成建表语句
-      if (command === '23') { this.$refs.TabColInfo.createDdl() }
+      if (command === '23') {
+        this.$refs.TabColInfo.createDdl()
+        this.$refs.CreateTable.search()
+      }
       // 根据schema执行建表语句
-      if (command === '24') { this.$refs.TabColInfo.createOdsTableBySchema() }
+      if (command === '24') {
+        this.$refs.TabColInfo.createOdsTableBySchema()
+        this.$refs.CreateTable.search()
+      }
 
       // 生成初始化脚本
       if (command === '31') { this.$refs.InitScript.initOdsLoad() }
@@ -188,6 +195,8 @@ export default {
       if (command === '41') { this.$refs.SchedulingScript.generate() }
       // 导出调度脚本
       if (command === '42') { this.$refs.SchedulingScript.exportFile() }
+      // 全部生成调度脚本
+      if (command === '43') { this.$refs.TabColInfo.allGenerate() }
     },
     Back () {
       if (this.active-- === 0) this.active = 0
