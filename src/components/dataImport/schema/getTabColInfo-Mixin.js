@@ -101,6 +101,27 @@ export default {
         this.$message.success(msg)
       }
     },
+    // 根据schema导出初始化脚本
+    async exportSqoopScriptBySchema () {
+      const loading = this.getLoading('正在导出初始化脚本...')
+      await this.$http.post('/exportScript/exportOdsInitScriptBySchema', { params: this.multipleSelection }, {
+        responseType: 'blob'
+      }).then(res => { // 处理返回的文件流
+        loading.close()
+        let blob = new Blob([res.data], {
+          type: 'text/plain'
+        })
+        const fileName = decodeURIComponent(res.headers['filename'])
+        const elink = document.createElement('a')
+        elink.download = fileName
+        elink.style.display = 'none'
+        elink.href = URL.createObjectURL(blob)
+        document.body.appendChild(elink)
+        elink.click()
+        URL.revokeObjectURL(elink.href) // 释放URL 对象
+        document.body.removeChild(elink)
+      })
+    },
     // 根据schema生成调度脚本
     async allGenerate () {
       const loading = this.getLoading('正在生成调度脚本...')
@@ -112,6 +133,27 @@ export default {
       } else {
         this.$message.success('生成调度脚本成功')
       }
+    },
+    // 根据schema导出调度脚本
+    async exportOdsSchedulScriptBySchema () {
+      const loading = this.getLoading('正在导出调度脚本...')
+      await this.$http.post('/exportScript/exportOdsSchedulScriptBySchema', this.multipleSelection, {
+        responseType: 'blob'
+      }).then(res => { // 处理返回的文件流
+        loading.close()
+        let blob = new Blob([res.data], {
+          type: 'text/plain'
+        })
+        const fileName = decodeURIComponent(res.headers['filename'])
+        const elink = document.createElement('a')
+        elink.download = fileName
+        elink.style.display = 'none'
+        elink.href = URL.createObjectURL(blob)
+        document.body.appendChild(elink)
+        elink.click()
+        URL.revokeObjectURL(elink.href) // 释放URL 对象
+        document.body.removeChild(elink)
+      })
     },
     // 默认勾选源库中存在的表
     defaultCheck (indexs) {

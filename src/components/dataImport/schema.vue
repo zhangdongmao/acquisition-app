@@ -52,15 +52,17 @@
                 </p>
                 <p v-show="active == 3">
                   <el-dropdown-item command="31">生成初始化脚本</el-dropdown-item>
-                  <el-dropdown-item command="35">全部生成初始化脚本</el-dropdown-item>
                   <el-dropdown-item command="32">执行初始化脚本</el-dropdown-item>
                   <el-dropdown-item command="34">导出初始化脚本</el-dropdown-item>
+                  <el-dropdown-item command="35">全部生成初始化脚本</el-dropdown-item>
+                  <el-dropdown-item command="36">全部导出初始化脚本</el-dropdown-item>
                   <el-dropdown-item command="33">刷新执行状态</el-dropdown-item>
                 </p>
                 <p v-show="active == 4">
                   <el-dropdown-item command="41">生成调度脚本</el-dropdown-item>
                   <el-dropdown-item command="42">导出调度脚本</el-dropdown-item>
                   <el-dropdown-item command="43">全部生成调度脚本</el-dropdown-item>
+                  <el-dropdown-item command="44">全部导出调度脚本</el-dropdown-item>
                 </p>
               </el-dropdown-menu>
             </el-dropdown>
@@ -183,7 +185,8 @@ export default {
       if (command === '31') { this.$refs.InitScript.initOdsLoad() }
       // 根据schema生成初始化脚本
       if (command === '35') { this.$refs.TabColInfo.createSqoopScriptBySchema() }
-
+      // 根据schema导出初始化脚本
+      if (command === '36') { this.$refs.TabColInfo.exportSqoopScriptBySchema() }
       // 执行初始化脚本
       if (command === '32') { this.$refs.InitScript.getPreExecuteFile() }
       // 刷新脚本执行状态
@@ -197,6 +200,8 @@ export default {
       if (command === '42') { this.$refs.SchedulingScript.exportFile() }
       // 全部生成调度脚本
       if (command === '43') { this.$refs.TabColInfo.allGenerate() }
+      // 全部导出调度脚本
+      if (command === '44') { this.$refs.TabColInfo.exportOdsSchedulScriptBySchema() }
     },
     Back () {
       if (this.active-- === 0) this.active = 0
